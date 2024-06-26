@@ -1,43 +1,31 @@
 // "use client";
 
-import { SelfieCard } from "@/components/selfies/selfie-card.component";
-import { API_URL } from "@/config";
-import { IResponse, IResponseData, ISelfie, ISelfieData, ISelfiesData } from "@/types";
-import Image from "next/image";
+import { Metadata } from "next";
 
+import { SelfiePage } from "@/components";
+import { serverFetch } from "@/functions/server";
+import { IFetchSelfieBody, ISelfiesData } from "@/types";
 
-async function getHomeSelfies(): Promise<IResponse<ISelfiesData>> {
-  // document.cookie = 'timezone=-120; expires=Fri, 31 Dec 2024 23:59:59 GMT; path=/';
-  // document.cookie = 'PHPSESSID=r9h8qhpp29dm070rscgl9mpkr1; expires=Fri, 31 Dec 2024 23:59:59 GMT; path=/';
+export const metadata: Metadata = {
+  title: "Latest - Geonaut",
+  description: "The latest and greatest posts on the platform",
+};
 
-  const res = await fetch(`${API_URL}/ajax/selfies/`, {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({ajax: "1", s: "home"}).toString(),
-    credentials: "include",
-  });
+const HOME_SELFIES_BODY: IFetchSelfieBody = { s: "home", limit: 10, start: 0 };
 
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    console.log(res);
-    throw new Error('Failed to fetch data')
-  }
-
-  return res.json()
+async function getHomeSelfies (): Promise<ISelfiesData> {
+  return await serverFetch<ISelfiesData, IFetchSelfieBody>(
+    { body: HOME_SELFIES_BODY },
+  );
 }
 
-export default async function Home() {
-  const selfiesData = await getHomeSelfies()
+export default async function HomePage (): Promise<JSX.Element> {
+  const selfiesData = await getHomeSelfies();
   return (
-    <main>
-      {
-        selfiesData.responseData.selfies.map((s: ISelfie) =>
-          <SelfieCard key={s.id} selfie={s} />
-        )
-      }
-    </main>
+    <SelfiePage
+      initialSelfies={selfiesData.selfies}
+      header="geonaut"
+      fetcher={HOME_SELFIES_BODY}
+    />
   );
 }

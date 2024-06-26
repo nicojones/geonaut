@@ -1,6 +1,14 @@
+import "./globals.css";
+import "@fontsource/inter";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import { cookies } from "next/headers";
+
+import { Header } from "@/components";
+import { JwtTokenContextWrapper } from "@/context";
+import { getUserFromJwt } from "@/functions";
+import { IJwtContextAuthedOrAnonymous, IStorageKey, IUserSettings } from "@/types";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -9,14 +17,34 @@ export const metadata: Metadata = {
   description: "A unique travel blog",
 };
 
-export default function RootLayout({
+const getAuthData = async (): Promise<IJwtContextAuthedOrAnonymous> => {
+  const jwt: string | null = cookies().get("token" satisfies IStorageKey)?.value ?? null;
+  const user: IUserSettings | null = getUserFromJwt(jwt);
+
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  return {
+    jwt,
+    user,
+    isAdmin: user?.username === "nico",
+    isAuthed: !!user,
+  } as IJwtContextAuthedOrAnonymous;
+};
+
+export default async function RootLayout ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): Promise<JSX.Element> {
+  const contextData: IJwtContextAuthedOrAnonymous = await getAuthData();
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className + " min-h-screen"}>
+        <JwtTokenContextWrapper contextData={contextData}>
+          <Header />
+          {children}
+        </JwtTokenContextWrapper>
+      </body>
     </html>
   );
 }

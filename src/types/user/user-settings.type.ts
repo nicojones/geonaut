@@ -6,6 +6,7 @@ export interface ISimpleUserSettings {
   bell_position: IUserSettingsBellPosition;
   name: string;
   username: string;
+  id: number;
 }
 
 export interface IUserSettings extends ISimpleUserSettings {

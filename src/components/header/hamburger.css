@@ -1,0 +1,38 @@
+
+.menu-button-lines.open hr {
+  opacity: 0;
+  margin-left: 0px;
+}
+.menu-button-lines.white hr {
+  border-top: 2px solid #fff;
+}
+.menu-button-lines {
+  display: inline-block;
+  /* margin-left: 20px; */
+  margin-right: 20px;
+  padding: 5px 0;
+  width: 45px;
+  outline: none;
+  user-select: none;
+  z-index: 3;
+}
+
+.menu-button-lines hr {
+  border-top: 2px solid #333;
+  margin: 7px;
+  opacity: 1;
+  transform-origin: right center 0;
+  transition: all 0.3s ease 0s;
+  width: 34px;
+}
+.menu-button-lines.open hr {
+  opacity: 0;
+}
+.menu-button-lines.open hr:first-child {
+  opacity: 1;
+  transform: rotate(-45deg) translate(2px);
+}
+.menu-button-lines.open hr:last-child {
+  opacity: 1;
+  transform: rotate(45deg) translate(4px, 2px);
+}

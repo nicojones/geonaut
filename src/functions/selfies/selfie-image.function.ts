@@ -9,3 +9,8 @@ export const selfieMyImage = (hash: string, mini: boolean = false): string => `$
  * The Landscape image
  */
 export const selfieLcImage = (hash: string, mini: boolean = false): string => `${API_URL}/images/pictures/uploads/${hash}/${mini ? "mini_" : ""}lc.jpg`;
+
+/**
+ * The composite image
+ */
+export const selfieCpImage = (hash: string): string => `${API_URL}/images/pictures/uploads/${hash}/cp.jpg`;

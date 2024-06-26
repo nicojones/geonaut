@@ -16,5 +16,9 @@ const config: Config = {
     },
   },
   plugins: [],
+  safelist: [
+    "text-[#eee]",
+    "text-[#333]",
+  ],
 };
 export default config;

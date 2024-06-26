@@ -13,7 +13,7 @@ export interface IUserData {
   pictures: number;
   possessive: "their" | "his" | "her";
   profile: string;
-  profile_pic: string;
-  profile_pic_default: string;
+  // profile_pic: string;
+  // profile_pic_default: string;
   username: string;
 }
