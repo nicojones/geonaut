@@ -18,8 +18,8 @@ export const JwtTokenContextWrapper = ({ children, contextData }: JwtTokenContex
   const [jwt, setJwt] = useState<string | null>(contextData.jwt);
   const [user, setUser] = useState<IUserSettings | null>(contextData.user);
 
-  const handleUpdateUser = useCallback((_jwt: string | null): void => {
-    if (!user && _jwt) {
+  const handleUpdateUser = useCallback((_jwt: string | null, force: boolean = false): void => {
+    if (force || (!user && _jwt)) {
       setUser(getUserFromJwt(_jwt));
     } else if (user && !_jwt) {
       setUser(null);
@@ -33,7 +33,7 @@ export const JwtTokenContextWrapper = ({ children, contextData }: JwtTokenContex
       Cookies.remove("token" satisfies IStorageKey);
     }
     setJwt(_jwt);
-    handleUpdateUser(_jwt);
+    handleUpdateUser(_jwt, true);
   }, [handleUpdateUser]);
 
   const getApiFactory = useCallback(<

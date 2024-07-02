@@ -1,10 +1,11 @@
-import { AdjustmentsHorizontalIcon, ArrowLeftStartOnRectangleIcon, CameraIcon, RectangleGroupIcon, UserCircleIcon, UserIcon } from "@heroicons/react/16/solid";
-import { Avatar, DialogContent, DialogTitle, Divider, Drawer, List, ListItem, ListItemButton, ListItemDecorator, Typography } from "@mui/joy";
+import { AdjustmentsHorizontalIcon, ArrowLeftStartOnRectangleIcon, BellIcon, CameraIcon, RectangleGroupIcon, UserCircleIcon, UserIcon } from "@heroicons/react/16/solid";
+import { Avatar, Button, DialogContent, DialogTitle, Divider, Drawer, List, ListItem, ListItemButton, ListItemDecorator, Typography } from "@mui/joy";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import { API_URL } from "@/config";
+import { NotificationsDrawer } from "@/components/generic";
+import { RESOURCE_URL } from "@/config";
 import { useJwtTokenContext } from "@/context";
 
 export const AuthedUserDropdown = (): JSX.Element => {
@@ -26,9 +27,9 @@ export const AuthedUserDropdown = (): JSX.Element => {
         ? (
           <Avatar
             size="lg"
-            src={API_URL + (user).avatar}
+            src={RESOURCE_URL + user.avatar}
             onClick={handleTogglePanel}
-            className="ml-auto"
+            className="ml-auto cursor-pointer"
           />
         )
         : null,
@@ -77,6 +78,20 @@ export const AuthedUserDropdown = (): JSX.Element => {
                     </ListItemButton>
                   </ListItem>
                 </Link>
+                {
+                  user.bell_position === "menu" &&
+                  <NotificationsDrawer>
+                    {(toggle) =>
+                      <ListItem>
+                        <ListItemButton className="fric" onClick={toggle}>
+                          <ListItemDecorator>
+                            <BellIcon className="size-4" />
+                          </ListItemDecorator>
+                          <span>notifications</span>
+                        </ListItemButton>
+                      </ListItem>}
+                  </NotificationsDrawer>
+                }
                 <Link href="/new">
                   <ListItem>
                     <ListItemButton className="fric">
@@ -120,9 +135,18 @@ export const AuthedUserDropdown = (): JSX.Element => {
               </List>
             </DialogContent>
           </Drawer>
-          <span className="mt-2 mr-1">
+          <div className="mt-2 mr-1 fric space-x-4">
+            {
+              user.bell_position === "top" &&
+              <NotificationsDrawer>
+                {
+                  (toggle) =>
+                    <Button variant="plain" onClick={toggle} className="text-black"><BellIcon className="size-6" /></Button>
+                }
+              </NotificationsDrawer>
+            }
             {avatar}
-          </span>
+          </div>
         </>
       )
       : (

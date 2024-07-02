@@ -21,7 +21,6 @@ export default async function DiscoverPage (): Promise<JSX.Element> {
   await isAuthenticated();
   const selfiesData = await getUserSelfies();
 
-  console.log(selfiesData);
   return (
     <SelfiePage
       initialSelfies={selfiesData.selfies}

@@ -1,14 +1,31 @@
-import { Sheet, Typography } from "@mui/joy";
 import { Metadata } from "next";
+
+import { StickyHeader } from "@/components";
+import { DashboardSheet } from "@/components/generic";
+import { serverFetch } from "@/functions/server";
+import { IResponseData, ISettings } from "@/types";
+
+import { SettingsForm } from "./settings-form";
 
 export const metadata: Metadata = {
   title: "settings - geonaut",
 };
 
+const getSettings = (): Promise<ISettings> => {
+  return serverFetch<IResponseData<{ settings: ISettings; }>, any>({
+    url: "/ajax/admin/data",
+    body: { s: "settings" },
+  })
+    .then(r => r.settings);
+};
+
 export default async function SettingsPage (): Promise<JSX.Element> {
+  const settings = await getSettings();
+
   return (
-    <Sheet className="w-screen h-screen grid place-items-center place-content-center">
-      <Typography level="h1">settings coming soon!</Typography>
-    </Sheet>
+    <DashboardSheet>
+      <StickyHeader sticky header="settings" small />
+      <SettingsForm settings={settings} />
+    </DashboardSheet>
   );
 }

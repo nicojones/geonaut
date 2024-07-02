@@ -5,13 +5,14 @@ import { useCallback, useEffect, useState } from "react";
 import { SCROLL_PADDING } from "@/config";
 import { useJwtTokenContext } from "@/context";
 import { gFetch } from "@/functions";
-import { ComponentChildren, IFetchSelfieBody, ISelfie, ISelfiesAsyncLoad, ISelfiesData } from "@/types";
+import { ComponentChildren, IFetchSelfieBodyGeneric, ISelfie, ISelfiesAsyncLoad, ISelfiesData } from "@/types";
 
 import { SelfieCard } from "./selfie-card.component";
+import { ThatsAllFolks } from "./thats-all-folks";
 
 interface SelfiesAsyncLoaderProps {
-  fetcher: IFetchSelfieBody;
-  children: ComponentChildren;
+  fetcher: IFetchSelfieBodyGeneric;
+  children?: ComponentChildren;
 }
 
 export const SelfiesAsyncLoader = ({ children, fetcher }: SelfiesAsyncLoaderProps): JSX.Element => {
@@ -32,12 +33,11 @@ export const SelfiesAsyncLoader = ({ children, fetcher }: SelfiesAsyncLoaderProp
     if (window.scrollY > documentHeightToLoad) {
       const startFrom = data.start + (fetcher.limit ?? 0);
       setData(d => ({ ...d, start: startFrom, loading: true }));
-      gFetch<ISelfiesData, IFetchSelfieBody>({ body: { ...fetcher, start: startFrom } }, jwt)
+      gFetch<ISelfiesData, IFetchSelfieBodyGeneric>({ body: { ...fetcher, start: startFrom } }, jwt)
         .then(r => setData(d => ({ ...d, more: !!r.more, selfies: [...d.selfies, ...r.selfies], loading: false })))
         .catch(e => alert(String(e)))
         .finally(() => setData(d => ({ ...d, loading: false })));
     }
-    console.log(window.scrollY);
   }, [data, fetcher, jwt]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export const SelfiesAsyncLoader = ({ children, fetcher }: SelfiesAsyncLoaderProp
   }, [handleScroll]);
 
   return (
-    <main className="flex flex-col space-y-10" onScroll={handleScroll}>
+    <main className="flex flex-col space-y-48" onScroll={handleScroll}>
       {children}
 
       {
@@ -59,6 +59,7 @@ export const SelfiesAsyncLoader = ({ children, fetcher }: SelfiesAsyncLoaderProp
           <SelfieCard key={s.id} selfie={s} />,
         )
       }
+      <ThatsAllFolks hidden={data.more} />
     </main>
   );
 };

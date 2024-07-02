@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -7,6 +8,14 @@ const nextConfig = {
         hostname: "travel.kupfer.es",
       },
     ],
+  },
+  async rewrites () {
+    return [
+      {
+        source: "/:userId(@[a-zA-Z0-9]+)/:id*",
+        destination: "/user/:userId/:id*",
+      },
+    ];
   },
 };
 

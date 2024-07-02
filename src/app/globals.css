@@ -8,6 +8,8 @@
   --background-end-rgb: 255, 255, 255;
 
   --header-height: 4rem;
+
+  --background-body: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +22,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  background: var(--background-body);
 }
 
 .text-difference {
@@ -50,4 +52,36 @@ body {
     @apply as-link text-blue-500;
   }
 
+  .comment-styles {
+    @apply min-h-24 w-[calc(100%+1px)] border-solid border-white border-r border-b border-l p-2 -ml-[1px];
+  }
+
+  .is-loading-mask {
+    @apply opacity-50 select-none pointer-events-none;
+  }
+  .has-loading-mask {
+    @apply transition-opacity duration-300;
+  }
+  .is-loading-mask.is-loading-mask.has-spinner {
+    @apply relative; /* This is important to ensure center positioning */
+  }
+  .is-loading-mask.has-spinner::after {
+    background-image: url("/grid.svg");
+    background-size: 3rem;
+    content: "";
+    @apply bg-no-repeat bg-center absolute w-full h-full z-50 top-0;
+  }
+  .is-loading-mask.has-spinner::before {
+    content: attr(data-loading);
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-10;
+  }
+  .is-loading-mask.has-spinner:not([data-loading]):before {
+    /* In case no `data-loading` attribute was set */
+    content: "Loading...";
+    @apply animate-pulse text-sm z-10;
+  }
+
+  .selfie-list {
+    @apply mx-auto w-11/12 sm:w-10/12 md:w-8/12 flex flex-col space-y-48 mb-16;
+  }
 }

@@ -1,0 +1,65 @@
+.rounded-pin {
+  border-radius: 100% 100% 100% 0;
+  background-position: center center;
+  background-size: cover;
+  top: -40px;
+  display: inline-block;
+  height: 40px;
+  left: 0px;
+  position: absolute;
+  width: 40px;
+  transition: all 0.3s ease-in-out;
+}
+
+a.rounded-pin, a.rounded-pin-double {
+  cursor: pointer;
+}
+
+.rounded-pin.openable:hover, .rounded-pin.opened {
+  z-index: 200;
+  top: -80px;
+  height: 80px;
+  width: 80px;
+  left: 00px;
+}
+
+.rounded-pin-double {
+  border-radius: 100% 100% 100% 0;
+  display: inline-block;
+  left: 50%;
+  overflow: hidden;
+  position: relative;
+  top: -47px;
+  width: 110px;
+}
+
+.rounded-pin-double-one, .rounded-pin-double-two {
+  float: left;
+  overflow: hidden;
+  width: 50%;
+}
+.rounded-pin-double-two {
+  position: relative;
+  right: 0;
+}
+.rounded-pin-double-two > img {
+  position: relative;
+  right: 133.333%;
+}
+.rounded-pin-double-one > img {
+  position: relative;
+  right: 33.333%;
+}
+.rounded-pin-double-one > img,
+.rounded-pin-double-two > img {
+  height: 100px;
+  width: 133px !important;
+  max-height: unset;
+  max-width: unset;
+}
+
+/* hide an ugly square in the map. */
+.leaflet-marker-icon {
+  background-color: transparent !important;
+  border: none !important;
+}

@@ -1,8 +1,9 @@
 import { IBool } from "@/types";
 
-export type ISelfieSection = "home" | "discover" | "loves" | "users" | "user" | "one";
+export type ISelfieSection = "home" | "discover" | "loves" | "users" | "user" | "one" | "search";
 
-export interface IFetchSelfieBody {
+export interface IFetchSelfieBodyGeneric {
+
   /**
    * The section for which to return the content
    */
@@ -15,6 +16,9 @@ export interface IFetchSelfieBody {
    * @default 0
    */
   start?: number;
+}
+
+export interface IFetchSelfieBody extends IFetchSelfieBodyGeneric {
   /**
    * The username of the user we want to retrieve
    */

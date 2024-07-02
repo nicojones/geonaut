@@ -9,6 +9,7 @@ import { Header } from "@/components";
 import { JwtTokenContextWrapper } from "@/context";
 import { getUserFromJwt } from "@/functions";
 import { IJwtContextAuthedOrAnonymous, IStorageKey, IUserSettings } from "@/types";
+import { Toaster } from "@/components/shadcn";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,6 +44,7 @@ export default async function RootLayout ({
         <JwtTokenContextWrapper contextData={contextData}>
           <Header />
           {children}
+          <Toaster />
         </JwtTokenContextWrapper>
       </body>
     </html>

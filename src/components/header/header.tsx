@@ -1,13 +1,14 @@
 "use client";
 
 import { GlobeAltIcon, HeartIcon, HomeIcon, MagnifyingGlassIcon, UserGroupIcon } from "@heroicons/react/16/solid";
-import { DialogContent, DialogTitle, Drawer, Input, List, ListItem, ListItemButton, ListItemDecorator, ModalClose } from "@mui/joy";
+import { DialogContent, DialogTitle, Drawer, List, ListItem, ListItemButton, ListItemDecorator, ModalClose } from "@mui/joy";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { logoImage } from "@/assets";
+import { SearchEverywhere } from "@/components/generic";
 import { useJwtTokenContext } from "@/context";
 
 import { AuthedUserDropdown } from "./authed-user-dropdown";
@@ -63,7 +64,7 @@ export const Header = (): JSX.Element => {
             <ListItem>
               <div className="fric space-x-4">
                 <ListItemDecorator><MagnifyingGlassIcon className="size-6" /></ListItemDecorator>
-                <Input placeholder="search everywhere" />
+                <SearchEverywhere />
               </div>
             </ListItem>
             <ListItem>

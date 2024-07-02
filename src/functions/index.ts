@@ -1,7 +1,7 @@
 // ~~ FILES
-export * from "./fetch.function";
-export * from "./jwt.function";
+// NONE
 
 // ~~ FOLDERS
 export * from "./selfies";
 export * from "./users";
+export * from "./utils";

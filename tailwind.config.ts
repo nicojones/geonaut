@@ -19,6 +19,7 @@ const config: Config = {
   safelist: [
     "text-[#eee]",
     "text-[#333]",
+    { pattern: /(is|has)-loading-mask/ },
   ],
 };
 export default config;

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-import { gFetch } from "@/functions/fetch.function";
+import { gFetch } from "@/functions/utils/fetch.function";
 import { IFetch, IStorageKey } from "@/types";
 
 export const serverFetch = <
