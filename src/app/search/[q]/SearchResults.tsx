@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { SelfieCard, SelfieCardSkeleton, SelfiesAsyncLoader } from "@/components/selfies";
 import { useJwtTokenContext } from "@/context";
-import { numResults } from "@/functions";
+import { selfieNumResults } from "@/functions";
 import { ISearchBody, ISearchFindMany, ISearchResultData, ISearchResultType } from "@/types";
 
 import { SEARCH_TABS, SEARCH_TABS_MAP } from "./search-results-tab.definition";
@@ -31,17 +31,17 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
       : 0,
   );
 
-  const handleFetchSearchResults = useCallback((): void => {
-    if (results[SEARCH_TABS_MAP[selectedTab]] !== undefined) {
+  const handleFetchSearchResults = useCallback((_selectedTab: number = selectedTab): void => {
+    if (results[SEARCH_TABS_MAP[_selectedTab]] !== undefined) {
       return;
     }
 
     api<ISearchFindMany, ISearchBody>({
       url: "/ajax/selfies",
-      body: SEARCH_BODY[selectedTab],
+      body: SEARCH_BODY[_selectedTab],
     })
       .then(r => {
-        setResults(_results => ({ ..._results, [SEARCH_TABS_MAP[selectedTab]]: r.selfies }));
+        setResults(_results => ({ ..._results, [SEARCH_TABS_MAP[_selectedTab]]: r }));
       });
   }, [api, results, selectedTab]);
 
@@ -50,8 +50,14 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
   };
 
   useEffect(() => {
-    handleFetchSearchResults();
-  }, [selectedTab]);
+    Object.keys(SEARCH_BODY).forEach((_, index) => handleFetchSearchResults(index));
+    // handleFetchSearchResults();
+  }, []);
+
+  // useEffect(() => {
+  //   setResults({});
+  //   handleFetchSearchResults();
+  // }, [searchQuery]);
 
   return (
     <>
@@ -69,12 +75,12 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
           {
             SEARCH_TABS.map((t, index) =>
               <Tab
-                disabled={results[SEARCH_TABS_MAP[index]]?.length === 0}
+                disabled={results[SEARCH_TABS_MAP[index]]?.selfies?.length === 0}
                 value={index}
                 key={t.value}
               >
                 {t.label}
-                <small>{numResults(results[SEARCH_TABS_MAP[index]]?.length)}</small>
+                <small>{selfieNumResults(results[SEARCH_TABS_MAP[index]])}</small>
               </Tab>,
             )
           }
@@ -87,7 +93,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
               {
                 results[SEARCH_TABS_MAP[section]] !== undefined
                   ? (
-                    results[SEARCH_TABS_MAP[section]]?.length === 0
+                    results[SEARCH_TABS_MAP[section]]?.selfies.length === 0
                       ? (
                         <div className="grid place-items-center place-content-center h-[80vh]">
                           <span className="inline-block">(no {SEARCH_TABS_MAP[section]} results for <kbd>{searchQuery}</kbd>)</span>
@@ -98,7 +104,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
                           fetcher={SEARCH_BODY[section]}
                         >
                           {
-                            results[SEARCH_TABS_MAP[section]]?.map(s =>
+                            results[SEARCH_TABS_MAP[section]]?.selfies.map(s =>
                               <SelfieCard key={s.active_hash} selfie={s} />,
                             )
                           }

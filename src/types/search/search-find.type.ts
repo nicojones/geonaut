@@ -13,7 +13,7 @@ export type ISearchFindAll =
 export type ISearchFindMany = ISelfiesData;
 export type ISearchResultType = "user" | "selfie" | "location" | "date";
 
-export type ISearchResultData = Partial<Record<ISearchResultType, ISelfie[]>>;
+export type ISearchResultData = Partial<Record<ISearchResultType, ISelfiesData>>;
 
 export interface ISearchBody extends IFetchSelfieBodyGeneric {
   /**

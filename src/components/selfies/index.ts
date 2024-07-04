@@ -2,7 +2,7 @@ export * from "./SelfieCard";
 export * from "./SelfiePage";
 export * from "./SelfieAsyncLoader";
 export * from "./SelfieHeader";
-export * from "./thats-all-folks";
+export * from "./ThatsAllFolks";
 export * from "./SelfieCardSkeleton";
 
 export * from "./edit";

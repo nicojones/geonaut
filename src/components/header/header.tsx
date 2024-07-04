@@ -11,8 +11,8 @@ import { logoImage } from "@/assets";
 import { SearchEverywhere } from "@/components/generic";
 import { useJwtTokenContext } from "@/context";
 
-import { AuthedUserDropdown } from "./authed-user-dropdown";
-import { HamburgerMenuButton } from "./hamburger";
+import { AuthedUserDropdown } from "./AuthedUserDropdown";
+import { HamburgerMenuButton } from "./Hamburger";
 
 export const Header = (): JSX.Element => {
   const pathname = usePathname();
@@ -36,31 +36,18 @@ export const Header = (): JSX.Element => {
         onClose={handleHamburgerToggle}
         slotProps={{
           content: {
-            // sx: {
-            //   bgcolor: "transparent",
-            //   p: { md: 3, sm: 0 },
-            //   boxShadow: "none",
-            // },
+            sx: {
+              minWidth: "max-content",
+            },
           },
         }}
       >
-        {/* <Sheet
-          sx={{
-            borderRadius: "md",
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            height: "100%",
-            overflow: "auto",
-          }}
-        > */}
-        <DialogTitle level="h2">
+        <DialogTitle level="h2" sx={{ paddingX: 2 }}>
           Menu
         </DialogTitle>
-        <ModalClose size="lg" sx={{ marginRight: "auto" }} />
+        <ModalClose size="lg" />
         <DialogContent>
-          <List sx={{ paddingLeft: 2 }}>
+          <List sx={{ paddingX: 2, minWidth: "max-content" }}>
             <ListItem>
               <div className="fric space-x-4">
                 <ListItemDecorator><MagnifyingGlassIcon className="size-6" /></ListItemDecorator>
@@ -106,7 +93,6 @@ export const Header = (): JSX.Element => {
             </ListItem>
           </List>
         </DialogContent>
-        {/* </Sheet> */}
       </Drawer>
       <nav className="fric justify-between pl-12 pr-2 py-2 fixed top-0 left-0 w-screen h-[var(--header-height)] z-[1]">
         <div className="fric space-x-8">

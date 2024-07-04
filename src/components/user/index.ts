@@ -1,1 +1,1 @@
-export * from "./user-page-header.component";
+export * from "./UserPageHeader";

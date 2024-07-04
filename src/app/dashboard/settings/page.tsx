@@ -5,7 +5,7 @@ import { DashboardSheet } from "@/components/generic";
 import { serverFetch } from "@/functions/server";
 import { IResponseData, ISettings } from "@/types";
 
-import { SettingsForm } from "./settings-form";
+import { SettingsForm } from "./SettingsForm";
 
 export const metadata: Metadata = {
   title: "settings - geonaut",

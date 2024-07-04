@@ -28,7 +28,7 @@ export const CommentItem = ({ comment, selfie }: CommentItemProps): JSX.Element 
       </div>
       <p className="p-3 relative fric grow h-full">
         {comment.comment}
-        <small className="absolute -bottom-1 -right-1">at {comment.added_on}</small>
+        <small className="absolute -bottom-1 -right-1">on {comment.added_on}</small>
       </p>
     </div>
   );

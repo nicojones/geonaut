@@ -6,11 +6,8 @@ import { useState } from "react";
 
 import { signInSubmit } from "./sign-in-submit.function";
 
-// const signInResponse: ILoggedIn = {};
-
 export const SignInForm = (): JSX.Element => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  // const [state, formAction] = useFormState(signInSubmit, { token: "0" } as unknown as ILoggedIn);
 
   return (
     <>
@@ -30,7 +27,6 @@ export const SignInForm = (): JSX.Element => {
           <FormLabel>password</FormLabel>
           <Input
             endDecorator={<KeyIcon className="size-4" />}
-            // endDecorator={<TogglePassword showPassword={showPassword} setShowPassword={setShowPassword} />}
             type={showPassword ? "text" : "password"}
             name="password"
           />

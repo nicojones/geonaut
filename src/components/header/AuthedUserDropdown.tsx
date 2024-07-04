@@ -41,17 +41,14 @@ export const AuthedUserDropdown = (): JSX.Element => {
         <>
           <Drawer
             anchor="right"
-            size="sm"
-            // variant="plain"
             open={panelOpen}
             onClose={handleTogglePanel}
+            size="sm"
             slotProps={{
               content: {
-                // sx: {
-                //   bgcolor: "transparent",
-                //   p: { md: 3, sm: 0 },
-                //   boxShadow: "none",
-                // },
+                sx: {
+                  minWidth: "max-content",
+                },
               },
             }}
           >
@@ -70,35 +67,37 @@ export const AuthedUserDropdown = (): JSX.Element => {
             <DialogContent sx={{ paddingLeft: 2 }}>
               <Divider />
               <List>
+                {
+                  user.bell_position === "menu" &&
+                  <>
+                    <NotificationsDrawer>
+                      {(toggle) =>
+                        <ListItem>
+                          <ListItemButton className="fric" onClick={toggle}>
+                            <ListItemDecorator>
+                              <BellIcon className="size-5" />
+                            </ListItemDecorator>
+                            <span>notifications</span>
+                          </ListItemButton>
+                        </ListItem>}
+                    </NotificationsDrawer>
+                  </>
+                }
                 <Link href="/dashboard">
                   <ListItem>
                     <ListItemButton className="fric">
                       <ListItemDecorator>
-                        <RectangleGroupIcon className="size-4" />
+                        <RectangleGroupIcon className="size-5" />
                       </ListItemDecorator>
                       <span>dashboard</span>
                     </ListItemButton>
                   </ListItem>
                 </Link>
-                {
-                  user.bell_position === "menu" &&
-                  <NotificationsDrawer>
-                    {(toggle) =>
-                      <ListItem>
-                        <ListItemButton className="fric" onClick={toggle}>
-                          <ListItemDecorator>
-                            <BellIcon className="size-4" />
-                          </ListItemDecorator>
-                          <span>notifications</span>
-                        </ListItemButton>
-                      </ListItem>}
-                  </NotificationsDrawer>
-                }
                 <Link href="/new">
                   <ListItem>
                     <ListItemButton className="fric">
                       <ListItemDecorator>
-                        <CameraIcon className="size-4" />
+                        <CameraIcon className="size-5" />
                       </ListItemDecorator>
                       <span>upload</span>
                     </ListItemButton>
@@ -108,7 +107,7 @@ export const AuthedUserDropdown = (): JSX.Element => {
                   <ListItem>
                     <ListItemButton className="fric">
                       <ListItemDecorator>
-                        <UserIcon className="size-4" />
+                        <UserIcon className="size-5" />
                       </ListItemDecorator>
                       <span>profile</span>
                     </ListItemButton>
@@ -118,17 +117,17 @@ export const AuthedUserDropdown = (): JSX.Element => {
                   <ListItem>
                     <ListItemButton className="fric">
                       <ListItemDecorator>
-                        <AdjustmentsHorizontalIcon className="size-4" />
+                        <AdjustmentsHorizontalIcon className="size-5" />
                       </ListItemDecorator>
                       <span>settings</span>
                     </ListItemButton>
                   </ListItem>
                 </Link>
-                <Link href="/auth/logout">
+                <Link href="/auth/logout" className="mt-auto">
                   <ListItem>
                     <ListItemButton className="fric">
                       <ListItemDecorator>
-                        <ArrowLeftStartOnRectangleIcon className="size-4" />
+                        <ArrowLeftStartOnRectangleIcon className="size-5" />
                       </ListItemDecorator>
                       <span>log out</span>
                     </ListItemButton>

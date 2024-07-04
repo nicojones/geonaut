@@ -1,3 +1,3 @@
-export * from "./header";
-export * from "./hamburger";
-export * from "./sticky-header";
+export * from "./Header";
+export * from "./Hamburger";
+export * from "./StickyHeader";

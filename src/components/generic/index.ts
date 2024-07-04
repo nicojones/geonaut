@@ -6,6 +6,7 @@ export * from "./NotificationsDrawer";
 export * from "./CopyToClipboard";
 export * from "./CopyPath";
 export * from "./LoadingPage";
+export * from "./Footer";
 
 // ~~ FOLDERS
 export * from "./history-map";

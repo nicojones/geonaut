@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useJwtTokenContext } from "@/context";
 import { ISelfie } from "@/types";
 
-import { LoveButton } from "./love-button";
+import { LoveButton } from "./LoveButton";
 
 interface LoveProps {
   selfie: ISelfie;

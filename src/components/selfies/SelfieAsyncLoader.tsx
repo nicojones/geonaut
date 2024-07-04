@@ -8,7 +8,7 @@ import { gFetch } from "@/functions";
 import { ComponentChildren, IFetchSelfieBodyGeneric, ISelfie, ISelfiesAsyncLoad, ISelfiesData } from "@/types";
 
 import { SelfieCard } from "./SelfieCard";
-import { ThatsAllFolks } from "./thats-all-folks";
+import { ThatsAllFolks } from "./ThatsAllFolks";
 
 interface SelfiesAsyncLoaderProps {
   fetcher: IFetchSelfieBodyGeneric;
