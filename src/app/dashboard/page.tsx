@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "dashboard - geonaut",
 };
 
-export const getDashboardData = (): Promise<IDashboardData> =>
+const getDashboardData = (): Promise<IDashboardData> =>
   serverFetch<IDashboardData, any>({
     url: "/ajax/admin/data",
     method: "POST",
