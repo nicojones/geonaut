@@ -6,7 +6,7 @@ import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 
-import { Header } from "@/components";
+import { HeaderAndDrawer } from "@/components";
 import { Footer } from "@/components/generic";
 import { Toaster } from "@/components/shadcn";
 import { JwtTokenContextWrapper } from "@/context";
@@ -45,7 +45,7 @@ export default async function RootLayout ({
       <body className={inter.className + " min-h-screen"}>
         <NextTopLoader showSpinner={false} />
         <JwtTokenContextWrapper contextData={contextData}>
-          <Header />
+          <HeaderAndDrawer />
           {children}
           <Toaster />
         </JwtTokenContextWrapper>

@@ -4,7 +4,7 @@ import { selfieBackgroundStyle, selfieBoxShadowStyle, selfieLcImage, selfieMyIma
 import { ISelfie } from "@/types";
 
 import { EditSelfieButton } from "./edit";
-import { LoveSelfie } from "./love/Love";
+import { LoveSelfie } from "./love/LoveSelfie";
 import { SelfieHeader } from "./SelfieHeader";
 
 interface SelfieCardProps {

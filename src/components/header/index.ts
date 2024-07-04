@@ -1,3 +1,3 @@
-export * from "./Header";
-export * from "./Hamburger";
+export * from "./HeaderAndDrawer";
+export * from "./HamburgerMenuButton";
 export * from "./StickyHeader";

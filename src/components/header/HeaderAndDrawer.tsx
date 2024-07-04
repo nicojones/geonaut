@@ -12,9 +12,9 @@ import { SearchEverywhere } from "@/components/generic";
 import { useJwtTokenContext } from "@/context";
 
 import { AuthedUserDropdown } from "./AuthedUserDropdown";
-import { HamburgerMenuButton } from "./Hamburger";
+import { HamburgerMenuButton } from "./HamburgerMenuButton";
 
-export const Header = (): JSX.Element => {
+export const HeaderAndDrawer = (): JSX.Element => {
   const pathname = usePathname();
   const { isAuthed } = useJwtTokenContext();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
