@@ -31,21 +31,18 @@ export const gFetch = <
     credentials: "include",
   })
     .then(r => {
-      console.log("RESPONSE HERE");
-      return r.text().then(t => {
-        console.log("original", t);
-        try {
-          return JSON.parse(t);
-        } catch (e) {
-          return {} as unknown as T;
-        }
-      });
-      // return r.json();
+      // return r.text().then(t => {
+      //   try {
+      //     return JSON.parse(t);
+      //   } catch (e) {
+      //     return {} as unknown as T;
+      //   }
+      // });
+      return r.json();
     })
     .then((r: IResponse<T>) => {
       console.log(r);
       if (!r.success) {
-        console.log(r);
         throw new Error(r.responseData.message);
       }
       return r.responseData;

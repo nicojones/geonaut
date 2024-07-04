@@ -71,8 +71,6 @@ export const EditSelfieContextWrapper = ({ children, initialData }: EditSelfieCo
     [data, markers],
   );
 
-  console.log("render", markers);
-
   return (
     <EditSelfieContext.Provider value={context} >
       {children}

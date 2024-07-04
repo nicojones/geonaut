@@ -55,7 +55,6 @@ export const EditSelfieFormAutocomplete = ({ onUpdateCoords }: EditSelfieFormAut
       fetch(`https://api.mapbox.com/search/searchbox/v1/suggest${toQuery({ q, ...CREDENTIALS })}`)
         .then(r => r.json() as Promise<IMapboxSuggestionResult>)
         .then(r => {
-          console.log(r);
           setSuggestions((r).suggestions);
         })
         .catch(e => {
@@ -68,7 +67,6 @@ export const EditSelfieFormAutocomplete = ({ onUpdateCoords }: EditSelfieFormAut
     if (newValue === null || typeof newValue === "string") {
       return;
     }
-    console.log(newValue);
     fetch(`https://api.mapbox.com/search/searchbox/v1/retrieve/${newValue.mapbox_id}${toQuery(CREDENTIALS)}`)
       .then(r => r.json())
       .then(r => {
