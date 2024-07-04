@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { EditSelfieButton, LoveSelfie } from "@/components";
 import { CopyPath, MapViewer } from "@/components/generic";
-import { Comments } from "@/components/selfies/comments";
+import { Comments } from "@/components/selfies/comments/Comments";
 import { selfieBackgroundStyle, selfieLcImage, selfieMetadata, selfieMyImage, selfiePin, selfieTextColor } from "@/functions";
 import { serverFetch } from "@/functions/server";
 import { IFetchSelfieBody, IMapPin, ISelfieData, ISelfiePrevNext, IUrlParams } from "@/types";
