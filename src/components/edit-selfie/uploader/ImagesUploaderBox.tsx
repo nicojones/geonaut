@@ -18,7 +18,7 @@ export const ImagesUploaderBox = (): JSX.Element => {
       return {};
     }
     return ({
-      boxShadow: data.images[type].img ? selfieBoxShadowStyle(data.images[type].color.color) : undefined,
+      boxShadow: data.images[type].img ? selfieBoxShadowStyle(data.images[type]!.color!.color) : undefined,
       border: `14px solid rgb(${data.images[type].color.color})`,
       backgroundColor: `rgb(${data.images[type].color.color})`,
       width: 500 * 1.3,
