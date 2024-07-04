@@ -1,4 +1,4 @@
-import { IFetchSelfieBodyGeneric, ISelfie, ISelfiesData } from "@/types";
+import { IFetchSelfieBodyGeneric, ISelfiesData } from "@/types";
 
 export type ISearchFindAll =
   {
