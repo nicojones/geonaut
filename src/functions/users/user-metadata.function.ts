@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 
-import { API_URL } from "@/config";
 import { selfieMyImage } from "@/functions";
 import { IUserData } from "@/types";
 
@@ -10,7 +9,7 @@ export const userMetadata = (user: IUserData): Metadata => ({
   creator: user.username,
   openGraph: {
     type: "website",
-    url: `${API_URL}/u/${user.username}`,
+    url: `${process.env.NEXT_PUBLIC_API_URL as string}/u/${user.username}`,
     title: user.name + " - Geonaut",
     description: user.profile,
     siteName: "Geonaut",
@@ -23,7 +22,7 @@ export const userMetadata = (user: IUserData): Metadata => ({
     title: user.name + " - Geonaut",
     description: user.profile,
     images: [{
-      url: `${API_URL}${user.avatar}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL as string}${user.avatar}`,
     }],
   },
 });

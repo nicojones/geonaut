@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { NotificationsDrawer } from "@/components/generic";
-import { RESOURCE_URL } from "@/config";
 import { useJwtTokenContext } from "@/context";
 
 export const AuthedUserDropdown = (): JSX.Element => {
@@ -27,7 +26,7 @@ export const AuthedUserDropdown = (): JSX.Element => {
         ? (
           <Avatar
             size="lg"
-            src={RESOURCE_URL + user.avatar}
+            src={(process.env.NODE_PUBLIC_RESOURCE_URL as string) + user.avatar}
             onClick={handleTogglePanel}
             className="ml-auto cursor-pointer"
           />

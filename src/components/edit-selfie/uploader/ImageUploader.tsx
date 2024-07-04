@@ -5,7 +5,6 @@ import { CSSProperties, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AlertDialogModal } from "@/components/generic";
-import { API_URL } from "@/config";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
 import { IEditSelfieGps, IEditSelfieImageDetails, IReadFile, IResponseData } from "@/types";
 
@@ -37,7 +36,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
       ? (imageData as any)
       : (
         src
-          ? API_URL + src + `?t=${invalidateCache}`
+          ? (process.env.NEXT_PUBLIC_API_URL as string) + src + `?t=${invalidateCache}`
           : undefined
       )
   ), [imageData, src, invalidateCache]);

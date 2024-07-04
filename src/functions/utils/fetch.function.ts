@@ -1,5 +1,4 @@
 
-import { API_URL } from "@/config";
 import { IFetch, IResponse } from "@/types";
 
 export const gFetch = <
@@ -14,7 +13,7 @@ export const gFetch = <
   }: IFetch<Body>,
   token: string | null = null,
 ): Promise<T> => {
-  return fetch(`${API_URL}${url}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL as string}${url}`, {
     method: method ?? "POST",
     headers: {
       ...(contentType === false ? {} : { "Content-Type": contentType }),
