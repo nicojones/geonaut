@@ -31,8 +31,9 @@ export const gFetch = <
     credentials: "include",
   })
     .then(r => {
+      console.log("RESPONSE HERE");
       return r.text().then(t => {
-        console.log(t);
+        console.log("original", t);
         try {
           return JSON.parse(t);
         } catch (e) {
