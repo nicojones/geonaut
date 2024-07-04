@@ -30,8 +30,8 @@ export const Header = (): JSX.Element => {
   return (
     <>
       <Drawer
-        anchor="left"
         size="sm"
+        anchor="left"
         open={menuOpen}
         onClose={handleHamburgerToggle}
         slotProps={{

@@ -13,7 +13,7 @@ interface LoveProps {
 }
 
 export const LoveSelfie = ({ selfie }: LoveProps): JSX.Element => {
-  const { isAuthed, api } = useJwtTokenContext();
+  const { api, isAuthed } = useJwtTokenContext();
 
   const [loves, setLoves] = useState<number>(selfie.loves);
   const [loved, setLoved] = useState<boolean>(selfie.love === 1);

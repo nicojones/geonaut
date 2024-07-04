@@ -8,7 +8,7 @@ interface HamburgerMenuButtonProps {
   onClick: Dispatch<SetStateAction<void>>;
 }
 
-export const HamburgerMenuButton = ({ onClick, open }: HamburgerMenuButtonProps): JSX.Element => {
+export const HamburgerMenuButton = ({ open, onClick }: HamburgerMenuButtonProps): JSX.Element => {
   return (
     <a
       role="button"
