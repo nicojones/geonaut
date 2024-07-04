@@ -9,15 +9,16 @@
   position: absolute;
   width: 40px;
   transition: all 0.3s ease-in-out;
-
-  background-color: pink;
+  filter: drop-shadow(2px -3px 13px #666);
 }
 
-a.rounded-pin, a.rounded-pin-double {
+a.rounded-pin,
+a.rounded-pin-double {
   cursor: pointer;
 }
 
-.rounded-pin.openable:hover, .rounded-pin.opened {
+.rounded-pin.openable:hover,
+.rounded-pin.opened {
   z-index: 200;
   top: -80px;
   height: 80px;
@@ -26,7 +27,7 @@ a.rounded-pin, a.rounded-pin-double {
 }
 
 .rounded-pin-double {
-  background-color: pink;
+  filter: drop-shadow(2px -3px 13px #666);
   border-radius: 100% 100% 100% 0;
   display: inline-block;
   left: 50%;
@@ -36,7 +37,8 @@ a.rounded-pin, a.rounded-pin-double {
   width: 110px;
 }
 
-.rounded-pin-double-one, .rounded-pin-double-two {
+.rounded-pin-double-one,
+.rounded-pin-double-two {
   float: left;
   overflow: hidden;
   width: 50%;

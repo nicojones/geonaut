@@ -138,7 +138,6 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
           <ArrowPathIcon className="size-6" />
         </Button>
       }
-      {console.log(data.images[type].gps)}
       {
         src && data.images[type].gps &&
         <AlertDialogModal
