@@ -9,5 +9,5 @@ export * from "./LoadingPage";
 
 // ~~ FOLDERS
 export * from "./history-map";
-export * from "./map";
+export * from "./map-viewer";
 export * from "./search";

@@ -1,7 +1,7 @@
 "use client";
 
 import "mapbox-gl/dist/mapbox-gl.css";
-import "./map.css";
+import "./map-viewer.css";
 
 import classNames from "classnames";
 import mapboxgl from "mapbox-gl";
@@ -57,7 +57,7 @@ const getMapStyle = (_style: IMapStyle): string =>
     ? "mapbox://styles/mapbox/satellite-v9"
     : "mapbox://styles/mapbox/streets-v12";
 
-export const Map = ({
+export const MapViewer = ({
   connected = false,
   changeStyleOnDragTo = "streets",
   className = "",

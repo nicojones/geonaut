@@ -5,7 +5,7 @@ import { Typography } from "@mui/joy";
 import Link from "next/link";
 import { CSSProperties, useMemo, useState } from "react";
 
-import { Map } from "@/components/generic/map/Map";
+import { MapViewer } from "@/components/generic/map/Map";
 import { selfiePin, selfieTextColor } from "@/functions";
 import { ISelfie } from "@/types";
 
@@ -50,7 +50,7 @@ export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
       </div>
       {
         mapOpen &&
-        <Map markers={[marker]} style="satellite" className="w-full h-96" />
+        <MapViewer markers={[marker]} style="satellite" className="w-full h-96" />
       }
     </>
   );

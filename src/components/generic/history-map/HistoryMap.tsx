@@ -4,7 +4,7 @@ import { FormControl, Slider } from "@mui/joy";
 import classNames from "classnames";
 import { useMemo, useState } from "react";
 
-import { Map } from "@/components/generic";
+import { MapViewer } from "@/components/generic";
 import { loadingMask } from "@/functions";
 import { IDashboardMapSelfie, IMapDateRange } from "@/types";
 
@@ -75,7 +75,7 @@ export const HistoryMap = ({ className = "", range, selfies }: HistoryMapProps):
           }}
         />
       </FormControl>
-      <Map
+      <MapViewer
         className={classNames(
           "relative overflow-hidden",
           className,

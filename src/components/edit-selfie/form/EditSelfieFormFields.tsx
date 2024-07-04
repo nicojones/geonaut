@@ -3,7 +3,7 @@ import { Button, FormControl, FormHelperText, FormLabel, Input, Textarea, Typogr
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useCallback, useState } from "react";
 
-import { Map } from "@/components/generic";
+import { MapViewer } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
 import { createZodErrorObject, deleteSelfie } from "@/functions";
 import { IEditSelfieCoords, ISelfieEdit, ZodErrorMapping } from "@/types";
@@ -102,7 +102,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
           </FormControl>
         </div>
       </div>
-      <Map
+      <MapViewer
         className="relative overflow-hidden h-[40rem] w-full"
         markers={markers}
         style="streets"

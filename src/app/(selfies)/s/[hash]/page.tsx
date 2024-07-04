@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { EditSelfieButton, LoveSelfie } from "@/components";
-import { CopyPath, Map } from "@/components/generic";
+import { CopyPath, MapViewer } from "@/components/generic";
 import { Comments } from "@/components/selfies/comments";
 import { selfieBackgroundStyle, selfieLcImage, selfieMetadata, selfieMyImage, selfiePin, selfieTextColor } from "@/functions";
 import { serverFetch } from "@/functions/server";
@@ -134,7 +134,7 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
         </div>
 
         <div className="grid grid-flow-col lg:grid-flow-row grid-cols-1 lg:grid-cols-2">
-          <Map markers={[markers]} style="satellite" className="min-h-96 max-h-[45rem] w-full block" />
+          <MapViewer markers={[markers]} style="satellite" className="min-h-96 max-h-[45rem] w-full block" />
           <Comments selfie={selfie} />
         </div>
       </div>
