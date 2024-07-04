@@ -31,7 +31,7 @@ export const FileUploader = ({
   return (
     <label
       className={classNames(
-        "border-2 border-dashed group cursor-pointer rounded-lg w-full items-center flex justify-center p-4 transition-colors h-full",
+        "border-2 border-dashed group cursor-pointer rounded-lg w-full items-center flex justify-center p-4 transition-colors h-full aspect-[4/3]",
         (dragging ? "border-purple-300/30 bg-purple-300/20" : "hover:bg-pulze-200"),
         { "pointer-events-none": isUploading },
         className,
