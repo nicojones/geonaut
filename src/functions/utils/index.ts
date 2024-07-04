@@ -7,3 +7,5 @@ export * from "./random-id.function";
 export * from "./loading-mask.function";
 export * from "./num-results.function";
 export * from "./last-element-if-array.function";
+export * from "./random-uuid.function";
+export * from "./to-query.function";

@@ -1,16 +1,15 @@
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/16/solid";
-import { MapboxSearchBox } from "@mapbox/search-js-web";
 import { Button, FormControl, FormHelperText, FormLabel, Input, Textarea, Typography } from "@mui/joy";
-import mapboxgl from "mapbox-gl";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, MutableRefObject, useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 
 import { Map } from "@/components/generic";
-import { DEFAULT_MAP_ZOOM, SET_PIN_MAP_ZOOM } from "@/config";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { createZodErrorObject, delay, deleteSelfie, selfiePin } from "@/functions";
-import { IEditSelfieGps, IMapPin, ISelfieEdit, ZodErrorMapping } from "@/types";
+import { createZodErrorObject, deleteSelfie } from "@/functions";
+import { IEditSelfieCoords, ISelfieEdit, ZodErrorMapping } from "@/types";
 import { EditSelfieValidator } from "@/validators";
+
+import { EditSelfieFormAutocomplete } from "./EditSelfieFormAutocomplete";
 
 interface EditSelfieFormFieldsProps {
   onSubmit: () => any;
@@ -20,9 +19,6 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
   const { api } = useJwtTokenContext();
   const { data, setData, hasImages, markers } = useEditSelfieContext();
   const [errors, setErrors] = useState<ZodErrorMapping<ISelfieEdit>>({});
-  const [zoom, setZoom] = useState<number>(DEFAULT_MAP_ZOOM);
-  const mapboxGeocoderRef = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
-  const searchBoxRef = useRef<MapboxSearchBox>() as MutableRefObject<MapboxSearchBox>;
   const router = useRouter();
 
   const handleSetData = useCallback((newData: ISelfieEdit): void => {
@@ -41,44 +37,12 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
       handleSetData({ ...data.selfie, [key]: event.target.value });
   };
 
-  const handleUpdateCoords = useCallback((gps: Partial<IEditSelfieGps>): void => {
-    handleSetData({ ...data.selfie, ...gps });
+  const handleUpdateCoords = useCallback((place: string, coords?: IEditSelfieCoords): void => {
+    handleSetData({ ...data.selfie, ...{ place, ...(coords ?? {}) } });
   }, [data]);
 
   const handleDeleteSelfie = (): void => {
     deleteSelfie(api, { name: data.selfie.title, hash: data.selfie.hash }, _r => router.push("/new"));
-  };
-
-  const handleGeocoderLoaded = (map: mapboxgl.Map): void => {
-    // instantiate a <mapbox-search-box> element using the MapboxSearchBox class
-    searchBoxRef.current = new MapboxSearchBox();
-
-    searchBoxRef.current.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN as string;
-    searchBoxRef.current.theme = {
-      variables: {
-        boxShadow: "var(--joy-shadowRing, 0 0 #000),0px 1px 2px 0px rgba(var(--joy-shadowChannel, 21 21 21) / var(--joy-shadowOpacity, 0.08))",
-        border: "1px solid var(--variant-outlinedBorder, var(--joy-palette-neutral-outlinedBorder, var(--joy-palette-neutral-300, #CDD7E1)))",
-      },
-    };
-
-    // append <mapbox-search-box> to the document
-    mapboxGeocoderRef.current.appendChild(searchBoxRef.current as any);
-    // mapboxGeocoderRef.current = new MapboxGeocoder();
-    searchBoxRef.current.addEventListener("retrieve", function (ev) {
-      console.log(ev);
-      const [lng, lat] = ev.detail.features[0].geometry.coordinates;
-      const place = ev.detail.features[0].properties.full_address;
-
-      handleUpdateCoords({ place, lat, lng });
-      delay(() => {
-        searchBoxRef.current.value = place;
-      });
-      console.log(searchBoxRef.current);
-    });
-
-    delay(() => {
-      searchBoxRef.current.value = data.selfie.place;
-    });
   };
 
   if (!hasImages) {
@@ -131,27 +95,18 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
               place
               <pre className="ml-auto text-xs">({data.selfie.lat}, {data.selfie.lng})</pre>
             </FormLabel>
-            {/* <Input
-              value={data.selfie.gps.place}
-              onChange={e => handleUpdateCoords({ place: e.target.value })}
-            /> */}
-            <div className="w-full" ref={mapboxGeocoderRef} />
+            <EditSelfieFormAutocomplete
+              onUpdateCoords={handleUpdateCoords}
+            />
             {errors?.place && <FormHelperText>{errors.place}</FormHelperText>}
           </FormControl>
         </div>
       </div>
-      {/* <EditSelfieMap
-        onPlaceSet={(lat, lng, place) => handleUpdateCoords({ place, coordinates: { lat, lng } })}
-        // autocompleteBoxRef={mapboxGeocoderRef}
-        onGeocoderLoaded={handleGeocoderLoaded}
-      /> */}
       <Map
         className="relative overflow-hidden h-[40rem] w-full"
         markers={markers}
         style="streets"
         changeStyleOnDragTo="streets"
-        onExtraConfigLoaded={handleGeocoderLoaded}
-        zoom={zoom}
       />
       <FormControl error={!!errors.description}>
         <FormLabel>

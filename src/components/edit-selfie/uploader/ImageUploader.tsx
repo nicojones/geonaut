@@ -1,10 +1,10 @@
-import { ArrowPathIcon, MapPinIcon } from "@heroicons/react/16/solid";
+import { ArrowPathIcon, MapPinIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import { Button } from "@mui/joy";
 import classNames from "classnames";
-import NextImage from "next/image";
 import { CSSProperties, useMemo, useState } from "react";
 import { toast } from "sonner";
 
+import { AlertDialogModal } from "@/components/generic";
 import { API_URL } from "@/config";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
 import { IEditSelfieGps, IEditSelfieImageDetails, IReadFile, IResponseData } from "@/types";
@@ -28,7 +28,7 @@ interface ImageUploaderProps {
 
 export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusChange, src, type }: ImageUploaderProps): JSX.Element => {
   const { api } = useJwtTokenContext();
-  const { data, hash, setData, hasImages, hasLocation } = useEditSelfieContext();
+  const { data, hash, setData, hasLocation } = useEditSelfieContext();
   const [imageData, setImageData] = useState<string | ArrayBuffer | null>(null);
   const [invalidateCache, setInvalidateCache] = useState<number>(+new Date());
 
@@ -111,13 +111,12 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
         {
           (imageSrc)
             ? (
-              <NextImage
-                src={imageSrc}
-                width={500}
-                height={375}
-                alt={type === "me" ? "My image" : "Landscape image"}
-                className="w-full"
-                style={imageStyle}
+              <div
+                style={{
+                  backgroundImage: `url(${imageSrc as string})`,
+                  ...imageStyle,
+                }}
+                aria-description={type === "me" ? "My image" : "Landscape image"}
               />
             )
             : (
@@ -139,18 +138,46 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
           <ArrowPathIcon className="size-6" />
         </Button>
       }
+      {console.log(data.images[type].gps)}
       {
         src && data.images[type].gps &&
-        <Button
-          onClick={() => handleSetCoordinates(data.images[type].gps as IEditSelfieGps)}
-          size="sm"
-          variant="plain"
-          color="neutral"
-          title="use the coordinates of this image"
-          sx={{ position: "absolute", left: 10, bottom: 10 }}
+        <AlertDialogModal
+          title={<>Set coordinates?</>}
+          content={(
+            <div className="flex flex-col">
+              <span>This will set your image coordinates for this selfie.</span>
+              <kbd>({data.images[type].gps.lat}, {data.images[type].gps.lng})</kbd>
+              <span>The name of the location will also be changed.</span>
+            </div>
+          )}
+          primaryButton={
+            (onClose) =>
+              <Button
+                onClick={() => {
+                  handleSetCoordinates(data.images[type].gps as IEditSelfieGps);
+                  onClose();
+                }}
+                startDecorator={<MapPinIcon className="size-4" />}
+              >
+                set coordinates
+              </Button>
+          }
+          secondaryButton={
+            onClose => <Button startDecorator={<XMarkIcon className="size-4" />} onClick={onClose}>cancel</Button>
+          }
         >
-          <MapPinIcon className="size-6" />
-        </Button>
+          {(setOpen) =>
+            <Button
+              onClick={() => setOpen()}
+              size="sm"
+              variant="plain"
+              color="neutral"
+              title="use the coordinates of this image"
+              sx={{ position: "absolute", left: 10, bottom: 10 }}
+            >
+              <MapPinIcon className="size-6" />
+            </Button>}
+        </AlertDialogModal>
       }
     </>
   );

@@ -32,14 +32,14 @@ export const gFetch = <
     credentials: "include",
   })
     .then(r => {
-      return r.text().then(t => {
-        console.log(t);
-        try {
-          return JSON.parse(t);
-        } catch (e) {
-          return {} as unknown as T;
-        }
-      });
+      // return r.text().then(t => {
+      //   console.log(t);
+      //   try {
+      //     return JSON.parse(t);
+      //   } catch (e) {
+      //     return {} as unknown as T;
+      //   }
+      // });
       return r.json();
     })
     .then((r: IResponse<T>) => {

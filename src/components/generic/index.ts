@@ -1,4 +1,5 @@
 // ~~ FILES
+export * from "./AlertDialog";
 export * from "./DashoardSheet";
 export * from "./SelectableCard";
 export * from "./NotificationsDrawer";

@@ -7,7 +7,7 @@ import classNames from "classnames";
 import mapboxgl from "mapbox-gl";
 import { MutableRefObject, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 
-import { DEFAULT_MAP_ZOOM, MAX_MAP_ZOOM, ZURICH_COORDS } from "@/config";
+import { DEFAULT_MAP_ZOOM, MAX_MAP_ZOOM, SET_PIN_MAP_ZOOM, ZURICH_COORDS } from "@/config";
 import { lastElementIfArray } from "@/functions";
 import { IMapPin } from "@/types";
 
@@ -46,6 +46,10 @@ interface MapProps {
    * @default DEFAULT_MAP_ZOOM
    */
   zoom?: number;
+  /**
+   * @default SET_PIN_MAP_ZOOM
+   */
+  panZoom?: number;
 }
 
 const getMapStyle = (_style: IMapStyle): string =>
@@ -63,6 +67,7 @@ export const Map = ({
   extraConfig,
   onExtraConfigLoaded,
   zoom = DEFAULT_MAP_ZOOM,
+  panZoom = SET_PIN_MAP_ZOOM,
 }: MapProps): JSX.Element => {
   const mapContainer = useRef<HTMLElement>() as MutableRefObject<HTMLElement>;
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -114,7 +119,7 @@ export const Map = ({
       const lastCoord = lastElementIfArray(markerCoords) ?? ZURICH_COORDS;
 
       // mapRef.current.setCenter(lastCoord);
-      mapRef.current.flyTo({ center: lastCoord, zoom }, { animate: true, duration: 1000 });
+      mapRef.current.flyTo({ center: lastCoord, zoom: panZoom });
       if (mapFirstLoadRef.current) {
         mapRef.current.resize();
         mapRef.current.triggerRepaint();
@@ -122,11 +127,11 @@ export const Map = ({
     }, 500);
   }, [markers]);
 
-  // useEffect(() => {
-  //   if (!mapFirstLoadRef.current) {
-  //     mapRef.current?.zoomTo(zoom);
-  //   }
-  // }, [zoom]);
+  useEffect(() => {
+    if (!mapFirstLoadRef.current) {
+      mapRef.current?.zoomTo(zoom);
+    }
+  }, [zoom]);
 
   useEffect(() => {
     if (!mapFirstLoadRef.current) {
@@ -151,6 +156,7 @@ export const Map = ({
       projection: { name: "globe", center: [coords.lng, coords.lat] },
       cooperativeGestures: true,
       doubleClickZoom: true,
+      attributionControl: false,
       renderWorldCopies: false,
     });
 
@@ -193,7 +199,7 @@ export const Map = ({
   return (
     <div
       className={classNames(
-        "flex items-center justify-center relative",
+        "flex items-center justify-center relative w-full",
         className,
       )}
       data-loading="Refreshing..."
@@ -201,10 +207,8 @@ export const Map = ({
       <div
         // @ts-expect-error LegacyRef
         ref={mapContainer}
-        className={classNames(className, "grid place-content-center place-items-center")}
-      >
-        <span>loading map...</span>
-      </div>
+        className={className}
+      />
     </div>
   );
 };

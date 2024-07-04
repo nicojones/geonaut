@@ -1,5 +1,6 @@
-import { IContext, IEditSelfieCoords, IEditSelfieData, IEditSelfieImagesAdded, IMapPin } from "@/types";
 import { Dispatch, SetStateAction } from "react";
+
+import { IContext, IEditSelfieData, IEditSelfieImagesAdded, IMapPin } from "@/types";
 
 export interface IEditSelfieContext extends IContext {
   data: IEditSelfieData;
