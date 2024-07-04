@@ -18,7 +18,7 @@ export default async function UploadSelfiePage ({ params }: IUrlParams<"hash">):
   console.log(data.images, data.selfie);
 
   return (
-    <Sheet className="w-screen min-h-screen grid place-items-center place-content-center my-24">
+    <Sheet className="w-screen min-h-screen flex flex-col py-24 bg-transparent">
       <EditSelfieContextWrapper initialData={data}>
         <EditSelfieForm />
       </EditSelfieContextWrapper>

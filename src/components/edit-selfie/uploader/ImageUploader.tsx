@@ -1,6 +1,5 @@
 import { ArrowPathIcon, MapPinIcon, XMarkIcon } from "@heroicons/react/16/solid";
-import { Button } from "@mui/joy";
-import classNames from "classnames";
+import { Button, IconButton } from "@mui/joy";
 import { CSSProperties, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -105,7 +104,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
     <>
       <FileUploader
         onFileAdded={handleImageChange}
-        className={classNames(className, "min-h-96")}
+        className={className}
       >
         {
           (imageSrc)
@@ -119,23 +118,26 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
               />
             )
             : (
-              <>Drop files to upload</>
+              <div className="text-inset-shadow text-lg">
+                Drop an image of {type === "me" ? "yourself" : "what you see"}
+              </div>
             )
         }
 
       </FileUploader>
       {
         src &&
-        <Button
+        <IconButton
           onClick={() => handleRotateImage()}
           size="sm"
-          variant="plain"
+          variant="soft"
           color="neutral"
           sx={{ position: "absolute", right: 10, bottom: 10 }}
           title="rotate clockwise"
+          className="group"
         >
-          <ArrowPathIcon className="size-6" />
-        </Button>
+          <ArrowPathIcon className="size-6 group-hover:animate-spin" />
+        </IconButton>
       }
       {
         src && data.images[type].gps &&
@@ -164,20 +166,29 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
               </Button>
           }
           secondaryButton={
-            onClose => <Button startDecorator={<XMarkIcon className="size-4" />} onClick={onClose}>cancel</Button>
+            onClose =>
+              <Button
+                startDecorator={<XMarkIcon className="size-5" />}
+                onClick={onClose}
+                color="neutral"
+                sx={{ marginRight: "auto" }}
+              >
+                cancel
+              </Button>
           }
         >
           {(setOpen) =>
-            <Button
+            <IconButton
               onClick={() => setOpen()}
               size="sm"
-              variant="plain"
+              variant="soft"
               color="neutral"
               title="use the coordinates of this image"
+              className="group"
               sx={{ position: "absolute", left: 10, bottom: 10 }}
             >
-              <MapPinIcon className="size-6" />
-            </Button>}
+              <MapPinIcon className="size-6 group-hover:animate-bounce" />
+            </IconButton>}
         </AlertDialogModal>
       }
     </>
