@@ -23,7 +23,7 @@ const getComments = (hash: string): Promise<ISelfieComment[]> => {
     });
 };
 
-export const Comments = async ({ selfie }: CommentsProps): Promise<JSX.Element> => {
+export const CommentList = async ({ selfie }: CommentsProps): Promise<JSX.Element> => {
   const comments = await getComments(selfie.hash);
 
   return (

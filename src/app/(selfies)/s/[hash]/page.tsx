@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { EditSelfieButton, LoveSelfie } from "@/components";
 import { CopyPath, MapViewer } from "@/components/generic";
-import { Comments } from "@/components/selfies/comments/Comments";
+import { CommentList } from "@/components/selfies/comments/CommentList";
 import { selfieBackgroundStyle, selfieLcImage, selfieMetadata, selfieMyImage, selfiePin, selfieTextColor } from "@/functions";
 import { serverFetch } from "@/functions/server";
 import { IFetchSelfieBody, IMapPin, ISelfieData, ISelfiePrevNext, IUrlParams } from "@/types";
@@ -135,7 +135,7 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
 
         <div className="grid grid-flow-col lg:grid-flow-row grid-cols-1 lg:grid-cols-2">
           <MapViewer markers={[markers]} style="satellite" className="min-h-96 max-h-[45rem] w-full block" />
-          <Comments selfie={selfie} />
+          <CommentList selfie={selfie} />
         </div>
       </div>
 
