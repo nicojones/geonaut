@@ -5,7 +5,7 @@ import { Typography } from "@mui/joy";
 import Link from "next/link";
 import { CSSProperties, useMemo, useState } from "react";
 
-import { MapViewer } from "@/components/generic/map/Map";
+import { MapViewer } from "@/components/generic";
 import { selfiePin, selfieTextColor } from "@/functions";
 import { ISelfie } from "@/types";
 
