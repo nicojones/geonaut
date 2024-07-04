@@ -42,6 +42,7 @@ export const gFetch = <
       // return r.json();
     })
     .then((r: IResponse<T>) => {
+      console.log(r);
       if (!r.success) {
         console.log(r);
         throw new Error(r.responseData.message);
