@@ -48,11 +48,11 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
   if (!hasImages) {
     return (
       <Typography
-        level="h2"
+        level="h4"
         sx={{ marginX: "auto", paddingY: 10, color: "#ccc" }}
         className="text-inset-shadow"
       >
-        Add an image to continue
+        Add images first
       </Typography>
     );
   }
