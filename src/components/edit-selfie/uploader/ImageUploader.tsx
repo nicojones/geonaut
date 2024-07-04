@@ -146,7 +146,10 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
           content={(
             <div className="flex flex-col">
               <span>This will set your image coordinates for this selfie.</span>
-              <kbd>({data.images[type].gps.lat}, {data.images[type].gps.lng})</kbd>
+              <kbd>
+                ({data.images[type].gps.lat as unknown as number},&nbsp;
+                {data.images[type].gps.lng as unknown as number})
+              </kbd>
               <span>The name of the location will also be changed.</span>
             </div>
           )}
