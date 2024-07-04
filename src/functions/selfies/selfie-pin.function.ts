@@ -20,6 +20,11 @@ interface ISelfiePinOptions {
    * @default true
    */
   lc?: boolean;
+  /**
+   * @default false
+   * Force refreshin the images
+   */
+  force?: boolean;
 
 }
 
@@ -29,9 +34,9 @@ export const selfiePin = (
 ): IMapPin => {
   options.lc = options.lc ?? true;
   options.me = options.me ?? true;
-  options.withUrl = options.withUrl ?? true;
+  options.withUrl = options.withUrl ?? false;
 
-
+  const ts = options.force ? `?t=${+(new Date())}` : "";
   let element = "<div class='empty-div'>";
   element += `<a href="${options.withUrl ? selfieUrl(selfie, true) : "#"}"`;
 
@@ -39,8 +44,8 @@ export const selfiePin = (
     element += ` class="${classNames("rounded-pin-double", { openable: options.withUrl })}" >`;
     // We have both images
     element += (`
-      <span class="rounded-pin-double-one"><img src="${selfieMyImage(selfie, true)}"/></span>
-      <span class="rounded-pin-double-two"><img src="${selfieLcImage(selfie, true)}"/></span>
+      <span class="rounded-pin-double-one"><img src="${selfieMyImage(selfie, true) + ts}"/></span>
+      <span class="rounded-pin-double-two"><img src="${selfieLcImage(selfie, true) + ts}"/></span>
     `);
     element += "</a>";
   } else {
@@ -48,10 +53,10 @@ export const selfiePin = (
 
     if (options.me) {
       // We only have the ME image
-      element += ` style="background-image: url('${selfieMyImage(selfie, true)}')" ></a>`;
+      element += ` style="background-image: url('${selfieMyImage(selfie, true) + ts}')" ></a>`;
     } else if (options.lc) {
       // We only have the LC image
-      element += ` style="background-image: url('${selfieLcImage(selfie, true)}')" ></a>`;
+      element += ` style="background-image: url('${selfieLcImage(selfie, true) + ts}')" ></a>`;
     } else {
       element += ">(none)</a>";
     }

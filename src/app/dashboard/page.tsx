@@ -69,7 +69,7 @@ export default async function DashboardPage (): Promise<JSX.Element> {
 
       <Typography level="h2">your selfies on a map</Typography>
       <HistoryMap
-        className="h-[40rem] w-full"
+        className="h-[60rem] max-h-screen w-full"
         range={range}
         selfies={dashboardData.mapSelfies}
       />

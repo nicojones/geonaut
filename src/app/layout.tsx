@@ -4,12 +4,13 @@ import "@fontsource/inter";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
+import NextTopLoader from "nextjs-toploader";
 
 import { Header } from "@/components";
+import { Toaster } from "@/components/shadcn";
 import { JwtTokenContextWrapper } from "@/context";
 import { getUserFromJwt } from "@/functions";
 import { IJwtContextAuthedOrAnonymous, IStorageKey, IUserSettings } from "@/types";
-import { Toaster } from "@/components/shadcn";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,6 +42,7 @@ export default async function RootLayout ({
   return (
     <html lang="en">
       <body className={inter.className + " min-h-screen"}>
+        <NextTopLoader showSpinner={false} />
         <JwtTokenContextWrapper contextData={contextData}>
           <Header />
           {children}

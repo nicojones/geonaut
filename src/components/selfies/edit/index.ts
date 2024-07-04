@@ -1,1 +1,1 @@
-export * from "./edit-selfie-button";
+export * from "./EdisSelfieButton";

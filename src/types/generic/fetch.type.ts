@@ -11,4 +11,9 @@ export interface IFetch<Body> {
    * @default {}
    */
   body?: Body;
+  /**
+   * @default "application/x-www-form-urlencoded"
+   * set to `false` to not send it
+   */
+  contentType?: string | false;
 }

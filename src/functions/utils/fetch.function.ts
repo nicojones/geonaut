@@ -10,27 +10,36 @@ export const gFetch = <
     method = "POST",
     body,
     url = "/ajax/selfies",
+    contentType = "application/x-www-form-urlencoded",
   }: IFetch<Body>,
   token: string | null = null,
 ): Promise<T> => {
   return fetch(`${API_URL}${url}`, {
     method: method ?? "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      ...(contentType === false ? {} : { "Content-Type": contentType }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: body ? new URLSearchParams(body).toString() : undefined,
+    body: (
+      body
+        ? (
+          body instanceof FormData
+            ? body
+            : new URLSearchParams(body).toString()
+        )
+        : undefined
+    ),
     credentials: "include",
   })
     .then(r => {
-      // return r.text().then(t => {
-      //   console.log(t);
-      //   try {
-      //     return JSON.parse(t);
-      //   } catch (e) {
-      //     return {} as unknown as T;
-      //   }
-      // });
+      return r.text().then(t => {
+        console.log(t);
+        try {
+          return JSON.parse(t);
+        } catch (e) {
+          return {} as unknown as T;
+        }
+      });
       return r.json();
     })
     .then((r: IResponse<T>) => {

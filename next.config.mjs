@@ -7,6 +7,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "travel.kupfer.es",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+      },
     ],
   },
   async rewrites () {

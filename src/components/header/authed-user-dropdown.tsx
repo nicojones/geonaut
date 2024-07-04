@@ -56,7 +56,10 @@ export const AuthedUserDropdown = (): JSX.Element => {
               },
             }}
           >
-            <DialogTitle className="fric justify-between">
+            <DialogTitle
+              className="fric justify-between"
+              sx={{ paddingLeft: 2 }}
+            >
               <div className="flex flex-col">
                 <Typography level="h3">{user.name}</Typography>
                 <Link href={`/u/${user.username}`}>
@@ -65,9 +68,9 @@ export const AuthedUserDropdown = (): JSX.Element => {
               </div>
               {avatar}
             </DialogTitle>
-            <DialogContent>
+            <DialogContent sx={{ paddingLeft: 2 }}>
               <Divider />
-              <List className="">
+              <List>
                 <Link href="/dashboard">
                   <ListItem>
                     <ListItemButton className="fric">

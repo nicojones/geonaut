@@ -2,8 +2,8 @@
 import { StickyHeader } from "@/components/header";
 import { ComponentChildren, IFetchSelfieBody, ISelfie } from "@/types";
 
-import { SelfiesAsyncLoader } from "./selfie-async-loader.component";
-import { SelfieCard } from "./selfie-card.component";
+import { SelfiesAsyncLoader } from "./SelfieAsyncLoader";
+import { SelfieCard } from "./SelfieCard";
 
 interface SelfiePageProps {
   initialSelfies: ISelfie[];

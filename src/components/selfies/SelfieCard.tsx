@@ -1,11 +1,11 @@
 import Image from "next/image";
 
-import { selfieLcImage, selfieMyImage } from "@/functions";
+import { selfieBackgroundStyle, selfieBoxShadowStyle, selfieLcImage, selfieMyImage } from "@/functions";
 import { ISelfie } from "@/types";
 
 import { EditSelfieButton } from "./edit";
 import { LoveSelfie } from "./love/love";
-import { SelfieHeader } from "./selfie-header";
+import { SelfieHeader } from "./SelfieHeader";
 
 interface SelfieCardProps {
   selfie: ISelfie;
@@ -21,8 +21,8 @@ export const SelfieCard = ({ priority = false, selfie }: SelfieCardProps): JSX.E
     <div
       className="flex flex-col max-w-full"
       style={{
-        background: `linear-gradient(0.25turn,rgb(${selfie.me_color}),rgb(${selfie.lc_color}))`,
-        boxShadow: `0 1px 60px 20px rgb(${selfie.me_color})`,
+        background: selfieBackgroundStyle(selfie.me_color, selfie.lc_color),
+        boxShadow: selfieBoxShadowStyle(selfie.me_color),
       }}
     >
       <SelfieHeader selfie={selfie} />

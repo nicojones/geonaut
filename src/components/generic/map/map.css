@@ -9,6 +9,8 @@
   position: absolute;
   width: 40px;
   transition: all 0.3s ease-in-out;
+
+  background-color: pink;
 }
 
 a.rounded-pin, a.rounded-pin-double {
@@ -24,6 +26,7 @@ a.rounded-pin, a.rounded-pin-double {
 }
 
 .rounded-pin-double {
+  background-color: pink;
   border-radius: 100% 100% 100% 0;
   display: inline-block;
   left: 50%;

@@ -1,1 +1,1 @@
-export * from "./history-map";
+export * from "./HistoryMap";

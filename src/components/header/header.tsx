@@ -31,7 +31,7 @@ export const Header = (): JSX.Element => {
     <>
       <Drawer
         anchor="left"
-        size="md"
+        size="sm"
         open={menuOpen}
         onClose={handleHamburgerToggle}
         slotProps={{
@@ -60,7 +60,7 @@ export const Header = (): JSX.Element => {
         </DialogTitle>
         <ModalClose size="lg" sx={{ marginRight: "auto" }} />
         <DialogContent>
-          <List className="pl-2">
+          <List sx={{ paddingLeft: 2 }}>
             <ListItem>
               <div className="fric space-x-4">
                 <ListItemDecorator><MagnifyingGlassIcon className="size-6" /></ListItemDecorator>

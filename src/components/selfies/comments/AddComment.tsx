@@ -8,8 +8,8 @@ import { useJwtTokenContext } from "@/context";
 import { selfieTextColor } from "@/functions";
 import { ISelfie, ISelfieComment, IUserSettings, PDefault } from "@/types";
 
-import { CommentItem } from "./comment-item";
-import { CommentPlaceholder } from "./comment-placeholder";
+import { CommentItem } from "./CommentItem";
+import { CommentPlaceholder } from "./CommentPlaceholder";
 
 interface AddCommentProps {
   selfie: ISelfie;

@@ -3,9 +3,9 @@ import { selfieTextColor } from "@/functions";
 import { serverFetch } from "@/functions/server";
 import { ISelfie, ISelfieComment } from "@/types";
 
-import { AddComment } from "./add-comment";
-import { CommentItem } from "./comment-item";
-import { CommentPlaceholder } from "./comment-placeholder";
+import { AddComment } from "./AddComment";
+import { CommentItem } from "./CommentItem";
+import { CommentPlaceholder } from "./CommentPlaceholder";
 
 interface CommentsProps {
   selfie: ISelfie;

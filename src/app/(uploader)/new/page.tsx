@@ -2,10 +2,10 @@
 import { redirect } from "next/navigation";
 
 import { serverFetch } from "@/functions/server";
-import { INewSelfieResponse, IResponseData } from "@/types";
+import { IResponseData, IResponseRedirect } from "@/types";
 
-const getSelfieDraft = (): Promise<IResponseData<INewSelfieResponse>> => {
-  return serverFetch<IResponseData<INewSelfieResponse>, any>({
+const getSelfieDraft = (): Promise<IResponseData<IResponseRedirect>> => {
+  return serverFetch<IResponseData<IResponseRedirect>, any>({
     url: "/ajax/admin/data",
     body: { s: "new", ajax: 1 },
   });

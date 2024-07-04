@@ -1,10 +1,9 @@
-export * from "./selfie-card.component";
-export * from "./selfie-page.component";
-export * from "./selfie-async-loader.component";
-export * from "./selfie-header";
+export * from "./SelfieCard";
+export * from "./SelfiePage";
+export * from "./SelfieAsyncLoader";
+export * from "./SelfieHeader";
 export * from "./thats-all-folks";
-export * from "./selfie-card-skeleton.component";
-
+export * from "./SelfieCardSkeleton";
 
 export * from "./edit";
 export * from "./love";

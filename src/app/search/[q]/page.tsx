@@ -3,7 +3,7 @@ import { Typography } from "@mui/joy";
 import { StickyHeader } from "@/components/header";
 import { ISearchResultType, IUrlParams } from "@/types";
 
-import { SearchResults } from "./search-results";
+import { SearchResults } from "./SearchResults";
 
 export default async function SearchResultsPage ({ params, searchParams }: IUrlParams<"q", "type">): Promise<JSX.Element> {
   const searchQuery = decodeURIComponent(params.q);

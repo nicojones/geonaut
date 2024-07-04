@@ -7,8 +7,11 @@ import classNames from "classnames";
 import mapboxgl from "mapbox-gl";
 import { MutableRefObject, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 
-import { randomId } from "@/functions";
+import { DEFAULT_MAP_ZOOM, MAX_MAP_ZOOM, ZURICH_COORDS } from "@/config";
+import { lastElementIfArray } from "@/functions";
 import { IMapPin } from "@/types";
+
+import { createMapLayer } from "./create-map-layer.function";
 
 type IMapStyle = "satellite" | "streets";
 
@@ -33,10 +36,17 @@ interface MapProps {
    * @default ["#ccc","#ccc"]
    */
   lineColors?: [string, string];
-}
+  /**
+   * @optional
+   */
+  extraConfig?: (map: mapboxgl.Map, markers: mapboxgl.Marker[], layer: mapboxgl.AnyLayer | null) => void;
+  onExtraConfigLoaded?: (map: mapboxgl.Map, markers: mapboxgl.Marker[], layer: mapboxgl.AnyLayer | null) => void;
 
-const DEFAULT_MAP_ZOOM = 4 as const;
-const MAX_MAP_ZOOM = 14 as const;
+  /**
+   * @default DEFAULT_MAP_ZOOM
+   */
+  zoom?: number;
+}
 
 const getMapStyle = (_style: IMapStyle): string =>
   _style === "satellite"
@@ -50,12 +60,16 @@ export const Map = ({
   markers,
   style,
   lineColors = ["#ccc", "#ccc"],
+  extraConfig,
+  onExtraConfigLoaded,
+  zoom = DEFAULT_MAP_ZOOM,
 }: MapProps): JSX.Element => {
   const mapContainer = useRef<HTMLElement>() as MutableRefObject<HTMLElement>;
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const mapLayerRef = useRef<mapboxgl.AnyLayer | null>(null);
   const mapIsLoadedRef = useRef<boolean>(false);
+  const mapFirstLoadRef = useRef<boolean>(true);
   const resetStyle = useRef<any>();
 
   const handleSetMarkers = useCallback((): void => {
@@ -69,10 +83,6 @@ export const Map = ({
     }
     if (mapLayerRef.current && mapRef.current.getLayer(mapLayerRef.current.id)) {
       mapRef.current.removeLayer(mapLayerRef.current.id);
-    }
-
-    if (markers.length === 0) {
-      return;
     }
 
     const markerCoords: Array<[number, number]> = [];
@@ -89,40 +99,11 @@ export const Map = ({
 
     if (markers.length > 1 && connected) {
       // Draw lines between the selfies
-      mapLayerRef.current = {
-        id: randomId(),
-        type: "line",
-        source: {
-          type: "geojson",
-          data: {
-            type: "Feature",
-            properties: {},
-            geometry: {
-              type: "LineString",
-              coordinates: markerCoords,
-            },
-          },
-          lineMetrics: true,
-        },
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-        },
-        paint: {
-          "line-color": "#ccc",
-          "line-width": 2,
-          "line-gradient": [
-            "interpolate",
-            ["linear"],
-            ["line-progress"],
-            0,
-            lineColors[0],
-            1,
-            lineColors[1],
-          ],
-        },
-      };
+      mapLayerRef.current = createMapLayer(markerCoords, lineColors);
       mapRef.current.addLayer(mapLayerRef.current);
+    }
+    if (mapFirstLoadRef.current) {
+      extraConfig?.(mapRef.current, markersRef.current, mapLayerRef.current);
     }
 
     setTimeout(() => {
@@ -130,31 +111,44 @@ export const Map = ({
         throw new Error("Map seems to not have been loaded!");
       }
 
-      mapRef.current.setCenter(markerCoords[markerCoords.length - 1]);
-      mapRef.current.panTo(markerCoords[markerCoords.length - 1]);
-      mapRef.current.resize();
-      mapRef.current.triggerRepaint();
-    }, 1000);
+      const lastCoord = lastElementIfArray(markerCoords) ?? ZURICH_COORDS;
+
+      // mapRef.current.setCenter(lastCoord);
+      mapRef.current.flyTo({ center: lastCoord, zoom }, { animate: true, duration: 1000 });
+      if (mapFirstLoadRef.current) {
+        mapRef.current.resize();
+        mapRef.current.triggerRepaint();
+      }
+    }, 500);
   }, [markers]);
 
+  // useEffect(() => {
+  //   if (!mapFirstLoadRef.current) {
+  //     mapRef.current?.zoomTo(zoom);
+  //   }
+  // }, [zoom]);
+
   useEffect(() => {
-    handleSetMarkers();
+    if (!mapFirstLoadRef.current) {
+      handleSetMarkers();
+    }
   }, [markers]);
 
   useLayoutEffect(() => {
-    if (mapRef.current ?? !markers.length) {
+    if (mapRef.current) {
       // initialize map only once
       return;
     }
-    const coords: mapboxgl.MapboxOptions["center"] = markers[0];
+    const coords: mapboxgl.MapboxOptions["center"] = markers[0] ?? ZURICH_COORDS;
     mapRef.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: getMapStyle(style),
       center: coords,
-      zoom: DEFAULT_MAP_ZOOM,
+      zoom,
       maxZoom: MAX_MAP_ZOOM,
       accessToken: process.env.NEXT_PUBLIC_MAP_TOKEN,
       boxZoom: true,
+      projection: { name: "globe", center: [coords.lng, coords.lat] },
       cooperativeGestures: true,
       doubleClickZoom: true,
       renderWorldCopies: false,
@@ -172,6 +166,12 @@ export const Map = ({
       currentMap.addControl(nav, "top-left");
 
       handleSetMarkers();
+
+      if (mapFirstLoadRef.current) {
+        onExtraConfigLoaded?.(mapRef.current as mapboxgl.Map, markersRef.current, mapLayerRef.current);
+      }
+
+      mapFirstLoadRef.current = false;
     });
 
     if (changeStyleOnDragTo !== style) {
@@ -201,7 +201,7 @@ export const Map = ({
       <div
         // @ts-expect-error LegacyRef
         ref={mapContainer}
-        className={className}
+        className={classNames(className, "grid place-content-center place-items-center")}
       >
         <span>loading map...</span>
       </div>

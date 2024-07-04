@@ -7,7 +7,7 @@ import Link from "next/link";
 import { EditSelfieButton, LoveSelfie } from "@/components";
 import { CopyPath, Map } from "@/components/generic";
 import { Comments } from "@/components/selfies/comments";
-import { selfieLcImage, selfieMetadata, selfieMyImage, selfiePin, selfieTextColor } from "@/functions";
+import { selfieBackgroundStyle, selfieLcImage, selfieMetadata, selfieMyImage, selfiePin, selfieTextColor } from "@/functions";
 import { serverFetch } from "@/functions/server";
 import { IFetchSelfieBody, IMapPin, ISelfieData, ISelfiePrevNext, IUrlParams } from "@/types";
 
@@ -34,7 +34,7 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
   return (
     <div
       className="flex flex-col max-w-full py-[var(--header-height)] relative min-h-screen"
-      style={{ background: `linear-gradient(0.25turn,rgb(${selfie.me_color}),rgb(${selfie.lc_color}))` }}
+      style={{ background: selfieBackgroundStyle(selfie.me_color, selfie.lc_color) }}
     >
       <div className="flex flex-col mx-auto w-[calc(100vw-100px)] md:w-[calc(100vw-200px)] lg:w-[calc(100vw-300px)]">
         <div

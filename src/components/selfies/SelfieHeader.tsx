@@ -50,7 +50,7 @@ export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
       </div>
       {
         mapOpen &&
-        <Map markers={[marker]} style="satellite" className="w-full h-72" />
+        <Map markers={[marker]} style="satellite" className="w-full h-96" />
       }
     </>
   );

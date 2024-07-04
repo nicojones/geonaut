@@ -21,7 +21,5 @@ export const signUpSubmit = async (data: FormData): Promise<any> => {
       return r;
     });
 
-  console.log("RESULT?", result);
-
   redirect(result.redirect);
 };

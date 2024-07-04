@@ -1,10 +1,10 @@
 // ~~ FILES
-export * from "./dashboard-sheet";
-export * from "./selectable-card";
-export * from "./notifications-drawer";
-export * from "./copy-to-clipboard";
-export * from "./copy-path";
-export * from "./loading-page";
+export * from "./DashoardSheet";
+export * from "./SelectableCard";
+export * from "./NotificationsDrawer";
+export * from "./CopyToClipboard";
+export * from "./CopyPath";
+export * from "./LoadingPage";
 
 // ~~ FOLDERS
 export * from "./history-map";

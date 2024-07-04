@@ -7,7 +7,7 @@ import { useJwtTokenContext } from "@/context";
 import { gFetch } from "@/functions";
 import { ComponentChildren, IFetchSelfieBodyGeneric, ISelfie, ISelfiesAsyncLoad, ISelfiesData } from "@/types";
 
-import { SelfieCard } from "./selfie-card.component";
+import { SelfieCard } from "./SelfieCard";
 import { ThatsAllFolks } from "./thats-all-folks";
 
 interface SelfiesAsyncLoaderProps {

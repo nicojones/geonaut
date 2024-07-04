@@ -1,6 +1,6 @@
 "use client";
 
-import { CopyToClipboard, ICopyToClipboardProps } from "./copy-to-clipboard";
+import { CopyToClipboard, ICopyToClipboardProps } from "./CopyToClipboard";
 
 type ICopyPathProps = Pick<ICopyToClipboardProps, "className" | "onCopy" | "withIcon" | "icon">;
 

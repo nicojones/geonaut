@@ -15,14 +15,14 @@ export const selfieMetadata = (selfie: ISelfie): Metadata => ({
     description: selfie.short_desc,
     siteName: "Geonaut",
     images: [{
-      url: selfieCpImage(selfie.hash),
+      url: selfieCpImage(selfie),
     }],
   },
   twitter: {
     title: selfie.title,
     description: selfie.short_desc,
     images: [{
-      url: selfieCpImage(selfie.hash),
+      url: selfieCpImage(selfie),
     }],
   },
 });

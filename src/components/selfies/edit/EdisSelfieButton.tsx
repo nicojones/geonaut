@@ -5,9 +5,9 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { toast } from "sonner";
 
 import { useJwtTokenContext } from "@/context";
+import { deleteSelfie } from "@/functions";
 import { ISelfie } from "@/types";
 
 interface EditSelfieProps {
@@ -29,19 +29,7 @@ export const EditSelfieButton = ({ allowDelete, selfie }: EditSelfieProps): JSX.
 
   const handleDeleteSelfie = useCallback(
     (): void => {
-      if (prompt("Type delete to continue")?.toLowerCase() === "delete") {
-        const promise = api({ method: "DELETE", url: `/ajax/selfie/delete/${selfie.hash}` });
-        toast.promise(promise, {
-          success: () => {
-            router.push("/");
-            return `${selfie.name} Deleted!`;
-          },
-          error: (e) => {
-            console.error(e);
-            return String(e);
-          },
-        });
-      }
+      deleteSelfie(api, selfie, _r => router.push("/"));
     },
     [api, selfie],
   );

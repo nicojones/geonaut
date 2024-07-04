@@ -1,1 +1,1 @@
-export * from "./search-everywhere";
+export * from "./SearchEverywhere";
