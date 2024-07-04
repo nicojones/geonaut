@@ -26,7 +26,7 @@ export const AuthedUserDropdown = (): JSX.Element => {
         ? (
           <Avatar
             size="lg"
-            src={(process.env.NODE_PUBLIC_RESOURCE_URL as string) + user.avatar}
+            src={(process.env.NEXT_PUBLIC_RESOURCE_URL as string) + user.avatar}
             onClick={handleTogglePanel}
             className="ml-auto cursor-pointer"
           />

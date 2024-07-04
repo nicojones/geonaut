@@ -13,7 +13,7 @@ export const UserPageHeader = ({ user }: UserPageHeaderProps): JSX.Element => {
         <Typography level="h1">@{user.username}</Typography>
       </div>
       <div className="fric space-x-8">
-        <Avatar src={process.env.NODE_PUBLIC_RESOURCE_URL as string + user.avatar} alt="Avatar" sx={{ width: 128, height: 128 }} />
+        <Avatar src={process.env.NEXT_PUBLIC_RESOURCE_URL as string + user.avatar} alt="Avatar" sx={{ width: 128, height: 128 }} />
         <div className="flex flex-col space-y-4">
           <div className="fric justify-between">
             <span>{user.pictures} pictures</span>
