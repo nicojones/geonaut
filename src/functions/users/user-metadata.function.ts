@@ -15,7 +15,8 @@ export const userMetadata = (user: IUserData): Metadata => ({
     description: user.profile,
     siteName: "Geonaut",
     images: [{
-      url: selfieMyImage(user.avatar),
+      // TODO -- will not work for users with a default picture
+      url: selfieMyImage({ hash: user.avatar }),
     }],
   },
   twitter: {

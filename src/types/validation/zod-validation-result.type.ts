@@ -1,4 +1,4 @@
-import { ZodErrorMapping } from "types";
+import { ZodErrorMapping } from "@/types";
 
 export interface ZodValidationResult<
   T extends Record<string, any> = Record<string, any>,
