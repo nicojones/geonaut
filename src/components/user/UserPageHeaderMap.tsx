@@ -1,10 +1,12 @@
 import { MapPinIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import { Button } from "@mui/joy";
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { HistoryMap } from "@/components/generic";
 import { useJwtTokenContext } from "@/context";
+import { loadingMask } from "@/functions";
 import { IHistoricalMapPinData } from "@/types";
 
 interface UserPageHeaderMapProps {
@@ -17,7 +19,7 @@ export const UserPageHeaderMap = ({ username }: UserPageHeaderMapProps): JSX.Ele
   const [mapData, setMapData] = useState<IHistoricalMapPinData | undefined>(undefined);
 
   useEffect(() => {
-    if (mapData) {
+    if (!showMap || !!mapData) {
       return;
     }
     api<IHistoricalMapPinData, any>({
@@ -49,10 +51,17 @@ export const UserPageHeaderMap = ({ username }: UserPageHeaderMapProps): JSX.Ele
                       className="relative h-[60rem] max-h-[80vh] w-full"
                       range={mapData.mapSelfiesRange}
                       selfies={mapData.mapSelfies}
+                      pinUrl="view"
                     />
                   )
                   : (
-                    <>Loading...</>
+                    <span
+                      className={classNames(
+                        "relative h-[60rem] max-h-[80vh] w-full fric justify-center",
+                        loadingMask({ loading: true, spinner: true }),
+                      )}
+                      data-loading="loading map..."
+                    />
                   )
               }
             </>

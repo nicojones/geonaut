@@ -7,9 +7,9 @@ import { selfieUrl } from "./selfie-url.function";
 
 interface ISelfiePinOptions {
   /**
-   * @default false
+   * @default undefined
    */
-  withUrl?: boolean;
+  url?: "edit" | "view";
   /**
    * Show the `me` image
    * @default true
@@ -34,14 +34,14 @@ export const selfiePin = (
 ): IMapPin => {
   options.lc = options.lc ?? true;
   options.me = options.me ?? true;
-  options.withUrl = options.withUrl ?? false;
+  options.url = options.url ?? undefined;
 
   const ts = options.force ? `?t=${+(new Date())}` : "";
   let element = "<div class='empty-div'>";
-  element += `<a href="${options.withUrl ? selfieUrl(selfie, true) : "#"}"`;
+  element += `<a href="${selfieUrl(selfie.active_hash, options.url)}"`;
 
   if (options.me && options.lc) {
-    element += ` class="${classNames("rounded-pin-double", { openable: options.withUrl })}" >`;
+    element += ` class="${classNames("rounded-pin-double", { openable: !!options.url })}" >`;
     // We have both images
     element += (`
       <span class="rounded-pin-double-one"><img src="${selfieMyImage(selfie, true) + ts}"/></span>
@@ -49,7 +49,7 @@ export const selfiePin = (
     `);
     element += "</a>";
   } else {
-    element += ` class="${classNames("rounded-pin", { openable: options.withUrl })}"`;
+    element += ` class="${classNames("rounded-pin", { openable: !!options.url })}"`;
 
     if (options.me) {
       // We only have the ME image

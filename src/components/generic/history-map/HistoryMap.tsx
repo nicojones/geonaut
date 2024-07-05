@@ -18,6 +18,11 @@ interface HistoryMapProps {
    * @optional
    */
   className?: string;
+  /**
+   * @optional
+   * Setting this will cause the pin to be links.
+   */
+  pinUrl?: "edit" | "view";
 }
 
 const MS_PER_WEEK = 86_400_000 * 7;
@@ -25,11 +30,11 @@ const MS_PER_YEAR = 52 * MS_PER_WEEK;
 const GRADIENT_COLOR_FROM = "#8e44ad" as const;
 const GRADIENT_COLOR_TO = "#27ae60" as const;
 
-export const HistoryMap = ({ className = "", range, selfies }: HistoryMapProps): JSX.Element => {
+export const HistoryMap = ({ className = "", range, selfies, pinUrl }: HistoryMapProps): JSX.Element => {
   const [dateRange, setDateRange] = useState<IMapDateRange>([Math.max(range[0], range[1] - MS_PER_YEAR), range[1]]);
   const [uiDateRange, setUiDateRange] = useState<IMapDateRange>(dateRange);
   const [loading, setLoading] = useState<boolean>(false);
-  const markers = useMemo(() => getMarkersFromSelfies(selfies, dateRange), [dateRange]);
+  const markers = useMemo(() => getMarkersFromSelfies(selfies, dateRange, pinUrl), [dateRange, pinUrl]);
   const rangeMarks = useMemo(() => getRangeMarks(range), []);
 
   const handleDateRangeChange = (_event: Event, newRange: number | number[]): void => {

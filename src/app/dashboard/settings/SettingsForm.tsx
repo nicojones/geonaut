@@ -35,7 +35,6 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
       url: "/ajax/settings/save",
     })
       .then(r => {
-        console.log(r);
         toast(r.message);
         setJwt(r.token);
       })

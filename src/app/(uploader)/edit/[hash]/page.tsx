@@ -15,8 +15,6 @@ const getSelfieDraft = (hash: string): Promise<any> => {
 export default async function UploadSelfiePage ({ params }: IUrlParams<"hash">): Promise<JSX.Element> {
   const data = await getSelfieDraft(params.hash);
 
-  // console.log(data);
-
   return (
     <Sheet className="w-screen min-h-screen flex flex-col py-24 bg-transparent">
       <EditSelfieContextWrapper initialData={data}>

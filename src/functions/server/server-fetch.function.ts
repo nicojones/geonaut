@@ -9,6 +9,5 @@ export const serverFetch = <
 >(
   options: IFetch<Body>,
 ): Promise<T> => {
-  // console.log("WILL USE COOKIE", cookies().get("token" satisfies IStorageKey)?.value);
   return gFetch<T, Body>(options, cookies().get("token" satisfies IStorageKey)?.value ?? null);
 };

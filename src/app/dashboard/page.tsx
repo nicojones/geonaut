@@ -9,6 +9,8 @@ import { selfieLcImage, selfieMyImage } from "@/functions";
 import { serverFetch } from "@/functions/server";
 import { IDashboardData } from "@/types";
 
+import A from "./loading"
+
 export const metadata: Metadata = {
   title: "dashboard - geonaut",
 };
@@ -24,6 +26,8 @@ export default async function DashboardPage (): Promise<JSX.Element> {
   const dashboardData = await getDashboardData();
 
   const [lastSelfie, ...latestSelfies] = (dashboardData.last ?? []);
+
+  // return <A />;
 
   return (
     <DashboardSheet>
@@ -71,6 +75,7 @@ export default async function DashboardPage (): Promise<JSX.Element> {
         className="h-[60rem] max-h-[80vh] w-full"
         range={dashboardData.mapSelfiesRange}
         selfies={dashboardData.mapSelfies}
+        pinUrl="edit"
       />
 
       <hr />

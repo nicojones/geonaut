@@ -7,6 +7,20 @@ interface DashboardSheetProps {
 }
 
 export const DashboardSheet = ({ children }: DashboardSheetProps): JSX.Element =>
-  <Sheet className="w-screen min-h-screen grid place-items-center place-content-center py-[var(--header-height)] gap-16">
+  <Sheet
+    sx={{
+      marginX: "auto",
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      paddingY: "var(--header-height)",
+      width: {
+        lg: 1000,
+        md: "88vw",
+        xs: "92vw",
+      },
+    }}
+    className="space-y-16 my-8"
+  >
     {children}
   </Sheet>;
