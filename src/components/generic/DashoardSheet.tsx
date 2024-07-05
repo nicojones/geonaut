@@ -13,6 +13,7 @@ export const DashboardSheet = ({ children }: DashboardSheetProps): JSX.Element =
       minHeight: "100vh",
       display: "flex",
       flexDirection: "column",
+      background: "transparent",
       paddingY: "var(--header-height)",
       position: "relative",
       width: {
