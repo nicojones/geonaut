@@ -9,8 +9,6 @@ import { selfieLcImage, selfieMyImage } from "@/functions";
 import { serverFetch } from "@/functions/server";
 import { IDashboardData } from "@/types";
 
-import A from "./loading"
-
 export const metadata: Metadata = {
   title: "dashboard - geonaut",
 };
