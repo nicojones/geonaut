@@ -1,11 +1,7 @@
-import { ISelfie } from "@/types/selfies";
+import { IHistoricalMapPinData, ISelfie } from "@/types";
 
-export type IDashboardMapSelfie = Pick<ISelfie, "active_hash" | "hash" | "lat" | "lng" | "selfie_date" | "title">;
-
-export interface IDashboardData {
+export interface IDashboardData extends IHistoricalMapPinData {
   following: ISelfie[];
   last: ISelfie[];
-  mapSelfiesSpan: [string, string];
-  mapSelfies: IDashboardMapSelfie[];
   unpublished: ISelfie | null;
 }

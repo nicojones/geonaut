@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -11,6 +13,8 @@
 
   --background-body: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
+
+    --joy-fontFamily-display: "Quicksand", -apple-system, "Roboto", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,6 +28,7 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: var(--background-body);
+  font-family: var(--joy-fontFamily-display) !important;
 }
 
 .text-difference {

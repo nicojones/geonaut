@@ -7,7 +7,7 @@ import { SelfieCard } from "@/components";
 import { DashboardSheet, HistoryMap } from "@/components/generic";
 import { selfieLcImage, selfieMyImage } from "@/functions";
 import { serverFetch } from "@/functions/server";
-import { IDashboardData, IMapDateRange } from "@/types";
+import { IDashboardData } from "@/types";
 
 export const metadata: Metadata = {
   title: "dashboard - geonaut",
@@ -24,7 +24,6 @@ export default async function DashboardPage (): Promise<JSX.Element> {
   const dashboardData = await getDashboardData();
 
   const [lastSelfie, ...latestSelfies] = (dashboardData.last ?? []);
-  const range: IMapDateRange = [+new Date(dashboardData.mapSelfiesSpan[0]), +new Date(dashboardData.mapSelfiesSpan[1])];
 
   return (
     <DashboardSheet>
@@ -70,7 +69,7 @@ export default async function DashboardPage (): Promise<JSX.Element> {
       <Typography level="h2">your selfies on a map</Typography>
       <HistoryMap
         className="h-[60rem] max-h-[80vh] w-full"
-        range={range}
+        range={dashboardData.mapSelfiesRange}
         selfies={dashboardData.mapSelfies}
       />
 
@@ -78,7 +77,7 @@ export default async function DashboardPage (): Promise<JSX.Element> {
 
       <Typography level="h2">by people you follow</Typography>
 
-      <div className="w-8/12">
+      <div className="w-full mx-auto">
         <div className="selfie-list">
           {
             dashboardData.following.map(s => <SelfieCard key={s.active_hash} selfie={s} />)

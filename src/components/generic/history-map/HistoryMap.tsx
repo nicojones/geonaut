@@ -6,27 +6,27 @@ import { useMemo, useState } from "react";
 
 import { MapViewer } from "@/components/generic";
 import { loadingMask } from "@/functions";
-import { IDashboardMapSelfie, IMapDateRange } from "@/types";
+import { IHistoricalMapPin, IMapDateRange } from "@/types";
 
 import { getMarkersFromSelfies } from "./get-markers-from-selfies.function";
 import { getRangeMarks } from "./get-range-marks.function";
 
 interface HistoryMapProps {
   readonly range: IMapDateRange;
-  readonly selfies: IDashboardMapSelfie[];
+  readonly selfies: IHistoricalMapPin[];
   /**
    * @optional
    */
   className?: string;
 }
 
-const MILLISECONDS_PER_WEEK = 86_400_000 * 7;
-const MILLISECONDS_PER_YEAR = 52 * MILLISECONDS_PER_WEEK;
+const MS_PER_WEEK = 86_400_000 * 7;
+const MS_PER_YEAR = 52 * MS_PER_WEEK;
 const GRADIENT_COLOR_FROM = "#8e44ad" as const;
 const GRADIENT_COLOR_TO = "#27ae60" as const;
 
 export const HistoryMap = ({ className = "", range, selfies }: HistoryMapProps): JSX.Element => {
-  const [dateRange, setDateRange] = useState<IMapDateRange>([range[1] - MILLISECONDS_PER_YEAR, range[1]]);
+  const [dateRange, setDateRange] = useState<IMapDateRange>([Math.max(range[0], range[1] - MS_PER_YEAR), range[1]]);
   const [uiDateRange, setUiDateRange] = useState<IMapDateRange>(dateRange);
   const [loading, setLoading] = useState<boolean>(false);
   const markers = useMemo(() => getMarkersFromSelfies(selfies, dateRange), [dateRange]);
@@ -43,12 +43,12 @@ export const HistoryMap = ({ className = "", range, selfies }: HistoryMapProps):
   };
 
   return (
-    <div className="w-screen">
-      <FormControl sx={{ height: 100 }}>
+    <div className="w-full">
+      <FormControl sx={{ height: 100, width: "100%" }}>
         <Slider
           min={range[0]}
           max={range[1]}
-          step={MILLISECONDS_PER_WEEK}
+          step={MS_PER_WEEK}
           value={uiDateRange}
           onChange={handleDateRangeChange}
           onChangeCommitted={handleDateRangeCommited}

@@ -7,7 +7,11 @@ export interface IUserData {
   following: number;
   gender: 0 | 1 | 2;
   hobbies: string;
-  ifollow: number;
+  /**
+   * 0 --> No follow button (UI)
+   * 1/0 --> i follow them
+   */
+  ifollow: IBool | -1;
   isself: IBool;
   name: string;
   pictures: number;

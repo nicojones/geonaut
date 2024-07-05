@@ -1,7 +1,7 @@
 import { selfiePin } from "@/functions";
-import { IDashboardMapSelfie, IMapDateRange, IMapPin } from "@/types";
+import { IHistoricalMapPin, IMapDateRange, IMapPin } from "@/types";
 
-export const getMarkersFromSelfies = (selfies: IDashboardMapSelfie[], range: IMapDateRange): IMapPin[] => {
+export const getMarkersFromSelfies = (selfies: IHistoricalMapPin[], range: IMapDateRange): IMapPin[] => {
   const markers: IMapPin[] = [];
   for (let i = 0, len = selfies.length; i < len; ++i) {
     const date = +new Date(selfies[i].selfie_date);
