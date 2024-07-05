@@ -1,9 +1,7 @@
-import { Sheet, Typography } from "@mui/joy";
+import { LoadingUploader } from "@/components/edit-selfie/uploader/LoadingUploader";
 
-export default async function Loading (): Promise<JSX.Element> {
+export default function Loading (): JSX.Element {
   return (
-    <Sheet className="w-screen h-screen grid place-items-center place-content-center">
-      <Typography level="h3">creating...</Typography>
-    </Sheet>
+    <LoadingUploader />
   );
 }

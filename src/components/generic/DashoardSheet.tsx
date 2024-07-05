@@ -14,13 +14,17 @@ export const DashboardSheet = ({ children }: DashboardSheetProps): JSX.Element =
       display: "flex",
       flexDirection: "column",
       paddingY: "var(--header-height)",
+      position: "relative",
       width: {
         lg: 1000,
         md: "88vw",
         xs: "92vw",
       },
+      my: 8,
+      "& > :not([hidden]) ~ :not([hidden])": {
+        marginTop: 24,
+      },
     }}
-    className="space-y-16 my-8"
   >
     {children}
   </Sheet>;

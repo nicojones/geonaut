@@ -1,4 +1,5 @@
-import { Typography } from "@mui/joy";
+import { PlusIcon } from "@heroicons/react/16/solid";
+import { IconButton, Typography } from "@mui/joy";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,8 +26,6 @@ export default async function DashboardPage (): Promise<JSX.Element> {
 
   const [lastSelfie, ...latestSelfies] = (dashboardData.last ?? []);
 
-  // return <A />;
-
   return (
     <DashboardSheet>
       <Typography
@@ -38,14 +37,23 @@ export default async function DashboardPage (): Promise<JSX.Element> {
       >
         dashboard
       </Typography>
-      {/* {
+      {
         dashboardData.unpublished && (
-          <div>
-            <Typography level="h2">Unpublished</Typography>
-            <SelfieCard selfie={dashboardData.unpublished} />
-          </div>
+          <Link
+            href={`/edit/${dashboardData.unpublished.hash}`}
+            className="absolute right-0 top-[--header-height] !mt-0 opacity-50 hover:opacity-100 transition-opacity"
+          >
+            <IconButton
+              // color="success"
+              size="lg"
+              sx={{ borderRadius: "100%", width: 70, height: 70 }}
+              variant="solid"
+            >
+              <PlusIcon className="size-10" />
+            </IconButton>
+          </Link>
         )
-      } */}
+      }
       {
         dashboardData.last && (
           <div>
