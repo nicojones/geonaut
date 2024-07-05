@@ -91,6 +91,8 @@ export const HistoryMap = ({ className = "", range, selfies, pinUrl }: HistoryMa
         changeStyleOnDragTo="satellite"
         connected
         lineColors={[GRADIENT_COLOR_FROM, GRADIENT_COLOR_TO]}
+        zoom={2}
+        panZoom={2}
       />
     </div>
   );
