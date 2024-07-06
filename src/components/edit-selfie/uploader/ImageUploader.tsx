@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 import { AlertDialogModal } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
+import { imageCachePurge } from "@/functions";
 import { IEditSelfieGps, IEditSelfieImageDetails, IReadFile, IResponseData } from "@/types";
 
 import { FileUploader } from "./FileUploader";
@@ -28,7 +29,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
   const { api } = useJwtTokenContext();
   const { data, hash, setData, hasLocation } = useEditSelfieContext();
   const [imageData, setImageData] = useState<string | ArrayBuffer | null>(null);
-  const [invalidateCache, setInvalidateCache] = useState<number>(+new Date());
+  const [invalidateCache, setInvalidateCache] = useState<number>(imageCachePurge());
 
   const imageSrc = useMemo(() => (
     imageData
@@ -63,7 +64,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
       })
         .then(r => {
           setImageData(null);
-          setInvalidateCache(+(new Date()));
+          setInvalidateCache(imageCachePurge());
           if (r.gps && !hasLocation) {
             // No images, and this one has GPS!
             setData({ ...data, images: { ...data.images, [type]: r }, selfie: { ...data.selfie, ...r } });

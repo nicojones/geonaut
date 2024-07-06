@@ -9,3 +9,4 @@ export * from "./num-results.function";
 export * from "./last-element-if-array.function";
 export * from "./random-uuid.function";
 export * from "./to-query.function";
+export * from "./img-cache-purge.function";

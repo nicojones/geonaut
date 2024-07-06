@@ -7,6 +7,9 @@ import { IEditSelfieContext, IEditSelfieData } from "@/types";
 export const EditSelfieContext = createContext<IEditSelfieContext>({
   data: {} as unknown as IEditSelfieData,
   setData: () => null,
+  setSelfieData: () => null,
+  errors: {},
+  setErrors: () => null,
   hash: "",
   hasImages: undefined,
   hasLocation: false,

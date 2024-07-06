@@ -30,7 +30,15 @@ export const getRangeMarks = (dateRange: IMapDateRange): IMapDateMarker[] => {
 
   const markers: IMapDateMarker[] = [];
 
-  if (totalYears > 4) {
+  if (totalYears >= 9) {
+    for (let year = startYear; year <= endYear; year += 2) {
+      const date = new Date(year, 0, 1);
+      markers.push({
+        value: date.getTime(),
+        label: String(year),
+      });
+    }
+  } else if (totalYears > 4) {
     for (let year = startYear; year <= endYear; year++) {
       const date = new Date(year, 0, 1);
       markers.push({

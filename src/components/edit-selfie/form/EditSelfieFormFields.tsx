@@ -1,14 +1,14 @@
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { Button, FormControl, FormHelperText, FormLabel, Input, Textarea, Typography } from "@mui/joy";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback } from "react";
 
 import { MapViewer } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { createZodErrorObject, deleteSelfie } from "@/functions";
-import { IEditSelfieCoords, ISelfieEdit, ZodErrorMapping } from "@/types";
-import { EditSelfieValidator } from "@/validators";
+import { deleteSelfie } from "@/functions";
+import { IEditSelfieCoords, ISelfieEdit } from "@/types";
 
+import { EditSelfieCustomUrl } from "./EditSelfieCustomUrl";
 import { EditSelfieFormAutocomplete } from "./EditSelfieFormAutocomplete";
 
 interface EditSelfieFormFieldsProps {
@@ -17,28 +17,17 @@ interface EditSelfieFormFieldsProps {
 
 export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): JSX.Element => {
   const { api } = useJwtTokenContext();
-  const { data, setData, hasImages, markers } = useEditSelfieContext();
-  const [errors, setErrors] = useState<ZodErrorMapping<ISelfieEdit>>({});
+  const { data, errors, setSelfieData, hasImages, markers } = useEditSelfieContext();
   const router = useRouter();
-
-  const handleSetData = useCallback((newData: ISelfieEdit): void => {
-    const valid = EditSelfieValidator.safeParse(newData);
-    if (valid.success) {
-      setErrors({});
-    } else {
-      setErrors(createZodErrorObject<ISelfieEdit>(valid.error.issues));
-    }
-    setData(_d => ({ ..._d, selfie: newData }));
-  }, []);
 
   const handleValueChange = (key: keyof ISelfieEdit):
   ((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void) => {
     return (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>
-      handleSetData({ ...data.selfie, [key]: event.target.value });
+      setSelfieData({ [key]: event.target.value });
   };
 
   const handleUpdateCoords = useCallback((place: string, coords?: IEditSelfieCoords): void => {
-    handleSetData({ ...data.selfie, ...{ place, ...(coords ?? {}) } });
+    setSelfieData({ place, ...(coords ?? {}) });
   }, [data]);
 
   const handleDeleteSelfie = (): void => {
@@ -65,8 +54,9 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
       <div className="flex items-start space-x-10">
         <div className="flex flex-col space-y-10 flex-1">
           <FormControl error={!!errors.title}>
-            <FormLabel>
-              title
+            <FormLabel sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+              <span>title</span>
+              <EditSelfieCustomUrl />
             </FormLabel>
             <Input
               value={data.selfie.title}
