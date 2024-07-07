@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { createZodErrorObject, selfiePin } from "@/functions";
 import { ComponentChildren, IEditSelfieContext, IEditSelfieData, IEditSelfieImages, IEditSelfieImagesAdded, IMapPin, ISelfieEdit, ZodErrorMapping } from "@/types";
@@ -13,7 +13,7 @@ interface EditSelfieContextWrapperProps {
   children: ComponentChildren;
 }
 
-const getHasImages = (images: IEditSelfieImages): IEditSelfieImagesAdded => (
+const getAddedImages = (images: IEditSelfieImages): IEditSelfieImagesAdded => (
   !images.me.img && !images.lc.img
     ? undefined
     : ({
@@ -22,8 +22,11 @@ const getHasImages = (images: IEditSelfieImages): IEditSelfieImagesAdded => (
     })
 );
 
+const getHasLocation = (selfie: ISelfieEdit): boolean =>
+  Math.abs(selfie.lat) + Math.abs(selfie.lng) > 0;
+
 const getMarkers = (hasImages: IEditSelfieImagesAdded, selfie: ISelfieEdit): IMapPin[] => (
-  !hasImages
+  (!hasImages || !getHasLocation(selfie))
     ? []
     : [selfiePin(
       {
@@ -36,9 +39,18 @@ const getMarkers = (hasImages: IEditSelfieImagesAdded, selfie: ISelfieEdit): IMa
 
 export const EditSelfieContextWrapper = ({ children, initialData }: EditSelfieContextWrapperProps): JSX.Element => {
   const [data, setData] = useState<IEditSelfieData>(initialData);
-  const hasImages: IEditSelfieImagesAdded = useMemo(() => getHasImages(data.images), [data.images.me, data.images.lc]);
-  const handleGetMarkers = (): IMapPin[] => getMarkers(hasImages, data.selfie);
-  const [markers, setMarkers] = useState<IMapPin[]>(handleGetMarkers());
+  const addedImages: IEditSelfieImagesAdded = useMemo(
+    () => getAddedImages(data.images),
+    [data.images.me, data.images.lc],
+  );
+  const hasLocation: boolean = useMemo(
+    () => getHasLocation(data.selfie),
+    [data.selfie.lat, data.selfie.lng],
+  );
+  const markers = useMemo<IMapPin[]>(
+    (): IMapPin[] => getMarkers(addedImages, data.selfie),
+    [data.selfie.lat, data.selfie.lng, addedImages],
+  );
   const [errors, setErrors] = useState<ZodErrorMapping<ISelfieEdit>>({});
 
   const handleSetSelfieData = useCallback((newData: Partial<ISelfieEdit>): void => {
@@ -52,27 +64,6 @@ export const EditSelfieContextWrapper = ({ children, initialData }: EditSelfieCo
     setData(_d => ({ ..._d, selfie: { ..._d.selfie, ...newData } }));
   }, [data]);
 
-  const hasLocation: boolean = useMemo(
-    () => Math.abs(data.selfie.lat) + Math.abs(data.selfie.lng) !== 0,
-    [data.selfie.lat, data.selfie.lng],
-  );
-
-  useEffect(() => {
-    setMarkers(handleGetMarkers());
-  }, [data.selfie.lat, data.selfie.lng, data.images.me, data.images.lc]);
-
-  useEffect(() => {
-    // const interval = setInterval(() => {
-    if ((data.selfie.lat || data.selfie.lng) && !markers.length) {
-      handleGetMarkers();
-      // clearInterval(interval);
-    }
-    // }, 100);
-    // return () => clearInterval(interval);
-  }, []);
-
-  console.log(data.selfie);
-
   const context: IEditSelfieContext = useMemo(
     () => ({
       data,
@@ -81,7 +72,7 @@ export const EditSelfieContextWrapper = ({ children, initialData }: EditSelfieCo
       errors,
       setErrors,
       hash: data.selfie.hash,
-      hasImages,
+      hasImages: addedImages,
       hasLocation,
       markers,
       _insideContext_: true,

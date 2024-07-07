@@ -5,7 +5,7 @@ import { ChangeEvent, useCallback } from "react";
 
 import { MapViewer } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { deleteSelfie } from "@/functions";
+import { deleteSelfie, getCoords } from "@/functions";
 import { IEditSelfieCoords, ISelfieEdit } from "@/types";
 
 import { EditSelfieCustomUrl } from "./EditSelfieCustomUrl";
@@ -32,6 +32,11 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
 
   const handleDeleteSelfie = (): void => {
     deleteSelfie(api, { name: data.selfie.title, hash: data.selfie.hash }, _r => router.push("/new"));
+  };
+
+  const handleSetPictureDate = (): void => {
+    // `hasImages` is not undefined
+    setSelfieData({ date: hasImages?.me ? data.images.me.date : data.images.lc.date });
   };
 
   if (!hasImages) {
@@ -77,8 +82,25 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
         </div>
         <div className="flex flex-col space-y-10 flex-1">
           <FormControl error={!!errors.date}>
-            <FormLabel>
-              date
+            <FormLabel sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
+              <span>date</span>
+              <span className="fric space-x-4 subtle-hover">
+                {
+                  hasImages &&
+                  <a
+                    role="button"
+                    className="cursor-pointer hover:underline"
+                    onClick={handleSetPictureDate}
+                  >from picture
+                  </a>
+                }
+                <a
+                  role="button"
+                  className="cursor-pointer hover:underline"
+                  onClick={() => setSelfieData({ date: (new Date()).toISOString().split("T")[0] })}
+                >today
+                </a>
+              </span>
             </FormLabel>
             <Input
               value={data.selfie.date}
@@ -91,7 +113,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
           <FormControl error={!!errors.place}>
             <FormLabel sx={{ width: "100%" }}>
               place
-              <pre className="ml-auto text-xs">({data.selfie.lat}, {data.selfie.lng})</pre>
+              <pre className="ml-auto text-xs subtle-hover">{getCoords(data.selfie)}</pre>
             </FormLabel>
             <EditSelfieFormAutocomplete
               onUpdateCoords={handleUpdateCoords}

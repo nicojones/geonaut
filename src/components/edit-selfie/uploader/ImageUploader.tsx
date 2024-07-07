@@ -5,11 +5,11 @@ import { toast } from "sonner";
 
 import { AlertDialogModal } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { imageCachePurge } from "@/functions";
+import { getCoords, imageCachePurge } from "@/functions";
 import { IEditSelfieGps, IEditSelfieImageDetails, IReadFile, IResponseData } from "@/types";
 
 import { FileUploader } from "./FileUploader";
-import { readAddedImage } from "./functions";
+import { addCoordsAndPlace, readAddedImage } from "./functions";
 
 interface ImageUploaderProps {
   src: string | undefined;
@@ -67,7 +67,11 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
           setInvalidateCache(imageCachePurge());
           if (r.gps && !hasLocation) {
             // No images, and this one has GPS!
-            setData({ ...data, images: { ...data.images, [type]: r }, selfie: { ...data.selfie, ...r } });
+            setData({
+              ...data,
+              images: { ...data.images, [type]: r },
+              selfie: addCoordsAndPlace(data.selfie, r.gps),
+            });
           } else {
             setData({ ...data, images: { ...data.images, [type]: r } });
           }
@@ -98,7 +102,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
   };
 
   const handleSetCoordinates = (gps: IEditSelfieGps): void => {
-    setData({ ...data, selfie: { ...data.selfie, ...gps } });
+    setData({ ...data, selfie: addCoordsAndPlace(data.selfie, gps, true) });
   };
 
   return (
@@ -147,10 +151,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
           content={(
             <div className="flex flex-col">
               <span>This will set your image coordinates for this selfie.</span>
-              <kbd>
-                ({data.images[type]!.gps!.lat},&nbsp;
-                {data.images[type]!.gps!.lng})
-              </kbd>
+              <kbd>{getCoords(data.images[type].gps)}</kbd>
               <span>The name of the location will also be changed.</span>
             </div>
           )}

@@ -98,4 +98,7 @@ body {
     color: transparent;
     text-shadow: rgba(245, 245, 245, 0.5) 0px 1px 0px;
   }
+  .subtle-hover {
+    @apply text-gray-300 hover:text-black transition-colors;
+  }
 }

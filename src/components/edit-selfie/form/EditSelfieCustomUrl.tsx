@@ -40,16 +40,16 @@ export const EditSelfieCustomUrl = (): JSX.Element => {
   };
   return (
     <div className={classNames(
-      "fric text-xs",
-      { "text-red-500": urlTaken },
-      { "text-green-500": urlTaken === false },
+      "fric text-xs subtle-hover",
+      { "!text-red-500": urlTaken },
+      { "!text-green-500": urlTaken === false },
     )}
     >
-      <span>{process.env.NEXT_PUBLIC_API_URL}/</span>
+      <span>{process.env.NEXT_PUBLIC_API_URL}/s/</span>
       <input
         value={url}
         onChange={handleChangeUrl}
-        className="bg-transparent text-xs border-none w-16"
+        className="bg-transparent text-xs border-none w-16 outline-none focus:outline-none"
         placeholder={data.selfie.hash}
       />
     </div>
