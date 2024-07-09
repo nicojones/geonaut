@@ -23,7 +23,7 @@ export const UserPageHeaderMap = ({ username }: UserPageHeaderMapProps): JSX.Ele
       return;
     }
     api<IHistoricalMapPinData, any>({
-      url: "/ajax/history",
+      url: "/api/history",
       body: { username },
     })
       .then(raiseOnError)

@@ -37,7 +37,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
     }
 
     return api<ISearchFindMany, ISearchBody>({
-      url: "/ajax/selfies",
+      url: "/api/selfies",
       body: SEARCH_BODY[_selectedTab],
     })
       .then(raiseOnError)

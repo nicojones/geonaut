@@ -27,7 +27,7 @@ export const EditSelfieForm = (): JSX.Element => {
     }
 
     const savePromise = api<IResponseRedirect, any>({
-      url: "/ajax/selfie/save-edit",
+      url: "/api/selfie/save-edit",
       body: data.selfie,
     })
       .then(raiseOnError);
@@ -51,7 +51,7 @@ export const EditSelfieForm = (): JSX.Element => {
       clearTimeout(autosaveTimeoutRef.current);
       autosaveTimeoutRef.current = setTimeout(() => {
         const autosavePromise = api<any, any>({
-          url: "/ajax/selfie/save-changes",
+          url: "/api/selfie/save-changes",
           body: data.selfie,
         })
           .then(raiseOnError);

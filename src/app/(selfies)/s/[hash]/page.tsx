@@ -22,7 +22,7 @@ const getSelfie = (hash: string): Promise<ISelfieData> =>
   serverFetch<ISelfieData, IFetchSelfieBody>({ body: { s: "one", hash } });
 
 const getPrevNext = (hash: string): Promise<ISelfiePrevNext> =>
-  serverFetch<ISelfiePrevNext, Record<string, never>>({ body: {}, url: `/ajax/next/${hash}` });
+  serverFetch<ISelfiePrevNext, Record<string, never>>({ body: {}, url: `/api/next/${hash}` });
 
 export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">): Promise<JSX.Element> {
   const selfie = (await getSelfie(params.hash)).selfie;

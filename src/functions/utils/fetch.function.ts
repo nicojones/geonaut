@@ -8,7 +8,7 @@ export const gFetch = <
   {
     method = "POST",
     body,
-    url = "/ajax/selfies",
+    url = "/api/selfies",
     contentType = "application/x-www-form-urlencoded",
   }: IFetch<Body>,
   token: string | null = null,

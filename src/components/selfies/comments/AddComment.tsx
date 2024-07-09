@@ -39,7 +39,7 @@ export const AddComment = ({ selfie }: AddCommentProps): JSX.Element => {
     const randomId = Math.random();
     setOptimisticComments(oc => [createOptimisticComment(randomId, comment, user as IUserSettings), ...oc]);
     api<{ comment: ISelfieComment; }, { comment: string; selfie: string; }>({
-      url: "/ajax/comments/post",
+      url: "/api/comments/post",
       body: { comment, selfie: selfie.hash },
     })
       .then(raiseOnError)

@@ -59,7 +59,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
       const uploadPromise = api<IEditSelfieImageDetails, any>({
         method: "POST",
         body: formData,
-        url: "/ajax/selfieupload",
+        url: "/api/selfieupload",
         contentType: false,
       })
         .then(raiseOnError)
@@ -89,7 +89,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
 
   const handleRotateImage = (): void => {
     const rotatePromise = api<{ path: string; }, any>({
-      url: "/ajax/rotate-image",
+      url: "/api/rotate-image",
       body: { hash, type },
     })
       .then(raiseOnError)

@@ -32,7 +32,7 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
     api<{ token: string; }, ISettings>({
       method: "POST",
       body: settings,
-      url: "/ajax/settings/save",
+      url: "/api/settings/save",
     })
       .then(raiseOnError)
       .then(r => {

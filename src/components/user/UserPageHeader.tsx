@@ -25,7 +25,7 @@ export const UserPageHeader = ({ user }: UserPageHeaderProps): JSX.Element => {
   const handleToggleFollow = (): void => {
     setFollow(_f => !_f);
     api<any, any>({
-      url: "/ajax/follow",
+      url: "/api/follow",
       body: { username: user.username },
     })
       .catch(e => {

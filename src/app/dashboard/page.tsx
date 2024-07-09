@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const getDashboardData = (): Promise<IDashboardData> =>
   serverFetch<IDashboardData, any>({
-    url: "/ajax/admin/data",
+    url: "/api/admin/data",
     method: "POST",
     body: { s: "home" },
   });

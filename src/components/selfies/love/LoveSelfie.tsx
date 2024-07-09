@@ -21,7 +21,7 @@ export const LoveSelfie = ({ selfie }: LoveProps): JSX.Element => {
   const handleToggleLove = (): void => {
     setLoves(l => loved ? l - 1 : l + 1);
     setLoved(l => !l);
-    api<any, any>({ url: "/ajax/love", body: { selfie: selfie.hash } })
+    api<any, any>({ url: "/api/love", body: { selfie: selfie.hash } })
       .then(r => r.responseData)
       .catch(e => {
         console.error(e);

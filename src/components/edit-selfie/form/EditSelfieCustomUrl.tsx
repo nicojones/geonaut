@@ -24,7 +24,7 @@ export const EditSelfieCustomUrl = (): JSX.Element => {
     }
     checkUrlTimeoutRef.current = setTimeout(() => {
       api<any, any>({
-        url: "/ajax/check-url",
+        url: "/api/check-url",
         body: { hash: data.selfie.hash, url: _url },
       })
         .then(raiseOnError)

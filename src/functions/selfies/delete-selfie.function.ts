@@ -7,7 +7,7 @@ export const deleteSelfie = (api: IJwtContext["api"], selfie: Pick<ISelfie, "has
   if (prompt("Type delete to continue")?.toLowerCase() === "delete") {
     const promise = api<IResponseRedirect, any>({
       method: "DELETE",
-      url: `/ajax/selfie/delete/${selfie.hash}`,
+      url: `/api/selfie/delete/${selfie.hash}`,
     })
       .then(raiseOnError);
     toast.promise(promise, {

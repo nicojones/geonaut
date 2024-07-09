@@ -21,7 +21,7 @@ export const SearchEverywhere = (): JSX.Element => {
     e.preventDefault();
     e.stopPropagation();
     api<ISearchFindAll, ISearchBody>({
-      url: "/ajax/selfies",
+      url: "/api/selfies",
       body: { search: value, return: 1, s: "search" },
     })
       .then(raiseOnError)

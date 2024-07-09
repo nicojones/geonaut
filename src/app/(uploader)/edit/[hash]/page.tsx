@@ -7,7 +7,7 @@ import { IEditSelfieData, IResponseData, IUrlParams } from "@/types";
 
 const getSelfieDraft = (hash: string): Promise<any> => {
   return serverFetch<IResponseData<IEditSelfieData>, any>({
-    url: "/ajax/admin/data",
+    url: "/api/admin/data",
     body: { s: "edit", selfie: hash },
   });
 };

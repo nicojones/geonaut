@@ -13,7 +13,7 @@ interface CommentsProps {
 
 const getComments = (hash: string): Promise<ISelfieComment[]> => {
   return serverFetch<{ comments: ISelfieComment[]; }, any>({
-    url: "/ajax/comments/get",
+    url: "/api/comments/get",
     body: { selfie: hash },
   })
     .then(r => {

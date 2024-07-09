@@ -8,8 +8,6 @@
 }
 .menu-button-lines {
   display: inline-block;
-  /* margin-left: 20px; */
-  margin-right: 20px;
   padding: 5px 0;
   width: 45px;
   outline: none;

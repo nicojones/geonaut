@@ -44,7 +44,7 @@ export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): J
 
   const markNotification = (id: number, seen: boolean): void => {
     api<{ unread: number; }, any>({
-      url: "/ajax/notifications/mark",
+      url: "/api/notifications/mark",
       body: { unread: Number(!seen), id },
     })
       .then(raiseOnError)
@@ -60,7 +60,7 @@ export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): J
 
   const fetchNotifications = (): void => {
     api<INotificationResponse, any>({
-      url: `/ajax/notifications?limit=${limit}`,
+      url: `/api/notifications?limit=${limit}`,
     })
       .then(raiseOnError)
       .then(response => {

@@ -6,7 +6,7 @@ import { IResponseData, IResponseRedirect } from "@/types";
 
 const getSelfieDraft = (): Promise<IResponseData<IResponseRedirect>> => {
   return serverFetch<IResponseData<IResponseRedirect>, any>({
-    url: "/ajax/admin/data",
+    url: "/api/admin/data",
     body: { s: "new", ajax: 1 },
   });
 };

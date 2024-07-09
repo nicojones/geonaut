@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const getSettings = (): Promise<ISettings> => {
   return serverFetch<IResponseData<{ settings: ISettings; }>, any>({
-    url: "/ajax/admin/data",
+    url: "/api/admin/data",
     body: { s: "settings" },
   })
     .then(r => r.settings);
