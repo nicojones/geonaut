@@ -33,7 +33,7 @@ export const ImagesUploaderBox = (): JSX.Element => {
   };
 
   return (
-    <div className="grid grid-flow-row grid-cols-2 gap-10">
+    <div className="grid grid-flow-col grid-rows-2 lg:grid-rows-1 lg:grid-flow-row lg:grid-cols-2 gap-10">
       <div className="relative">
         <ImageUploader
           src={data.images.me.img}

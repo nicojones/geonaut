@@ -84,7 +84,7 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
           </div>
         </div>
 
-        <div role="content" className="grid grid-flow-col lg:grid-flow-row grid-cols-1 lg:grid-cols-2 relative">
+        <div role="content" className="grid grid-flow-col lg:grid-flow-row grid-cols-1 grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 relative">
           <LoveSelfie selfie={selfie} />
           <EditSelfieButton selfie={selfie} allowDelete />
           <Image
@@ -133,7 +133,7 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
           }
         </div>
 
-        <div className="grid grid-flow-col lg:grid-flow-row grid-cols-1 lg:grid-cols-2">
+        <div className="grid grid-flow-col lg:grid-flow-row grid-rows-2 grid-cols-1 lg:grid-cols-2 lg:grid-rows-1">
           <MapViewer markers={[markers]} style="satellite" className="min-h-96 max-h-[45rem] w-full block" />
           <CommentList selfie={selfie} />
         </div>

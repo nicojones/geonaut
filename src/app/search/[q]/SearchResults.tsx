@@ -1,6 +1,6 @@
 "use client";
 
-import { Tab, TabList, TabPanel, Tabs } from "@mui/joy";
+import { Skeleton, Tab, TabList, TabPanel, Tabs } from "@mui/joy";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { SelfieCard, SelfieCardSkeleton, SelfiesAsyncLoader } from "@/components/selfies";
@@ -31,12 +31,12 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
       : 0,
   );
 
-  const handleFetchSearchResults = useCallback((_selectedTab: number = selectedTab): void => {
+  const handleFetchSearchResults = useCallback((_selectedTab: number = selectedTab): Promise<any> => {
     if (results[SEARCH_TABS_MAP[_selectedTab]] !== undefined) {
-      return;
+      return Promise.resolve();
     }
 
-    api<ISearchFindMany, ISearchBody>({
+    return api<ISearchFindMany, ISearchBody>({
       url: "/ajax/selfies",
       body: SEARCH_BODY[_selectedTab],
     })
@@ -51,8 +51,12 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
   };
 
   useEffect(() => {
-    Object.keys(SEARCH_BODY).forEach((_, index) => handleFetchSearchResults(index));
-    // handleFetchSearchResults();
+    // Object.keys(SEARCH_BODY).forEach((_, index) => handleFetchSearchResults(index));
+    handleFetchSearchResults()
+      .then(() => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        Object.keys(SEARCH_BODY).forEach((_, index) => handleFetchSearchResults(index));
+      });
   }, []);
 
   // useEffect(() => {
@@ -79,9 +83,14 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
                 disabled={results[SEARCH_TABS_MAP[index]]?.selfies?.length === 0}
                 value={index}
                 key={t.value}
+                className="flex-col md:flex-row flex"
               >
-                {t.label}
-                <small>{selfieNumResults(results[SEARCH_TABS_MAP[index]])}</small>
+                <div className="shrink-0">{t.label}</div>
+                {
+                  results[SEARCH_TABS_MAP[index]]
+                    ? <small>{selfieNumResults(results[SEARCH_TABS_MAP[index]])}</small>
+                    : <Skeleton animation="wave" variant="text" sx={{ width: 60 }} />
+                }
               </Tab>,
             )
           }

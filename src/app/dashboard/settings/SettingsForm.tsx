@@ -95,7 +95,7 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
         <FormHelperText><i>nobody</i>&nbsp;can see this</FormHelperText>
       </FormControl>
 
-      <div className="fric space-x-4">
+      <div className="flex flex-col space-y-4 lg:flex-col lg:space-x-4 lg:space-y-0">
 
         <FormControl error={!!errors.password} className="grow">
           <FormLabel>password</FormLabel>
@@ -124,7 +124,7 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
         </FormControl>
       </div>
 
-      <div className="fric space-x-4">
+      <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
         <SelectableCard
           onClick={() => setSettings(s => ({ ...s, bell_position: "menu" }))}
           selected={settings.bell_position === "menu"}
@@ -142,7 +142,7 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
 
       <hr />
       <p>(coming soon)</p>
-      <div className="fric space-x-4">
+      <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
         <SelectableCard
           onClick={() => setSettings(s => ({ ...s, theme: 1 }))}
           selected={settings.theme === 1}
@@ -157,6 +157,7 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
           <Image src="/images/icons/generic/theme-dark.png" alt="Dark Theme" width={250} height={250} />
         </SelectableCard>
       </div>
+      <hr/>
 
       <Button
         className="w-full"

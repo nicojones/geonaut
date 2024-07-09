@@ -59,6 +59,8 @@ export default async function DashboardPage (): Promise<JSX.Element> {
             ? (
               <>
                 <div>
+                  <Typography level="h2" sx={{ textAlign: "center", mb: 5 }}>last posts</Typography>
+
                   <SelfieCard key={lastSelfie.hash} selfie={lastSelfie} priority />
                   {
                     latestSelfies.length && (
@@ -88,7 +90,7 @@ export default async function DashboardPage (): Promise<JSX.Element> {
           lastSelfie
             ? (
               <>
-                <Typography level="h2">your selfies on a map</Typography>
+                <Typography level="h2" sx={{ textAlign: "center", mb: 5 }}>previous posts on a map</Typography>
                 <HistoryMap
                   className="h-[60rem] max-h-[80vh] w-full"
                   range={dashboardData.mapSelfiesRange}
@@ -107,7 +109,7 @@ export default async function DashboardPage (): Promise<JSX.Element> {
           dashboardData.following.length
             ? (
               <>
-                <Typography level="h2">by people you follow</Typography>
+                <Typography level="h2" sx={{ textAlign: "center", mb: 5 }}>by people you follow</Typography>
                 <div className="w-full mx-auto">
                   <div className="selfie-list">
                     {

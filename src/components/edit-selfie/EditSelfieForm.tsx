@@ -70,7 +70,7 @@ export const EditSelfieForm = (): JSX.Element => {
   }, [data.selfie]);
 
   return (
-    <div className="flex flex-col space-y-8 md:w-[90vw] mx-auto lg:w-[60vw]">
+    <div className="flex flex-col space-y-8 w-[95vw] sm:w-[90vw] mx-auto lg:w-[60vw]">
       <ImagesUploaderBox />
 
       <EditSelfieFormFields onSubmit={handleFormSubmit} />

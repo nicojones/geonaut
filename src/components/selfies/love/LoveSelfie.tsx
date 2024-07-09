@@ -31,7 +31,7 @@ export const LoveSelfie = ({ selfie }: LoveProps): JSX.Element => {
   };
 
   return (
-    <span className="absolute left-[50%] -top-3 translate-x-[-50%]">
+    <span className="absolute left-[50%] top-1/2 translate-y-[-50%] lg:translate-y-0 lg:-top-3 translate-x-[-50%]">
       {
         isAuthed
           ? (

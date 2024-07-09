@@ -56,8 +56,8 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
       className="flex flex-col space-y-10"
       onSubmit={e => { e.preventDefault(); onSubmit(); }}
     >
-      <div className="flex items-start space-x-10">
-        <div className="flex flex-col space-y-10 flex-1">
+      <div className="flex flex-col space-y-10 lg:flex-row lg:space-x-10 lg:space-y-0 items-start">
+        <div className="flex flex-col space-y-10 flex-1 w-full">
           <FormControl error={!!errors.title}>
             <FormLabel sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
               <span>title</span>
@@ -80,7 +80,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
             {errors.subtitle && <FormHelperText>{errors.subtitle}</FormHelperText>}
           </FormControl>
         </div>
-        <div className="flex flex-col space-y-10 flex-1">
+        <div className="flex flex-col space-y-10 flex-1 w-full">
           <FormControl error={!!errors.date}>
             <FormLabel sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
               <span>date</span>

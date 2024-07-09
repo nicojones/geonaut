@@ -37,7 +37,7 @@ export const EditSelfieButton = ({ allowDelete, selfie }: EditSelfieProps): JSX.
   return (
     isAuthed && isMine
       ? (
-        <span className="absolute left-[50%] top-8 translate-x-[-50%] flex flex-col space-y-2">
+        <span className="absolute left-[90%] lg:left-[50%] top-1/2 translate-y-[-50%] lg:translate-y-0 lg:top-8 translate-x-[-50%] flex lg:flex-col flex-row lg:space-y-2 lg:space-x-0 space-x-2">
           <Link
             href={`/edit/${selfie.hash}`}
             className={CLASS_NAME_LINK}
