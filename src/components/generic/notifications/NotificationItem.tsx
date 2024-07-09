@@ -39,7 +39,7 @@ export const NotificationItem = ({ notification: n }: NotificationItemProps): JS
         <div className="h-full w-8 grid place-items-center">
           <span
             title={n.added_on}
-            className="absolute top-2 right-1 cursor-help text-xs"
+            className="absolute top-1 right-1 cursor-help text-xs"
           >{n.added_on_words}
           </span>
           <div
