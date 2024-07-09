@@ -94,8 +94,8 @@ export const HeaderAndDrawer = (): JSX.Element => {
           </List>
         </DialogContent>
       </Drawer>
-      <nav className="fric justify-between pl-12 pr-2 py-2 fixed top-0 left-0 w-screen h-[var(--header-height)] z-[1]">
-        <div className="fric space-x-8">
+      <nav className="fric justify-between pl-3 lg:pl-12 pr-2 py-2 fixed top-0 left-0 w-screen h-[var(--header-height)] z-[1]">
+        <div className="fric space-x-3 lg:space-x-8">
           <HamburgerMenuButton open={menuOpen} onClick={handleHamburgerToggle} />
           <Link href={isAuthed ? "/dashboard" : "/"}>
             <Image src={logoImage} width={50} height={50} alt="Logo" priority />
