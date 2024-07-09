@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { AlertDialogModal } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
 import { getCoords, imageCachePurge, raiseOnError } from "@/functions";
-import { IEditSelfieGps, IEditSelfieImageDetails, IReadFile } from "@/types";
+import { IEditSelfieCoords, IEditSelfieGps, IEditSelfieImageDetails, IReadFile } from "@/types";
 
 import { FileUploader } from "./FileUploader";
 import { addCoordsAndPlace, readAddedImage } from "./functions";
@@ -153,7 +153,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
           content={(
             <div className="flex flex-col">
               <span>This will set your image coordinates for this selfie.</span>
-              <kbd>{getCoords(data.images[type].gps)}</kbd>
+              <kbd>{getCoords(data.images[type].gps as IEditSelfieCoords)}</kbd>
               <span>The name of the location will also be changed.</span>
             </div>
           )}
