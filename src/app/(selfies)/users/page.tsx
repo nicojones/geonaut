@@ -7,8 +7,8 @@ import { serverFetch } from "@/functions/server";
 import { IFetchSelfieBody, ISelfiesData } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Users - Geonaut",
-  description: "The latest and greatest from our users",
+  title: "users - geonaut",
+  description: "the latest and greatest from our users",
 };
 
 const HOME_USER_SELFIES_BODY: IFetchSelfieBody = { s: "users", limit: 10, start: 0 };
@@ -21,6 +21,7 @@ export default async function HomepageUsers (): Promise<JSX.Element> {
   const selfiesData = await getUserSelfies();
   return (
     <SelfiePage
+      more={Boolean(Number(selfiesData.more))}
       initialSelfies={selfiesData.selfies}
       header={selfiesData.title}
       fetcher={HOME_USER_SELFIES_BODY}

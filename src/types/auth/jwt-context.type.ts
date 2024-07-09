@@ -1,4 +1,4 @@
-import { IContext, IFetch, IUserSettings } from "@/types";
+import { IContext, IFetch, IResponse, IUserSettings } from "@/types";
 
 export interface IJwtContextOptions {
   /**
@@ -13,7 +13,7 @@ interface IJwtContextGeneric extends IContext {
   api: <
     T extends Record<string, any> = Record<string, any>,
     Body extends Record<string, any> | never = never,
-  >(body: IFetch<Body>) => Promise<T>;
+  >(body: IFetch<Body>) => Promise<IResponse<T>>;
 }
 
 interface IJwtContextAnonymous {

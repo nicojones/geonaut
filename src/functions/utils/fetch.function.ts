@@ -12,7 +12,7 @@ export const gFetch = <
     contentType = "application/x-www-form-urlencoded",
   }: IFetch<Body>,
   token: string | null = null,
-): Promise<T> => {
+): Promise<IResponse<T>> => {
   return fetch(`${process.env.NEXT_PUBLIC_API_URL as string}${url}`, {
     method: method ?? "POST",
     headers: {
@@ -39,12 +39,5 @@ export const gFetch = <
       //   }
       // });
       return r.json();
-    })
-    .then((r: IResponse<T>) => {
-      // console.log(r);
-      if (!r.success) {
-        throw new Error(r.responseData.message);
-      }
-      return r.responseData;
     });
 };

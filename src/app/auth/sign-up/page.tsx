@@ -1,6 +1,6 @@
 import { AuthCard } from "@/components";
 
-import { SignUpForm } from "./form";
+import { SignUpForm } from "./SignUpForm";
 
 export default async function SignUp (): Promise<JSX.Element> {
   return (

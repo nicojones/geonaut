@@ -1,5 +1,5 @@
 import { PlusIcon } from "@heroicons/react/16/solid";
-import { IconButton, Typography } from "@mui/joy";
+import { Card, IconButton, Typography } from "@mui/joy";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,6 +23,7 @@ const getDashboardData = (): Promise<IDashboardData> =>
 
 export default async function DashboardPage (): Promise<JSX.Element> {
   const dashboardData = await getDashboardData();
+  console.log(dashboardData);
 
   const [lastSelfie, ...latestSelfies] = (dashboardData.last ?? []);
 
@@ -37,64 +38,89 @@ export default async function DashboardPage (): Promise<JSX.Element> {
       >
         dashboard
       </Typography>
-      {
-        dashboardData.unpublished && (
-          <Link
-            href={`/edit/${dashboardData.unpublished.hash}`}
-            className="absolute right-0 top-[--header-height] !mt-0 opacity-50 hover:opacity-100 transition-opacity"
-          >
-            <IconButton
-              // color="success"
-              size="lg"
-              sx={{ borderRadius: "100%", width: 70, height: 70 }}
-              variant="solid"
-            >
-              <PlusIcon className="size-10" />
-            </IconButton>
-          </Link>
-        )
-      }
-      {
-        dashboardData.last && (
-          <div>
-            <SelfieCard key={lastSelfie.hash} selfie={lastSelfie} priority />
-            <div className="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-              {latestSelfies?.map(s =>
-                <Link
-                  className="fric opacity-60 hover:opacity-100 transition-opacity cursor-pointer"
-                  key={s.hash}
-                  href={`/edit/${s.hash}`}
-                >
-                  <Image height={75} width={100} src={selfieMyImage(s, true)} className="basis-1/2 grow" alt="My image" />
-                  <Image height={75} width={100} src={selfieLcImage(s, true)} className="basis-1/2 grow" alt="What i see" />
-                </Link>,
-              )}
-            </div>
-          </div>
-        )
-      }
+      <Link
+        href={dashboardData.unpublished ? `/edit/${dashboardData.unpublished.hash}` : "/new"}
+        title="new post..."
+        className="absolute right-0 top-[--header-height] !mt-0 opacity-50 hover:opacity-100 transition-opacity"
+      >
+        <IconButton
+          // color="success"
+          size="lg"
+          sx={{ borderRadius: "100%", width: 70, height: 70 }}
+          variant="solid"
+        >
+          <PlusIcon className="size-10" />
+        </IconButton>
+      </Link>
 
-      <hr />
+      <Card sx={{ minHeight: 150 }}>
+        {
+          lastSelfie
+            ? (
+              <>
+                <div>
+                  <SelfieCard key={lastSelfie.hash} selfie={lastSelfie} priority />
+                  {
+                    latestSelfies.length && (
+                      <div className="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                        {latestSelfies.map(s =>
+                          <Link
+                            className="fric opacity-60 hover:opacity-100 transition-opacity cursor-pointer"
+                            key={s.hash}
+                            href={`/edit/${s.hash}`}
+                          >
+                            <Image height={75} width={100} src={selfieMyImage(s, true)} className="basis-1/2 grow" alt="My image" />
+                            <Image height={75} width={100} src={selfieLcImage(s, true)} className="basis-1/2 grow" alt="What i see" />
+                          </Link>,
+                        )}
+                      </div>
+                    )
+                  }
+                </div>
+              </>
+            )
+            : <p className="text-inset-shadow m-auto">your posts will appear here</p>
+        }
+      </Card>
 
-      <Typography level="h2">your selfies on a map</Typography>
-      <HistoryMap
-        className="h-[60rem] max-h-[80vh] w-full"
-        range={dashboardData.mapSelfiesRange}
-        selfies={dashboardData.mapSelfies}
-        pinUrl="edit"
-      />
+      <Card sx={{ minHeight: 150 }}>
+        {
+          lastSelfie
+            ? (
+              <>
+                <Typography level="h2">your selfies on a map</Typography>
+                <HistoryMap
+                  className="h-[60rem] max-h-[80vh] w-full"
+                  range={dashboardData.mapSelfiesRange}
+                  selfies={dashboardData.mapSelfies}
+                  pinUrl="edit"
+                />
+                <hr />
+              </>
+            )
+            : <p className="text-inset-shadow m-auto">add pictures to see them on a map</p>
+        }
+      </Card>
 
-      <hr />
+      <Card sx={{ minHeight: 150 }}>
+        {
+          dashboardData.following.length
+            ? (
+              <>
+                <Typography level="h2">by people you follow</Typography>
+                <div className="w-full mx-auto">
+                  <div className="selfie-list">
+                    {
+                      dashboardData.following.map(s => <SelfieCard key={s.active_hash} selfie={s} />)
+                    }
+                  </div>
+                </div>
+              </>
+            )
+            : <p className="text-inset-shadow m-auto">follow users to see their latest posts here</p>
+        }
+      </Card>
 
-      <Typography level="h2">by people you follow</Typography>
-
-      <div className="w-full mx-auto">
-        <div className="selfie-list">
-          {
-            dashboardData.following.map(s => <SelfieCard key={s.active_hash} selfie={s} />)
-          }
-        </div>
-      </div>
-    </DashboardSheet>
+    </DashboardSheet >
   );
 }

@@ -1,8 +1,6 @@
 import "./globals.css";
-import "@fontsource/inter";
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 
@@ -13,11 +11,9 @@ import { JwtTokenContextWrapper } from "@/context";
 import { getUserFromJwt } from "@/functions";
 import { IJwtContextAuthedOrAnonymous, IStorageKey, IUserSettings } from "@/types";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "Geonaut",
-  description: "A unique travel blog",
+  title: "geonaut",
+  description: "a unique travel blog",
 };
 
 const getAuthData = async (): Promise<IJwtContextAuthedOrAnonymous> => {
@@ -42,7 +38,7 @@ export default async function RootLayout ({
 
   return (
     <html lang="en">
-      <body className={inter.className + " min-h-screen"}>
+      <body className=" min-h-screen">
         <NextTopLoader showSpinner={false} />
         <JwtTokenContextWrapper contextData={contextData}>
           <HeaderAndDrawer />

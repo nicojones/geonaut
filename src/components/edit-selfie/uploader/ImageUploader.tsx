@@ -5,8 +5,8 @@ import { toast } from "sonner";
 
 import { AlertDialogModal } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { getCoords, imageCachePurge } from "@/functions";
-import { IEditSelfieGps, IEditSelfieImageDetails, IReadFile, IResponseData } from "@/types";
+import { getCoords, imageCachePurge, raiseOnError } from "@/functions";
+import { IEditSelfieGps, IEditSelfieImageDetails, IReadFile } from "@/types";
 
 import { FileUploader } from "./FileUploader";
 import { addCoordsAndPlace, readAddedImage } from "./functions";
@@ -56,12 +56,13 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
       formData.append("_file_", file);
       formData.append("hash", hash);
       formData.append("type", type);
-      const uploadPromise = api<IResponseData<IEditSelfieImageDetails>, any>({
+      const uploadPromise = api<IEditSelfieImageDetails, any>({
         method: "POST",
         body: formData,
         url: "/ajax/selfieupload",
         contentType: false,
       })
+        .then(raiseOnError)
         .then(r => {
           setImageData(null);
           setInvalidateCache(imageCachePurge());
@@ -91,6 +92,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
       url: "/ajax/rotate-image",
       body: { hash, type },
     })
+      .then(raiseOnError)
       .then(_r => {
         setInvalidateCache(+new Date());
       });

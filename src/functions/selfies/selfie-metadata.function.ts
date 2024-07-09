@@ -5,7 +5,7 @@ import { ISelfie } from "@/types";
 import { selfieCpImage } from "./selfie-image.function";
 
 export const selfieMetadata = (selfie: ISelfie): Metadata => ({
-  title: selfie.title + " - Geonaut",
+  title: selfie.title + " - geonaut",
   description: selfie.short_desc,
   creator: selfie.name,
   openGraph: {
@@ -13,7 +13,7 @@ export const selfieMetadata = (selfie: ISelfie): Metadata => ({
     url: `https://travel.kupfer.es/s/${selfie.hash}`,
     title: selfie.title,
     description: selfie.short_desc,
-    siteName: "Geonaut",
+    siteName: "geonaut",
     images: [{
       url: selfieCpImage(selfie),
     }],

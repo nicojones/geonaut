@@ -30,6 +30,7 @@ export default async function UserPage ({ params }: IUrlParams<"username">): Pro
     <>
       <SelfiePage
         fetcher={USER_SELFIES_PAGE_BODY}
+        more={Boolean(Number(userSelfies.more))}
         initialSelfies={userSelfies.selfies}
         header={<UserPageHeader user={userSelfies.user} />}
         sticky={false}

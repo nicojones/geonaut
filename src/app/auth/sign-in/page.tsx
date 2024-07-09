@@ -1,7 +1,7 @@
 
 import { AuthCard } from "@/components";
 
-import { SignInForm } from "./form";
+import { SignInForm } from "./SignInForm";
 
 export default function SignIn (): JSX.Element {
   return (

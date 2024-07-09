@@ -3,7 +3,7 @@ import { ChangeEvent, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { IResponse } from "@/types";
+import { raiseOnError } from "@/functions";
 
 export const EditSelfieCustomUrl = (): JSX.Element => {
   const { api } = useJwtTokenContext();
@@ -23,10 +23,11 @@ export const EditSelfieCustomUrl = (): JSX.Element => {
       return;
     }
     checkUrlTimeoutRef.current = setTimeout(() => {
-      api<IResponse, any>({
+      api<any, any>({
         url: "/ajax/check-url",
         body: { hash: data.selfie.hash, url: _url },
       })
+        .then(raiseOnError)
         .then(_r => {
           setSelfieData({ ...data.selfie, url: _url });
           setUrlTaken(false);

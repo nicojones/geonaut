@@ -5,7 +5,8 @@ import { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
 
 import { useJwtTokenContext } from "@/context";
-import { IResponseData, ISearchBody, ISearchFindAll, PDefault } from "@/types";
+import { raiseOnError } from "@/functions";
+import { ISearchBody, ISearchFindAll, PDefault } from "@/types";
 
 export const SearchEverywhere = (): JSX.Element => {
   const { api } = useJwtTokenContext();
@@ -19,10 +20,11 @@ export const SearchEverywhere = (): JSX.Element => {
   const handleSearch = (e: PDefault): void => {
     e.preventDefault();
     e.stopPropagation();
-    api<IResponseData<ISearchFindAll>, ISearchBody>({
+    api<ISearchFindAll, ISearchBody>({
       url: "/ajax/selfies",
       body: { search: value, return: 1, s: "search" },
     })
+      .then(raiseOnError)
       .then(r => {
         if (r.redirect) {
           const selfiesTab = (r.searchType && r.searchType !== "selfie" ? `?type=${r.searchType}` : "");

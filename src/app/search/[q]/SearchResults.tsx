@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { SelfieCard, SelfieCardSkeleton, SelfiesAsyncLoader } from "@/components/selfies";
 import { useJwtTokenContext } from "@/context";
-import { selfieNumResults } from "@/functions";
+import { raiseOnError, selfieNumResults } from "@/functions";
 import { ISearchBody, ISearchFindMany, ISearchResultData, ISearchResultType } from "@/types";
 
 import { SEARCH_TABS, SEARCH_TABS_MAP } from "./search-results-tab.definition";
@@ -40,6 +40,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
       url: "/ajax/selfies",
       body: SEARCH_BODY[_selectedTab],
     })
+      .then(raiseOnError)
       .then(r => {
         setResults(_results => ({ ..._results, [SEARCH_TABS_MAP[_selectedTab]]: r }));
       });
@@ -102,6 +103,8 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
                       : (
                         <SelfiesAsyncLoader
                           fetcher={SEARCH_BODY[section]}
+                          more={Boolean(Number(results[SEARCH_TABS_MAP[section]]?.more))}
+
                         >
                           {
                             results[SEARCH_TABS_MAP[section]]?.selfies.map(s =>

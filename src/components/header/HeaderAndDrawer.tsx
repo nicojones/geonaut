@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 import { logoImage } from "@/assets";
 import { SearchEverywhere } from "@/components/generic";
-import { useJwtTokenContext } from "@/context";
+import { NotificationsWrapper, useJwtTokenContext } from "@/context";
 
 import { AuthedUserDropdown } from "./AuthedUserDropdown";
 import { HamburgerMenuButton } from "./HamburgerMenuButton";
@@ -102,7 +102,9 @@ export const HeaderAndDrawer = (): JSX.Element => {
           </Link>
         </div>
         <div className="fric space-x-4 -z-[1]">
-          <AuthedUserDropdown />
+          <NotificationsWrapper>
+            <AuthedUserDropdown />
+          </NotificationsWrapper>
         </div>
       </nav>
     </>

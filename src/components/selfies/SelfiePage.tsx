@@ -10,15 +10,19 @@ interface SelfiePageProps {
   header: ComponentChildren;
   fetcher: IFetchSelfieBody;
   /**
+   * True if there are still more
+   */
+  more: boolean;
+  /**
    * @default true
    */
   sticky?: boolean;
 }
 
-export const SelfiePage = ({ header, initialSelfies, fetcher, sticky = true }: SelfiePageProps): JSX.Element => {
+export const SelfiePage = ({ header, initialSelfies, more, fetcher, sticky = true }: SelfiePageProps): JSX.Element => {
   return (
     <div className="selfie-list">
-      <SelfiesAsyncLoader fetcher={fetcher}>
+      <SelfiesAsyncLoader fetcher={fetcher} more={more}>
         <StickyHeader sticky={sticky} header={header} />
         {
           initialSelfies.map((s: ISelfie, index: number) =>

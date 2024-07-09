@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { HistoryMap } from "@/components/generic";
 import { useJwtTokenContext } from "@/context";
-import { loadingMask } from "@/functions";
+import { loadingMask, raiseOnError } from "@/functions";
 import { IHistoricalMapPinData } from "@/types";
 
 interface UserPageHeaderMapProps {
@@ -26,6 +26,7 @@ export const UserPageHeaderMap = ({ username }: UserPageHeaderMapProps): JSX.Ele
       url: "/ajax/history",
       body: { username },
     })
+      .then(raiseOnError)
       .then(({ mapSelfies, mapSelfiesRange }) => {
         setMapData({ mapSelfies, mapSelfiesRange });
       })

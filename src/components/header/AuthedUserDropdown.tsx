@@ -1,15 +1,16 @@
 import { AdjustmentsHorizontalIcon, ArrowLeftStartOnRectangleIcon, BellIcon, CameraIcon, RectangleGroupIcon, UserCircleIcon, UserIcon } from "@heroicons/react/16/solid";
-import { Avatar, Button, DialogContent, DialogTitle, Divider, Drawer, List, ListItem, ListItemButton, ListItemDecorator, Typography } from "@mui/joy";
+import { Avatar, Badge, DialogContent, DialogTitle, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemDecorator, Typography } from "@mui/joy";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import { NotificationsDrawer } from "@/components/generic";
-import { useJwtTokenContext } from "@/context";
+import { NotificationsDrawer } from "@/components/generic/notifications";
+import { useJwtTokenContext, useNotificationsContext } from "@/context";
 
 export const AuthedUserDropdown = (): JSX.Element => {
   const pathname = usePathname();
   const { isAuthed, user } = useJwtTokenContext();
+  const { unread } = useNotificationsContext();
   const [panelOpen, setPanelOpen] = useState<boolean>(false);
 
   const handleTogglePanel = (): void => {
@@ -75,7 +76,9 @@ export const AuthedUserDropdown = (): JSX.Element => {
                         <ListItem>
                           <ListItemButton className="fric" onClick={toggle}>
                             <ListItemDecorator>
-                              <BellIcon className="size-5" />
+                              <Badge badgeContent={unread}>
+                                <BellIcon className="size-5" />
+                              </Badge>
                             </ListItemDecorator>
                             <span>notifications</span>
                           </ListItemButton>
@@ -142,7 +145,16 @@ export const AuthedUserDropdown = (): JSX.Element => {
               <NotificationsDrawer>
                 {
                   (toggle) =>
-                    <Button variant="plain" onClick={toggle} className="text-black"><BellIcon className="size-6" /></Button>
+                    <Badge badgeContent={unread}>
+                      <IconButton
+                        variant="plain"
+                        onClick={toggle}
+                        className="text-black rounded-full"
+                        size="lg"
+                      >
+                        <BellIcon className="size-6" />
+                      </IconButton>
+                    </Badge>
                 }
               </NotificationsDrawer>
             }

@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { useJwtTokenContext } from "@/context";
-import { selfieTextColor } from "@/functions";
+import { raiseOnError, selfieTextColor } from "@/functions";
 import { ISelfie, ISelfieComment, IUserSettings, PDefault } from "@/types";
 
 import { CommentItem } from "./CommentItem";
@@ -42,6 +42,7 @@ export const AddComment = ({ selfie }: AddCommentProps): JSX.Element => {
       url: "/ajax/comments/post",
       body: { comment, selfie: selfie.hash },
     })
+      .then(raiseOnError)
       .then(c => c.comment)
       .then(c => {
         setOptimisticComments(oc => [...oc.map(_oc => _oc.id === randomId ? c : _oc)]);

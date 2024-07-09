@@ -5,7 +5,8 @@ import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { IResponseData, IResponseRedirect } from "@/types";
+import { raiseOnError } from "@/functions";
+import { IResponseRedirect } from "@/types";
 import { EditSelfieValidator } from "@/validators";
 
 import { EditSelfieFormFields } from "./form";
@@ -25,10 +26,11 @@ export const EditSelfieForm = (): JSX.Element => {
       return;
     }
 
-    const savePromise = api<IResponseData<IResponseRedirect>, any>({
+    const savePromise = api<IResponseRedirect, any>({
       url: "/ajax/selfie/save-edit",
       body: data.selfie,
-    });
+    })
+      .then(raiseOnError);
 
     toast.promise(savePromise, {
       success: r => {
@@ -48,10 +50,11 @@ export const EditSelfieForm = (): JSX.Element => {
     ) {
       clearTimeout(autosaveTimeoutRef.current);
       autosaveTimeoutRef.current = setTimeout(() => {
-        const autosavePromise = api({
+        const autosavePromise = api<any, any>({
           url: "/ajax/selfie/save-changes",
           body: data.selfie,
-        });
+        })
+          .then(raiseOnError);
         toast.promise(autosavePromise, {
           success: () => {
             lastAutosaveRef.current = JSON.stringify(data.selfie);

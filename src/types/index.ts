@@ -10,3 +10,4 @@ export * from "./user";
 export * from "./validation";
 export * from "./map";
 export * from "./search";
+export * from "./notifications";

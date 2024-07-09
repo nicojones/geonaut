@@ -5,8 +5,8 @@ import { isAuthenticated, serverFetch } from "@/functions/server";
 import { IFetchSelfieBody, ISelfiesData } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Discover - Geonaut",
-  description: "Latest posts by those you're interested in",
+  title: "discover - geonaut",
+  description: "latest posts by those you're interested in",
 };
 
 const DISCOVER_USER_SELFIES_BODY: IFetchSelfieBody = { s: "discover", limit: 10, start: 0 };
@@ -24,6 +24,7 @@ export default async function DiscoverPage (): Promise<JSX.Element> {
   return (
     <SelfiePage
       initialSelfies={selfiesData.selfies}
+      more={Boolean(Number(selfiesData.more))}
       header={selfiesData.title}
       fetcher={DISCOVER_USER_SELFIES_BODY}
     />

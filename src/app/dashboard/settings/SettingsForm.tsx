@@ -8,8 +8,8 @@ import { toast } from "sonner";
 
 import { SelectableCard } from "@/components/generic";
 import { useJwtTokenContext } from "@/context";
-import { createZodErrorObject } from "@/functions";
-import { IResponseData, ISettings, PDefault, ZodErrorMapping } from "@/types";
+import { createZodErrorObject, raiseOnError } from "@/functions";
+import { ISettings, PDefault, ZodErrorMapping } from "@/types";
 import { SettingsValidator } from "@/validators";
 
 interface SettingsFormProps {
@@ -29,11 +29,12 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
   const handleSettingsSave = useCallback((event: PDefault) => {
     event.preventDefault();
 
-    api<IResponseData<{ token: string; }>, ISettings>({
+    api<{ token: string; }, ISettings>({
       method: "POST",
       body: settings,
       url: "/ajax/settings/save",
     })
+      .then(raiseOnError)
       .then(r => {
         toast(r.message);
         setJwt(r.token);
