@@ -1,6 +1,7 @@
 "use client";
 
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { getUserFromJwt, gFetch } from "@/functions";
@@ -17,6 +18,7 @@ export const JwtTokenContextWrapper = ({ children, contextData }: JwtTokenContex
   const jwtCookie = Cookies.get("token" satisfies IStorageKey) ?? null;
   const [jwt, setJwt] = useState<string | null>(contextData.jwt);
   const [user, setUser] = useState<IUserSettings | null>(contextData.user);
+  const router = useRouter();
 
   const handleUpdateUser = useCallback((_jwt: string | null, force: boolean = false): void => {
     if (force || (!user && _jwt)) {
@@ -40,7 +42,12 @@ export const JwtTokenContextWrapper = ({ children, contextData }: JwtTokenContex
     T extends Record<string, any> = Record<string, any>,
     Body extends Record<string, any> | never = never,
   >(body: IFetch<Body>) =>
-    gFetch<T, Body>(body, jwt),
+    gFetch<T, Body>(body, jwt)
+      .catch(e => {
+        if (e === "Unauthorized") {
+          router.push("/auth/logout");
+        }
+      }),
   [jwt],
   );
 

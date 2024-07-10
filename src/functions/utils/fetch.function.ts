@@ -31,6 +31,9 @@ export const gFetch = <
     credentials: "include",
   })
     .then(r => {
+      if (r.status === 401) {
+        throw new Error("Unauthorized");
+      }
       // return r.text().then(t => {
       //   try {
       //     return JSON.parse(t);
