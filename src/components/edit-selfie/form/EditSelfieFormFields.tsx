@@ -1,15 +1,15 @@
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/16/solid";
-import { Button, FormControl, FormHelperText, FormLabel, Input, Textarea, Typography } from "@mui/joy";
+import { Button, FormControl, FormHelperText, FormLabel, Input, Typography } from "@mui/joy";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useCallback } from "react";
 
-import { AttachmentUploader } from "@/components/edit-selfie/uploader/AttachmentUploader";
 import { MapViewer } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
 import { deleteSelfie, getCoords } from "@/functions";
 import { IEditSelfieCoords, ISelfieEdit } from "@/types";
 
 import { EditSelfieCustomUrl } from "./EditSelfieCustomUrl";
+import { EditSelfieDescriptionField } from "./EditSelfieDescriptionField";
 import { EditSelfieFormAutocomplete } from "./EditSelfieFormAutocomplete";
 
 interface EditSelfieFormFieldsProps {
@@ -38,10 +38,6 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
   const handleSetPictureDate = (): void => {
     // `hasImages` is not undefined
     setSelfieData({ date: hasImages?.me ? data.images.me.date : data.images.lc.date });
-  };
-
-  const handleUseAttachment = (src: string): void => {
-    alert(`GOT THE SOURCE ${src}`);
   };
 
   if (!hasImages) {
@@ -133,22 +129,11 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
         style="streets"
         changeStyleOnDragTo="streets"
       />
-      <FormControl error={!!errors.description}>
-        <FormLabel>
-          description
-        </FormLabel>
-        <Textarea
-          minRows={8}
-          value={data.selfie.description}
-          onChange={handleValueChange("description")}
-        />
-        {errors.description && <FormHelperText>{errors.description}</FormHelperText>}
-        <br />
-        <AttachmentUploader
-          className="h-24"
-          onUseImage={handleUseAttachment}
-        />
-      </FormControl>
+      <EditSelfieDescriptionField
+        value={data.selfie.description}
+        onChange={v => setSelfieData({ description: v })}
+        error={errors.description}
+      />
 
       <Button
         startDecorator={<PaperAirplaneIcon className="size-6" />}

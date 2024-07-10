@@ -1,25 +1,27 @@
+import classNames from "classnames";
 import Image from "next/image";
 
 import { selfieBackgroundStyle, selfieBoxShadowStyle, selfieLcImage, selfieMyImage } from "@/functions";
-import { ISelfie } from "@/types";
+import { IClassName, ISelfie } from "@/types";
 
 import { EditSelfieButton } from "./edit";
 import { LoveSelfie } from "./love/LoveSelfie";
 import { SelfieHeader } from "./SelfieHeader";
 
-interface SelfieCardProps {
+interface SelfieCardProps extends IClassName {
   selfie: ISelfie;
   /**
    * Load images with priority
    * @default false
    */
   priority?: boolean;
+
 }
 
-export const SelfieCard = ({ priority = false, selfie }: SelfieCardProps): JSX.Element => {
+export const SelfieCard = ({ className = "", priority = false, selfie }: SelfieCardProps): JSX.Element => {
   return (
     <div
-      className="flex flex-col max-w-full"
+      className={classNames("flex flex-col max-w-full", className)}
       style={{
         background: selfieBackgroundStyle(selfie.me_color, selfie.lc_color),
         boxShadow: selfieBoxShadowStyle(selfie.me_color),

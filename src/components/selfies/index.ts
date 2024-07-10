@@ -4,6 +4,7 @@ export * from "./SelfieAsyncLoader";
 export * from "./SelfieHeader";
 export * from "./ThatsAllFolks";
 export * from "./SelfieCardSkeleton";
+export * from "./SelfieCardLoader";
 
 export * from "./edit";
 export * from "./love";

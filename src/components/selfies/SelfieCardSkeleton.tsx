@@ -1,9 +1,16 @@
 import { AspectRatio, Skeleton } from "@mui/joy";
+import classNames from "classnames";
 
-export const SelfieCardSkeleton = (): JSX.Element => {
+import { IClassName } from "@/types";
+
+interface SelfieCardSkeletonProps extends IClassName {
+
+}
+
+export const SelfieCardSkeleton = ({ className = "" }: SelfieCardSkeletonProps): JSX.Element => {
   return (
     <div
-      className="flex flex-col max-w-full border border-solid"
+      className={classNames("flex flex-col max-w-full border border-solid", className)}
     >
       <div
         role="header"

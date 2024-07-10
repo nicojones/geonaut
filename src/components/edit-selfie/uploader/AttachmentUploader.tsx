@@ -20,8 +20,8 @@ interface AttachmentUploaderProps {
 
 export const AttachmentUploader = ({ className = "", onUseImage, onUploadComplete }: AttachmentUploaderProps): JSX.Element => {
   const { api } = useJwtTokenContext();
-  const { hash } = useEditSelfieContext();
-  const [images, setImages] = useState<Array<string | null>>([]);
+  const { data, hash } = useEditSelfieContext();
+  const [images, setImages] = useState<Array<string | null>>(data.attachments);
 
   const handleImageChange = (files: FileList): void => {
     const file = files[0];
@@ -69,7 +69,7 @@ export const AttachmentUploader = ({ className = "", onUseImage, onUploadComplet
         className={className}
       >
         {
-          lastElementIfArray(images)
+          lastElementIfArray(images) === null
             ? (
               <div className="text-inset-shadow text-sm fric space-x-2">
                 <span>Uploading...</span>
@@ -84,14 +84,17 @@ export const AttachmentUploader = ({ className = "", onUseImage, onUploadComplet
         }
 
       </FileUploader>
-      <div className="flex flex-col">
+      <div className="flex flex-col space-y-2 py-4">
         {
           images.map(i =>
             i
               ? (
                 <a role="button" onClick={() => onUseImage(i)} key={i} className="fric space-x-4 cursor-pointer">
-                  <img src={(process.env.NEXT_PUBLIC_API_URL as string) + i} alt={i} className="h-24"/>
-                  <pre>{i}</pre>
+                  <div
+                    className="aspect-square h-16 bg-no-repeat bg-center bg-cover rounded-full"
+                    style={{ backgroundImage: `url(${(process.env.NEXT_PUBLIC_API_URL as string) + i})` }}
+                  />
+                  <pre className="text-secondary">{i.split("/attachment_").pop()}</pre>
                 </a>
               )
               : null,

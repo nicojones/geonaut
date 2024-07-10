@@ -11,6 +11,8 @@ import { selfieBackgroundStyle, selfieLcImage, selfieMetadata, selfieMyImage, se
 import { serverFetch } from "@/functions/server";
 import { IFetchSelfieBody, IMapPin, ISelfieData, ISelfiePrevNext, IUrlParams } from "@/types";
 
+import { renderDynamicSelfie } from "./render-dynamic-selfie.function";
+
 export async function generateMetadata (
   { params }: IUrlParams<"hash">,
 ): Promise<Metadata> {
@@ -137,6 +139,15 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
           <MapViewer markers={[markers]} style="satellite" className="min-h-96 max-h-[45rem] w-full block" />
           <CommentList selfie={selfie} />
         </div>
+
+        {
+          selfie.long_desc.length >= 5 &&
+          <div
+            className="w-full border mx-auto p-16"
+          >
+            {renderDynamicSelfie(selfie.long_desc)}
+          </div>
+        }
       </div>
 
     </div>

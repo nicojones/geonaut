@@ -44,4 +44,5 @@ export interface ISelfie {
   type: "selfie";
   user_id: number;
   username: string;
+  long_desc: string;
 }

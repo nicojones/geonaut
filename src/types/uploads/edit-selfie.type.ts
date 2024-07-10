@@ -6,6 +6,7 @@ export interface IEditSelfieData {
   selfie: ISelfieEdit;
   images: IEditSelfieImages;
   constraints: IConstraints;
+  attachments: string[];
 }
 
 export type ISelfieEdit = z.infer<typeof EditSelfieValidator>;

@@ -69,9 +69,13 @@ export const AddComment = ({ selfie }: AddCommentProps): JSX.Element => {
                   sx={{
                     backgroundColor: "transparent",
                     borderColor: "transparent",
+                    boxShadow: "none",
                     color,
                     flexGrow: 1,
                     ":focus": {
+                      outline: "none",
+                    },
+                    ":focus-visible": {
                       outline: "none",
                     },
                   }}
