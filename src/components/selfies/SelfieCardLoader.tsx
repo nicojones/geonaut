@@ -29,12 +29,12 @@ export const SelfieCardLoader = ({ hash }: SelfieCardProps): JSX.Element => {
         <SelfieCard
           selfie={selfie}
           priority={false}
-          className="max-w-[1000px] w-full my-24 mx-auto"
+          className="!max-w-[1000px] w-full my-24 mx-auto"
         />
       )
       : (
         <SelfieCardSkeleton
-          className="max-w-[1000px] w-full my-24 mx-auto"
+          className="!max-w-[1000px] w-full my-24 mx-auto"
         />
       )
   );
