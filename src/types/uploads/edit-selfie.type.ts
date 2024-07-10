@@ -47,3 +47,8 @@ export interface IConstraints {
   subtitleML: number;
   subtitleXL: number;
 }
+
+export interface IEditSelfieAttachment {
+  uploadedType: string;
+  src: string;
+}

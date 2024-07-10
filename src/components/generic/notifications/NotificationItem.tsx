@@ -3,7 +3,6 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useState } from "react";
 
-import { RESOURCE_URL } from "@/config";
 import { useNotificationsContext } from "@/context";
 import { INotification } from "@/types";
 
@@ -50,7 +49,7 @@ export const NotificationItem = ({ notification: n }: NotificationItemProps): JS
           />
         </div>
         <div className="flex flex-col space-y-2">
-          <Avatar src={RESOURCE_URL + n.avatar} />
+          <Avatar src={(process.env.NEXT_PUBLIC_RESOURCE_URL as string) + n.avatar} />
           <Link href={`/u/${n.username}`} target="_blank" rel="noreferrer" className="text-secondary font-bold">
             @{n.username}
           </Link>

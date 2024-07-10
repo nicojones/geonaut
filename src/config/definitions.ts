@@ -1,9 +1,3 @@
-
-/**
- * The HOST of the images, NO trailing slash
-*/
-export const RESOURCE_URL = "https://travel.kupfer.es" as const;
-
 /**
  * When we are this far from the bottom of the screen, new Selfies are loaded
  */

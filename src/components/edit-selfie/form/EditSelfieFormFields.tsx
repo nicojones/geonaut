@@ -3,6 +3,7 @@ import { Button, FormControl, FormHelperText, FormLabel, Input, Textarea, Typogr
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useCallback } from "react";
 
+import { AttachmentUploader } from "@/components/edit-selfie/uploader/AttachmentUploader";
 import { MapViewer } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
 import { deleteSelfie, getCoords } from "@/functions";
@@ -37,6 +38,10 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
   const handleSetPictureDate = (): void => {
     // `hasImages` is not undefined
     setSelfieData({ date: hasImages?.me ? data.images.me.date : data.images.lc.date });
+  };
+
+  const handleUseAttachment = (src: string): void => {
+    alert(`GOT THE SOURCE ${src}`);
   };
 
   if (!hasImages) {
@@ -138,6 +143,11 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
           onChange={handleValueChange("description")}
         />
         {errors.description && <FormHelperText>{errors.description}</FormHelperText>}
+        <br />
+        <AttachmentUploader
+          className="h-24"
+          onUseImage={handleUseAttachment}
+        />
       </FormControl>
 
       <Button
