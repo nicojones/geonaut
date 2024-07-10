@@ -11,5 +11,12 @@ export const serverFetch = <
   options: IFetch<Body>,
 ): Promise<IResponseData<T>> => {
   return gFetch<T, Body>(options, cookies().get("token" satisfies IStorageKey)?.value ?? null)
+    // .catch(e => {
+    //   if (String(e) === "Unauthorized") {
+    //     redirect("/");
+    //   } else {
+    //     throw e;
+    //   }
+    // })
     .then(raiseOnError);
 };
