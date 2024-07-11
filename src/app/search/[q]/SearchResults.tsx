@@ -17,10 +17,10 @@ interface SearchResultsProps {
 
 export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): JSX.Element => {
   const SEARCH_BODY: Record<number, ISearchBody> = useMemo(() => ({
-    0: { s: "search", search: searchQuery, limit: 10, start: 0, type: SEARCH_TABS_MAP[0] },
-    1: { s: "search", search: searchQuery, limit: 10, start: 0, type: SEARCH_TABS_MAP[1] },
-    2: { s: "search", search: searchQuery, limit: 10, start: 0, type: SEARCH_TABS_MAP[2] },
-    3: { s: "search", search: searchQuery, limit: 10, start: 0, type: SEARCH_TABS_MAP[3] },
+    0: { s: "search", search: searchQuery, limit: 100, start: 0, type: SEARCH_TABS_MAP[0] },
+    1: { s: "search", search: searchQuery, limit: 100, start: 0, type: SEARCH_TABS_MAP[1] },
+    2: { s: "search", search: searchQuery, limit: 100, start: 0, type: SEARCH_TABS_MAP[2] },
+    3: { s: "search", search: searchQuery, limit: 100, start: 0, type: SEARCH_TABS_MAP[3] },
   }), []);
 
   const { api } = useJwtTokenContext();
