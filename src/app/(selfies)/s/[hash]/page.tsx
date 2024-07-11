@@ -143,7 +143,8 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
         {
           selfie.long_desc.length >= 5 &&
           <div
-            className="w-full border mx-auto p-16"
+            className="w-full border mx-auto p-16 flex flex-col justify-center"
+            style={{ color: `${color} !important` }}
           >
             {renderDynamicSelfie(selfie.long_desc)}
           </div>
