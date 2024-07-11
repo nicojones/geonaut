@@ -19,11 +19,13 @@ const getDashboardData = (): Promise<IDashboardData> =>
     url: "/api/admin/data",
     method: "POST",
     body: { s: "home" },
+    cache: "no-store",
   });
 
 export default async function DashboardPage (): Promise<JSX.Element> {
   await mustBeAuthenticated();
   const dashboardData = await getDashboardData();
+  console.log(dashboardData);
 
   const [lastSelfie, ...latestSelfies] = (dashboardData.last ?? []);
 
@@ -97,7 +99,6 @@ export default async function DashboardPage (): Promise<JSX.Element> {
                   selfies={dashboardData.mapSelfies}
                   pinUrl="edit"
                 />
-                <hr />
               </>
             )
             : <p className="text-inset-shadow m-auto">add pictures to see them on a map</p>

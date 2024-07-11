@@ -21,7 +21,7 @@ export async function generateMetadata (
 }
 
 const getSelfie = (hash: string): Promise<ISelfieData> =>
-  serverFetch<ISelfieData, IFetchSelfieBody>({ body: { s: "one", hash } });
+  serverFetch<ISelfieData, IFetchSelfieBody>({ body: { s: "one", hash }, cache: "no-store" });
 
 const getPrevNext = (hash: string): Promise<ISelfiePrevNext> =>
   serverFetch<ISelfiePrevNext, Record<string, never>>({ body: {}, url: `/api/next/${hash}` });

@@ -20,4 +20,8 @@ export interface IFetch<Body> {
    * An abort signal
    */
   signal?: AbortSignal;
+  /**
+   * Invalidate cache
+   */
+  cache?: "no-store";
 }

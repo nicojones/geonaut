@@ -11,11 +11,13 @@ export const gFetch = <
     url = "/api/selfies",
     contentType = "application/x-www-form-urlencoded",
     signal,
+    cache = undefined,
   }: IFetch<Body>,
   token: string | null = null,
 ): Promise<IResponse<T>> => {
   return fetch(`${process.env.NEXT_PUBLIC_API_URL as string}${url}`, {
     signal,
+    next: { cache } as any,
     method: method ?? "POST",
     headers: {
       ...(contentType === false ? {} : { "Content-Type": contentType }),
