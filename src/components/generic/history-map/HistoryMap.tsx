@@ -10,6 +10,7 @@ import { IHistoricalMapPin, IMapDateRange } from "@/types";
 
 import { getMarkersFromSelfies } from "./get-markers-from-selfies.function";
 import { getRangeMarks } from "./get-range-marks.function";
+import { MS_PER_YEAR, MS_PER_WEEK, PIN_GRADIENT_COLOR_FROM, PIN_GRADIENT_COLOR_TO } from "@/config";
 
 interface HistoryMapProps {
   readonly range: IMapDateRange;
@@ -24,11 +25,6 @@ interface HistoryMapProps {
    */
   pinUrl?: "edit" | "view";
 }
-
-const MS_PER_WEEK = 86_400_000 * 7;
-const MS_PER_YEAR = 52 * MS_PER_WEEK;
-const GRADIENT_COLOR_FROM = "#8e44ad" as const;
-const GRADIENT_COLOR_TO = "#27ae60" as const;
 
 export const HistoryMap = ({ className = "", range, selfies, pinUrl }: HistoryMapProps): JSX.Element => {
   const [dateRange, setDateRange] = useState<IMapDateRange>([Math.max(range[0], range[1] - MS_PER_YEAR), range[1]]);
@@ -65,16 +61,16 @@ export const HistoryMap = ({ className = "", range, selfies, pinUrl }: HistoryMa
             marginX: "auto",
             "--Slider-thumbSize": "24px",
             ".MuiSlider-track": {
-              background: `linear-gradient(to right, ${GRADIENT_COLOR_FROM}, ${GRADIENT_COLOR_TO}) !important`,
+              background: `linear-gradient(to right, ${PIN_GRADIENT_COLOR_FROM}, ${GRADIENT_COLOR_TO}) !important`,
             },
             ".MuiSlider-thumb": {
               "&::before": {
-                borderColor: GRADIENT_COLOR_FROM + " !important",
-                background: GRADIENT_COLOR_FROM,
+                borderColor: PIN_GRADIENT_COLOR_FROM + " !important",
+                background: PIN_GRADIENT_COLOR_FROM,
               },
               "&:last-of-type::before": {
-                borderColor: GRADIENT_COLOR_TO + " !important",
-                background: GRADIENT_COLOR_TO,
+                borderColor: PIN_GRADIENT_COLOR_TO + " !important",
+                background: PIN_GRADIENT_COLOR_TO,
               },
             },
           }}
@@ -90,7 +86,7 @@ export const HistoryMap = ({ className = "", range, selfies, pinUrl }: HistoryMa
         style="satellite"
         changeStyleOnDragTo="satellite"
         connected
-        lineColors={[GRADIENT_COLOR_FROM, GRADIENT_COLOR_TO]}
+        lineColors={[PIN_GRADIENT_COLOR_FROM, PIN_GRADIENT_COLOR_TO]}
         zoom={2}
         panZoom={2}
       />

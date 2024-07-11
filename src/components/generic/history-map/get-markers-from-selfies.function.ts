@@ -1,3 +1,4 @@
+import { MS_PER_WEEK } from "@/config";
 import { selfiePin } from "@/functions";
 import { IHistoricalMapPin, IMapDateRange, IMapPin } from "@/types";
 
@@ -9,7 +10,7 @@ export const getMarkersFromSelfies = (
   const markers: IMapPin[] = [];
   for (let i = 0, len = selfies.length; i < len; ++i) {
     const date = +new Date(selfies[i].selfie_date);
-    if (date <= range[1] && date >= range[0]) {
+    if (date <= range[1] + MS_PER_WEEK && date >= range[0] - MS_PER_WEEK) {
       // It must be added
       markers.push(
         selfiePin(
