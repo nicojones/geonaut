@@ -5,12 +5,12 @@ import classNames from "classnames";
 import { useMemo, useState } from "react";
 
 import { MapViewer } from "@/components/generic";
+import { MS_PER_WEEK, MS_PER_YEAR, PIN_GRADIENT_COLOR_FROM, PIN_GRADIENT_COLOR_TO } from "@/config";
 import { loadingMask } from "@/functions";
 import { IHistoricalMapPin, IMapDateRange } from "@/types";
 
 import { getMarkersFromSelfies } from "./get-markers-from-selfies.function";
 import { getRangeMarks } from "./get-range-marks.function";
-import { MS_PER_YEAR, MS_PER_WEEK, PIN_GRADIENT_COLOR_FROM, PIN_GRADIENT_COLOR_TO } from "@/config";
 
 interface HistoryMapProps {
   readonly range: IMapDateRange;
