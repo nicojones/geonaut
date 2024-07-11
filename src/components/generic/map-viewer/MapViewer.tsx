@@ -116,10 +116,14 @@ export const MapViewer = ({
         throw new Error("Map seems to not have been loaded!");
       }
 
-      const lastCoord = lastElementIfArray(markerCoords) ?? ZURICH_COORDS;
+      // gather all the markers to create a bounds object
+      const bounds = markerCoords.reduce(function (_bounds, _coord) {
+        return _bounds.extend(_coord);
+      }, new mapboxgl.LngLatBounds(markerCoords[0], markerCoords[0]));
 
-      // mapRef.current.setCenter(lastCoord);
-      mapRef.current.flyTo({ center: lastCoord, zoom: panZoom });
+      mapRef.current.fitBounds(bounds, {
+        padding: 20,
+      });
       if (mapFirstLoadRef.current) {
         mapRef.current.resize();
         mapRef.current.triggerRepaint();
