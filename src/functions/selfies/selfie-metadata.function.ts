@@ -25,4 +25,7 @@ export const selfieMetadata = (selfie: ISelfie): Metadata => ({
       url: selfieCpImage(selfie),
     }],
   },
+  other: {
+    "theme-color": `rgb(${selfie.me_color})`,
+  },
 });
