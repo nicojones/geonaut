@@ -107,6 +107,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
               value={data.selfie.date}
               onChange={handleValueChange("date")}
               type="date"
+              sx={{ textAlign: "left" }}
 
             />
             {errors.date && <FormHelperText>{errors.date}</FormHelperText>}
