@@ -8,7 +8,6 @@ import mapboxgl from "mapbox-gl";
 import { MutableRefObject, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 
 import { DEFAULT_MAP_ZOOM, MAX_MAP_ZOOM, SET_PIN_MAP_ZOOM, ZURICH_COORDS } from "@/config";
-import { lastElementIfArray } from "@/functions";
 import { IMapPin } from "@/types";
 
 import { createMapLayer } from "./create-map-layer.function";
