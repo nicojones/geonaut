@@ -117,7 +117,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
                         >
                           {
                             results[SEARCH_TABS_MAP[section]]?.selfies.map(s =>
-                              <SelfieCard key={s.active_hash} selfie={s} />,
+                              s && <SelfieCard key={s.active_hash} selfie={s} />,
                             )
                           }
                         </SelfiesAsyncLoader>
