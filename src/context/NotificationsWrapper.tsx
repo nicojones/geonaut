@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { raiseOnError } from "@/functions";
@@ -14,11 +14,10 @@ interface NotificationsWrapperProps {
 }
 
 export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): JSX.Element => {
-  const { api, isAuthed } = useJwtTokenContext();
+  const { api, jwt } = useJwtTokenContext();
   const [limit, setLimit] = useState<number>(10);
   const [notifications, setNotifications] = useState<INotification[]>([]);
   const [unread, setUnread] = useState<number | undefined>(0);
-  const refetchNotificationsRef = useRef<any>(null);
 
   const handleSetRead = (id: number): void => {
     setNotifications(_ns => [
@@ -83,18 +82,19 @@ export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): J
   );
 
   useEffect(() => {
-    if (!isAuthed) {
+    if (!jwt) {
       return;
     }
     const abort = new AbortController();
-    fetchNotifications(abort.signal);
-    refetchNotificationsRef.current = setInterval(fetchNotifications, 20_000);
+    const notificationsTimeout = setTimeout(() => fetchNotifications(abort.signal), 1000);
+    const notificationsInterval = setInterval(() => fetchNotifications(abort.signal), 20_000);
 
     return () => {
       abort.abort();
-      clearInterval(refetchNotificationsRef.current);
+      clearTimeout(notificationsTimeout);
+      clearInterval(notificationsInterval);
     };
-  }, [isAuthed, limit]);
+  }, [jwt, limit]);
 
   return (
     <NotificationsContext.Provider value={context} >
