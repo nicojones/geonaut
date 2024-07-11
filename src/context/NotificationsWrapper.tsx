@@ -58,9 +58,10 @@ export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): J
       });
   };
 
-  const fetchNotifications = (): void => {
+  const fetchNotifications = (signal?: AbortSignal): void => {
     api<INotificationResponse, any>({
       url: `/api/notifications?limit=${limit}`,
+      signal,
     })
       .then(raiseOnError)
       .then(response => {
@@ -85,10 +86,14 @@ export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): J
     if (!isAuthed) {
       return;
     }
-    fetchNotifications();
+    const abort = new AbortController();
+    fetchNotifications(abort.signal);
     refetchNotificationsRef.current = setInterval(fetchNotifications, 20_000);
 
-    return () => clearInterval(refetchNotificationsRef.current);
+    return () => {
+      abort.abort();
+      clearInterval(refetchNotificationsRef.current);
+    };
   }, [isAuthed, limit]);
 
   return (

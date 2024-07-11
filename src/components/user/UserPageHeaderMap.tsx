@@ -32,7 +32,7 @@ export const UserPageHeaderMap = ({ username }: UserPageHeaderMapProps): JSX.Ele
       })
       .catch(e => {
         toast.error(String(e));
-        console.log(e);
+        console.error(e);
       });
   }, [showMap]);
 

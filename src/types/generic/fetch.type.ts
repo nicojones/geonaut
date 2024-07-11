@@ -16,4 +16,8 @@ export interface IFetch<Body> {
    * set to `false` to not send it
    */
   contentType?: string | false;
+  /**
+   * An abort signal
+   */
+  signal?: AbortSignal;
 }

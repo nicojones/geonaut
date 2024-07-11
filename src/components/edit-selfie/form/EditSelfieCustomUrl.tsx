@@ -15,7 +15,7 @@ export const EditSelfieCustomUrl = (): JSX.Element => {
     clearTimeout(checkUrlTimeoutRef.current);
     const _url = (event.target.value ?? "").trim();
     setUrl(_url);
-    console.log(_url, data.selfie.hash);
+
     if (_url.length === 0 || _url === data.selfie.hash) {
       setUrlTaken(undefined);
       return;

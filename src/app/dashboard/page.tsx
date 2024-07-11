@@ -7,7 +7,7 @@ import Link from "next/link";
 import { SelfieCard } from "@/components";
 import { DashboardSheet, HistoryMap } from "@/components/generic";
 import { selfieLcImage, selfieMyImage } from "@/functions";
-import { serverFetch } from "@/functions/server";
+import { mustBeAuthenticated, serverFetch } from "@/functions/server";
 import { IDashboardData } from "@/types";
 
 export const metadata: Metadata = {
@@ -22,8 +22,8 @@ const getDashboardData = (): Promise<IDashboardData> =>
   });
 
 export default async function DashboardPage (): Promise<JSX.Element> {
+  await mustBeAuthenticated();
   const dashboardData = await getDashboardData();
-  console.log(dashboardData);
 
   const [lastSelfie, ...latestSelfies] = (dashboardData.last ?? []);
 

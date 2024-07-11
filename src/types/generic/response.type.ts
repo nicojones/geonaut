@@ -3,6 +3,7 @@ import { IBool } from "./booly.type";
 export type IResponseData<T extends Record<string, any> = Record<string, never>> = T & {
   message: string;
   content: string;
+  status?: number;
 };
 
 export interface IResponse<T extends Record<string, any> = Record<string, never>> {

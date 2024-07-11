@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import { StickyHeader } from "@/components";
 import { DashboardSheet } from "@/components/generic";
-import { serverFetch } from "@/functions/server";
+import { mustBeAuthenticated, serverFetch } from "@/functions/server";
 import { IResponseData, ISettings } from "@/types";
 
 import { SettingsForm } from "./SettingsForm";
@@ -20,6 +20,7 @@ const getSettings = (): Promise<ISettings> => {
 };
 
 export default async function SettingsPage (): Promise<JSX.Element> {
+  await mustBeAuthenticated();
   const settings = await getSettings();
 
   return (

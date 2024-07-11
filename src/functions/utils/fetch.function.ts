@@ -10,10 +10,12 @@ export const gFetch = <
     body,
     url = "/api/selfies",
     contentType = "application/x-www-form-urlencoded",
+    signal,
   }: IFetch<Body>,
   token: string | null = null,
 ): Promise<IResponse<T>> => {
   return fetch(`${process.env.NEXT_PUBLIC_API_URL as string}${url}`, {
+    signal,
     method: method ?? "POST",
     headers: {
       ...(contentType === false ? {} : { "Content-Type": contentType }),
@@ -30,10 +32,21 @@ export const gFetch = <
     ),
     credentials: "include",
   })
-    .then(r => {
-      // if (r.status === 401) {
-      //   throw new Error("Unauthorized");
-      // }
+    .then((r: Response) => {
+      const status = r.status;
+      const ok = r.ok;
+      return (
+        r.json()
+          .then((response: IResponse<T>) => {
+            response.responseData.status = status;
+            if (ok) {
+              return response;
+            } else {
+              // eslint-disable-next-line @typescript-eslint/no-throw-literal
+              throw response;
+            }
+          })
+      );
       // return r.text().then(t => {
       //   try {
       //     return JSON.parse(t);
@@ -41,6 +54,5 @@ export const gFetch = <
       //     return {} as unknown as T;
       //   }
       // });
-      return r.json();
     });
 };

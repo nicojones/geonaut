@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { SelfiePage } from "@/components";
-import { isAuthenticated, serverFetch } from "@/functions/server";
+import { mustBeAuthenticated, serverFetch } from "@/functions/server";
 import { IFetchSelfieBody, ISelfiesData } from "@/types";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ function getUserSelfies (): Promise<ISelfiesData> {
 }
 
 export default async function LovesPage (): Promise<JSX.Element> {
-  await isAuthenticated();
+  await mustBeAuthenticated();
   const selfiesData = await getUserSelfies();
 
   return (

@@ -44,7 +44,6 @@ export const EditSelfieForm = (): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log("data", data.selfie, data.selfie.visible);
     if (
       !data.selfie.visible &&
       JSON.stringify(data.selfie) !== lastAutosaveRef.current

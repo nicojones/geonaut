@@ -4,8 +4,8 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { getUserFromJwt, gFetch } from "@/functions";
-import { ComponentChildren, IFetch, IJwtContext, IJwtContextAuthedOrAnonymous, IStorageKey, IUserSettings } from "@/types";
+import { getUserFromJwt, gFetch, toQuery } from "@/functions";
+import { ComponentChildren, IFetch, IJwtContext, IJwtContextAuthedOrAnonymous, IResponse, IStorageKey, IUserSettings } from "@/types";
 
 import { JwtTokenContext } from "./jwt-token.context";
 
@@ -43,10 +43,12 @@ export const JwtTokenContextWrapper = ({ children, contextData }: JwtTokenContex
     Body extends Record<string, any> | never = never,
   >(body: IFetch<Body>) =>
     gFetch<T, Body>(body, jwt)
-      .catch(e => {
-        if (e === "Unauthorized") {
-          router.push("/auth/logout");
+      .catch((e: IResponse<T>) => {
+        if (e.responseData.status === 401) {
+          router.push("/auth/logout" + toQuery({ status: e.responseData.status }));
         }
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw e;
       }),
   [jwt],
   );

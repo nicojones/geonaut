@@ -2,7 +2,7 @@ import { Sheet } from "@mui/joy";
 
 import { EditSelfieForm } from "@/components";
 import { EditSelfieContextWrapper } from "@/context";
-import { serverFetch } from "@/functions/server";
+import { mustBeAuthenticated, serverFetch } from "@/functions/server";
 import { IEditSelfieData, IResponseData, IUrlParams } from "@/types";
 
 const getSelfieDraft = (hash: string): Promise<any> => {
@@ -13,8 +13,8 @@ const getSelfieDraft = (hash: string): Promise<any> => {
 };
 
 export default async function UploadSelfiePage ({ params }: IUrlParams<"hash">): Promise<JSX.Element> {
+  await mustBeAuthenticated();
   const data = await getSelfieDraft(params.hash);
-  console.log(data);
 
   return (
     <Sheet className="w-screen min-h-screen flex flex-col py-24 bg-transparent">

@@ -37,8 +37,7 @@ export const EditSelfieDescriptionField = ({
     }, 300);
   };
 
-  const handleSetRange = (rangeText: any, rangeHtml?: any): void => {
-    console.log(rangeText, rangeHtml);
+  const handleSetRange = (_rangeText: any, rangeHtml?: any): void => {
     if (rangeHtml) {
       setRange([rangeHtml.index, (rangeHtml.index as number) + (rangeHtml.length as number)]);
     } else {

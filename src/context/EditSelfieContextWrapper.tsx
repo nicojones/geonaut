@@ -55,7 +55,7 @@ export const EditSelfieContextWrapper = ({ children, initialData }: EditSelfieCo
 
   const handleSetSelfieData = useCallback((newData: Partial<ISelfieEdit>): void => {
     const valid = EditSelfieValidator.safeParse({ ...data.selfie, ...newData });
-    console.log("is valid?", valid);
+
     if (valid.success) {
       setErrors({});
     } else {
