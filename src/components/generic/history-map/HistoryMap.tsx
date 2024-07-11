@@ -61,7 +61,7 @@ export const HistoryMap = ({ className = "", range, selfies, pinUrl }: HistoryMa
             marginX: "auto",
             "--Slider-thumbSize": "24px",
             ".MuiSlider-track": {
-              background: `linear-gradient(to right, ${PIN_GRADIENT_COLOR_FROM}, ${GRADIENT_COLOR_TO}) !important`,
+              background: `linear-gradient(to right, ${PIN_GRADIENT_COLOR_FROM}, ${PIN_GRADIENT_COLOR_TO}) !important`,
             },
             ".MuiSlider-thumb": {
               "&::before": {
