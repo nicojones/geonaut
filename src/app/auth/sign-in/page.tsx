@@ -1,8 +1,15 @@
 
+import { Metadata } from "next";
+
 import { AuthCard } from "@/components";
 import { mustBeAuthenticated } from "@/functions/server";
 
 import { SignInForm } from "./SignInForm";
+
+export const metadata: Metadata = {
+  title: "sign in - geonaut",
+  description: "sign in to geonaut",
+};
 
 export default async function SignIn (): Promise<JSX.Element> {
   await mustBeAuthenticated("/dashboard", false);
