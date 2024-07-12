@@ -25,7 +25,6 @@ const getDashboardData = (): Promise<IDashboardData> =>
 export default async function DashboardPage (): Promise<JSX.Element> {
   await mustBeAuthenticated();
   const dashboardData = await getDashboardData();
-  console.log(dashboardData);
 
   const [lastSelfie, ...latestSelfies] = (dashboardData.last ?? []);
 
