@@ -1,34 +1,29 @@
 "use client";
 
-import { KeyIcon } from "@heroicons/react/16/solid";
+import { EnvelopeIcon, KeyIcon } from "@heroicons/react/16/solid";
 import { Button, FormControl, FormHelperText, FormLabel, Input } from "@mui/joy";
 import classNames from "classnames";
-import Link from "next/link";
 import { useFormStatus } from "react-dom";
 
 import { loadingMask } from "@/functions";
-import { ILoginFormFields } from "@/types";
+import { IResetPasswordFormFields } from "@/types";
 
-interface SignInFormFieldsProps {
-  errors: Partial<ILoginFormFields>;
+interface ResetPasswordFormFieldsProps {
+  errors: Partial<IResetPasswordFormFields>;
+  email: string;
 }
-export const SignInFormFields = ({ errors }: SignInFormFieldsProps): JSX.Element => {
+export const ResetPasswordFormFields = ({ email, errors }: ResetPasswordFormFieldsProps): JSX.Element => {
   const { pending } = useFormStatus();
   return (
     <div className={classNames("flex flex-col space-y-4", loadingMask({ loading: pending }))}>
 
-      <FormControl
-        error={!!errors.username}
-        sx={{ gridColumn: "1/-1" }}
-      >
-        <FormLabel>username or email</FormLabel>
+      <FormControl sx={{ gridColumn: "1/-1" }}>
+        <FormLabel>email</FormLabel>
         <Input
-          startDecorator="@"
-          autoFocus
-          autoComplete="off"
-          name="username"
+          startDecorator={<EnvelopeIcon className="size-4" />}
+          disabled
+          value={email}
         />
-        {errors.username && <FormHelperText>{errors.username}</FormHelperText>}
       </FormControl>
 
       <FormControl
@@ -42,14 +37,26 @@ export const SignInFormFields = ({ errors }: SignInFormFieldsProps): JSX.Element
           name="password"
         />
         {errors.password && <FormHelperText>{errors.password}</FormHelperText>}
-        <FormHelperText sx={{ ml: "auto" }}><Link href="/auth/forgot" className="is-link">forgot password</Link></FormHelperText>
+      </FormControl>
+
+      <FormControl
+        error={!!errors.confirm}
+        sx={{ gridColumn: "1/-1" }}
+      >
+        <FormLabel>confirm</FormLabel>
+        <Input
+          startDecorator={<KeyIcon className="size-4" />}
+          type="password"
+          name="confirm"
+        />
+        {errors.confirm && <FormHelperText>{errors.confirm}</FormHelperText>}
       </FormControl>
 
       <FormControl sx={{ gridColumn: "1/-1" }}>
         <Button
           type="submit"
           loading={pending}
-        >log in
+        >set password
         </Button>
       </FormControl>
     </div>

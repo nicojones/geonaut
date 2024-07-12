@@ -1,20 +1,21 @@
+
 import { AuthCard } from "@/components";
 import { mustBeAuthenticated } from "@/functions/server";
 
-import { SignUpForm } from "./SignUpForm";
+import { ForgotPasswordForm } from "./ForgotPasswordForm";
 
-export default async function SignUp (): Promise<JSX.Element> {
+export default async function ResetPassword (): Promise<JSX.Element> {
   await mustBeAuthenticated("/dashboard", false);
 
   return (
     <AuthCard
-      title="create an account"
+      title="forgot your login?"
       orElse={{
-        text: ["already have an account?", "sign in"],
+        text: ["remembering again?", "sign in"],
         url: "/auth/sign-in",
       }}
     >
-      <SignUpForm />
+      <ForgotPasswordForm />
     </AuthCard>
   );
 }

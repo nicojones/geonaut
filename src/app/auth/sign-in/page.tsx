@@ -1,9 +1,12 @@
 
 import { AuthCard } from "@/components";
+import { mustBeAuthenticated } from "@/functions/server";
 
 import { SignInForm } from "./SignInForm";
 
-export default function SignIn (): JSX.Element {
+export default async function SignIn (): Promise<JSX.Element> {
+  await mustBeAuthenticated("/dashboard", false);
+
   return (
     <AuthCard
       title="sign in to geonaut"
