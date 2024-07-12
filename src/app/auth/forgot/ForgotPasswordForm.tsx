@@ -17,6 +17,8 @@ export const ForgotPasswordForm = (): JSX.Element => {
     INITIAL_STATE,
   );
 
+  console.log("ERRORRS???", errors);
+
   if (errors.message) {
     toast.success(errors.message);
     return (
