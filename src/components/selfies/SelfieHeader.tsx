@@ -15,6 +15,7 @@ interface SelfieHeaderProps {
 
 export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
   const color: CSSProperties["color"] = selfieTextColor(selfie);
+  const lcColor: CSSProperties["color"] = selfieTextColor(selfie, "lc");
 
   const [mapOpen, setMapOpen] = useState<boolean>(false);
   const marker = useMemo(() => selfiePin(selfie), [selfie]);
@@ -33,7 +34,7 @@ export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
           <Typography level="h1" sx={({ color })}>{selfie.title}</Typography>
           <Typography level="h3" sx={({ color })}>{selfie.short_desc}</Typography>
         </Link>
-        <div className={`flex flex-col text-base text-[${color}] shrink-0`}>
+        <div className={`flex flex-col text-base text-[${lcColor}] shrink-0`}>
           <span className="fric space-x-2">
             <CalendarIcon className="size-4" />
             <span title={`added on ${selfie.added_on_words}`}>{selfie.selfie_date_words}</span>

@@ -45,6 +45,7 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
   }
 
   const color = selfieTextColor(selfie);
+  const lcColor = selfieTextColor(selfie, "lc");
   const markers: IMapPin = selfiePin(selfie);
 
   return (
@@ -64,7 +65,7 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
 
           {
             selfieExists &&
-            <div className={`flex flex-col min-w-max text-base text-[${color}]`}>
+            <div className={`flex flex-col min-w-max text-base text-[${lcColor}]`}>
               <span className="flex justify-between">
                 <Link href={`/u/${selfie.username}`} className="fric space-x-2 as-link">
                   <UserIcon className="size-4" />
