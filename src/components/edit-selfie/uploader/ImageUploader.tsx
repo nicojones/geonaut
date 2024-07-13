@@ -1,11 +1,12 @@
 import { ArrowPathIcon, MapPinIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import { Button, IconButton } from "@mui/joy";
+import classNames from "classnames";
 import { CSSProperties, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AlertDialogModal } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { getCoords, imageCachePurge, raiseOnError } from "@/functions";
+import { getCoords, imageCachePurge, loadingMask, raiseOnError } from "@/functions";
 import { IEditSelfieCoords, IEditSelfieGps, IEditSelfieImageDetails, IReadFile } from "@/types";
 
 import { FileUploader } from "./FileUploader";
@@ -30,6 +31,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
   const { data, hash, setData, hasLocation } = useEditSelfieContext();
   const [imageData, setImageData] = useState<string | ArrayBuffer | null>(null);
   const [invalidateCache, setInvalidateCache] = useState<number>(imageCachePurge());
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const imageSrc = useMemo(() => (
     imageData
@@ -48,6 +50,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
       return;
     }
 
+    setUploading(true);
     readAddedImage(file, (result: IReadFile) => {
       setImageData(result);
 
@@ -78,7 +81,10 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
           }
           return r;
         })
-        .finally(() => onUploadStatusChange(false));
+        .finally(() => {
+          onUploadStatusChange(false);
+          setUploading(false);
+        });
 
       toast.promise(uploadPromise, {
         success: _data => _data.message,
@@ -111,7 +117,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
     <>
       <FileUploader
         onFileAdded={handleImageChange}
-        className={className}
+        className={classNames(className, loadingMask({ loading: uploading, spinner: true }))}
       >
         {
           (imageSrc)

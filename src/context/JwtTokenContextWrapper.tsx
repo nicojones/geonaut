@@ -3,6 +3,7 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 import { getUserFromJwt, gFetch, toQuery } from "@/functions";
 import { ComponentChildren, IFetch, IJwtContext, IJwtContextAuthedOrAnonymous, IResponse, IStorageKey, IUserSettings } from "@/types";
@@ -46,6 +47,9 @@ export const JwtTokenContextWrapper = ({ children, contextData }: JwtTokenContex
       .catch((e: IResponse<T>) => {
         if (e.responseData.status === 401) {
           router.push("/auth/logout" + toQuery({ status: e.responseData.status }));
+        }
+        if (e.responseData.status === 413) {
+          toast.error("file size too big");
         }
         // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw e;
