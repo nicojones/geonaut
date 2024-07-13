@@ -45,10 +45,10 @@ export const JwtTokenContextWrapper = ({ children, contextData }: JwtTokenContex
   >(body: IFetch<Body>) =>
     gFetch<T, Body>(body, jwt)
       .catch((e: IResponse<T>) => {
-        if (e.responseData.status === 401) {
-          router.push("/auth/logout" + toQuery({ status: e.responseData.status }));
+        if (e.status === 401) {
+          router.push("/auth/logout" + toQuery({ status: e.status }));
         }
-        if (e.responseData.status === 413) {
+        if (e.status === 413) {
           toast.error("file size too big");
         }
         // eslint-disable-next-line @typescript-eslint/no-throw-literal

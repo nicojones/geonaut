@@ -16,6 +16,8 @@ export const gFetch = <
   token: string | null = null,
 ): Promise<IResponse<T>> => {
   return fetch(`${process.env.NEXT_PUBLIC_API_URL as string}${url}`, {
+    // return fetch(`${'https://travel.kupfer.es' as string}${url}`, {
+
     signal,
     next: { cache } as any,
     method: method ?? "POST",
@@ -41,31 +43,35 @@ export const gFetch = <
         r.json()
           .then((response: IResponse<T>) => {
             if (ok) {
-              response.responseData.status = status;
+              response.status = status;
               return response;
             } else if (response) {
               // eslint-disable-next-line @typescript-eslint/no-throw-literal
-              throw response;
+              throw { ...response, status } satisfies IResponse<T>;
             } else {
               // eslint-disable-next-line @typescript-eslint/no-throw-literal
-              throw { success: 0, responseData: { status, response } };
+              throw { success: 0, status, responseData: response } satisfies IResponse<T>;
             }
           })
       );
-      //   return r.text().then(t => {
-      //     try {
-      //       console.log(t);
-      //       const parsed = JSON.parse(t);
-      //       parsed.responseData.status = status;
-      //       if (ok) {
-      //         return parsed;
-      //       } else {
-      //         // eslint-disable-next-line @typescript-eslint/no-throw-literal
-      //         throw parsed;
-      //       }
-      //     } catch (e) {
-      //       return {} as unknown as T;
+      // return r.text().then(unparsed => {
+      //   try {
+      //     console.log(unparsed);
+      //     const response: IResponse = JSON.parse(unparsed);
+      //     response.status = status;
+      //     if (ok) {
+      //       response.status = status;
+      //       return response;
+      //     } else if (response) {
+      //       // eslint-disable-next-line @typescript-eslint/no-throw-literal
+      //       throw { ...response, status };
+      //     } else {
+      //       // eslint-disable-next-line @typescript-eslint/no-throw-literal
+      //       throw { success: 0, responseData: { status, response } };
       //     }
-      //   });
+      //   } catch (e) {
+      //     return {} as unknown as T;
+      //   }
+      // });
     });
 };

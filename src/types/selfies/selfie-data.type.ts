@@ -6,9 +6,9 @@ export interface ISelfiesData {
   selfies: ISelfie[];
 }
 
-export interface ISelfieData {
+export interface ISelfieData<T = ISelfie> {
   title: string;
-  selfie: ISelfie;
+  selfie: T;
 }
 
 export interface ISelfiesWithUserData extends ISelfiesData {

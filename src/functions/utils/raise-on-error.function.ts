@@ -6,7 +6,7 @@ export const raiseOnError = <
   if (r.success) {
     return r.responseData;
   } else {
-    console.error(r);
+    console.error("UNSUCCESSFUL", r);
     // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw r.responseData;
   }

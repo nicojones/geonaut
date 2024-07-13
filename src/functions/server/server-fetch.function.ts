@@ -12,11 +12,15 @@ export const serverFetch = <
   options: IFetch<Body>,
 ): Promise<IResponseData<T>> => {
   return gFetch<T, Body>(options, cookies().get("token" satisfies IStorageKey)?.value ?? null)
+    .then(r => {
+      console.log("got the data", r);
+      return r;
+    })
     .catch((e: IResponse<T>) => {
       if (!e?.responseData) {
-        console.error(e);
-      } else if (e.responseData.status === 401) {
-        redirect("/auth/logout" + toQuery({ status: e.responseData.status }));
+        console.error("NO RESPONSE DATA", e);
+      } else if (e.status === 401) {
+        redirect("/auth/logout" + toQuery({ status: e.status }));
       }
       // eslint-disable-next-line @typescript-eslint/no-throw-literal
       throw e;

@@ -7,9 +7,9 @@ import Link from "next/link";
 import { EditSelfieButton, LoveSelfie } from "@/components";
 import { CopyPath, MapViewer } from "@/components/generic";
 import { CommentList } from "@/components/selfies/comments/CommentList";
-import { selfieBackgroundStyle, selfieLcImage, selfieMetadata, selfieMyImage, selfiePin, selfieTextColor } from "@/functions";
+import { selfieBackgroundStyle, selfieLcImage, selfieMetadata, selfieMyImage, selfieNotFound, selfiePin, selfieTextColor } from "@/functions";
 import { serverFetch } from "@/functions/server";
-import { IFetchSelfieBody, IMapPin, ISelfieData, ISelfiePrevNext, IUrlParams } from "@/types";
+import { IFetchSelfieBody, IMapPin, ISelfie, ISelfieData, ISelfiePrevNext, IUrlParams } from "@/types";
 
 import { renderDynamicSelfie } from "./render-dynamic-selfie.function";
 
@@ -17,18 +17,31 @@ export async function generateMetadata (
   { params }: IUrlParams<"hash">,
 ): Promise<Metadata> {
   const selfie = (await getSelfie(params.hash)).selfie;
-  return selfieMetadata(selfie);
+  if (selfie) {
+    return selfieMetadata(selfie);
+  } else {
+    return {};
+  }
 }
 
-const getSelfie = (hash: string): Promise<ISelfieData> =>
-  serverFetch<ISelfieData, IFetchSelfieBody>({ body: { s: "one", hash }, cache: "no-store" });
+const getSelfie = (hash: string): Promise<ISelfieData<ISelfie | false>> =>
+  serverFetch<ISelfieData, IFetchSelfieBody>({ body: { s: "one", hash }, cache: "no-store" })
+    .catch(_e => ({ selfie: false, title: "not found" }));
 
-const getPrevNext = (hash: string): Promise<ISelfiePrevNext> =>
-  serverFetch<ISelfiePrevNext, Record<string, never>>({ body: {}, url: `/api/next/${hash}` });
+const getPrevNext = async (hash: string, selfieExists: boolean = true): Promise<ISelfiePrevNext> => {
+  if (selfieExists) {
+    return await serverFetch<ISelfiePrevNext, Record<string, never>>({ body: {}, url: `/api/next/${hash}` });
+  }
+  return { prev: null, next: null };
+};
 
 export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">): Promise<JSX.Element> {
-  const selfie = (await getSelfie(params.hash)).selfie;
-  const { prev, next } = (await getPrevNext(params.hash));
+  let selfie = (await getSelfie(params.hash)).selfie;
+  const selfieExists = !!selfie;
+  const { prev, next } = (await getPrevNext(params.hash, selfieExists));
+  if (!selfie || !selfieExists) {
+    selfie = selfieNotFound({ hash: params.hash });
+  }
 
   const color = selfieTextColor(selfie);
   const markers: IMapPin = selfiePin(selfie);
@@ -87,8 +100,13 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
         </div>
 
         <div role="content" className="grid grid-flow-col lg:grid-flow-row grid-cols-1 grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 relative">
-          <LoveSelfie selfie={selfie} />
-          <EditSelfieButton selfie={selfie} allowDelete />
+          {
+            selfieExists &&
+            <>
+              <LoveSelfie selfie={selfie} />
+              <EditSelfieButton selfie={selfie} allowDelete />
+            </>
+          }
           <Image
             src={selfieMyImage(selfie)}
             alt={"My image for " + selfie.title}
@@ -135,10 +153,13 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
           }
         </div>
 
-        <div className="grid grid-flow-col lg:grid-flow-row grid-rows-2 grid-cols-1 lg:grid-cols-2 lg:grid-rows-1">
-          <MapViewer markers={[markers]} style="satellite" className="min-h-96 max-h-[45rem] w-full block" />
-          <CommentList selfie={selfie} />
-        </div>
+        {
+          selfieExists &&
+          <div className="grid grid-flow-col lg:grid-flow-row grid-rows-2 grid-cols-1 lg:grid-cols-2 lg:grid-rows-1">
+            <MapViewer markers={[markers]} style="satellite" className="min-h-96 max-h-[45rem] w-full block" />
+            <CommentList selfie={selfie} />
+          </div>
+        }
 
         {
           selfie.long_desc.length >= 5 &&

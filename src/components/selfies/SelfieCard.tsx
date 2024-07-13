@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import Image from "next/image";
 
+import { NO_IMAGE } from "@/config";
 import { selfieBackgroundStyle, selfieBoxShadowStyle, selfieLcImage, selfieMyImage } from "@/functions";
 import { IClassName, ISelfie } from "@/types";
 
@@ -15,13 +16,17 @@ interface SelfieCardProps extends IClassName {
    * @default false
    */
   priority?: boolean;
+  /**
+   * @default false
+   */
+  disabled?: boolean;
 
 }
 
-export const SelfieCard = ({ className = "", priority = false, selfie }: SelfieCardProps): JSX.Element => {
+export const SelfieCard = ({ className = "", disabled = false, priority = false, selfie }: SelfieCardProps): JSX.Element => {
   return (
     <div
-      className={classNames("flex flex-col max-w-full", className)}
+      className={classNames("flex flex-col max-w-full", className, { "pointer-events-none select-none": disabled })}
       style={{
         background: selfieBackgroundStyle(selfie.me_color, selfie.lc_color),
         boxShadow: selfieBoxShadowStyle(selfie.me_color),
@@ -30,10 +35,15 @@ export const SelfieCard = ({ className = "", priority = false, selfie }: SelfieC
       <SelfieHeader selfie={selfie} />
 
       <div role="content" className="flex flex-col md:flex-row relative">
-        <LoveSelfie selfie={selfie} />
-        <EditSelfieButton selfie={selfie} />
+        {
+          !disabled &&
+          <>
+            <LoveSelfie selfie={selfie} />
+            <EditSelfieButton selfie={selfie} />
+          </>
+        }
         <Image
-          src={selfieMyImage(selfie)}
+          src={disabled ? NO_IMAGE : selfieMyImage(selfie)}
           alt="My image"
           className="w-full md:w-1/2"
           width={1000}
@@ -41,7 +51,7 @@ export const SelfieCard = ({ className = "", priority = false, selfie }: SelfieC
           priority={priority}
         />
         <Image
-          src={selfieLcImage(selfie)}
+          src={disabled ? NO_IMAGE : selfieLcImage(selfie)}
           alt="Landscape image"
           className="w-full md:w-1/2"
           width={1000}

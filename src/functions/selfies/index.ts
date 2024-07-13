@@ -6,3 +6,4 @@ export * from "./selfie-url.function";
 export * from "./selfie-pin.function";
 export * from "./selfie-styles.function";
 export * from "./get-coords.function";
+export * from "./selfie-not-found.function";
