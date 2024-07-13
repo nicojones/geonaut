@@ -46,7 +46,7 @@ export const UserPageHeaderMap = ({ username }: UserPageHeaderMapProps): JSX.Ele
                 <XMarkIcon className="size-4" /> &nbsp; close map
               </Button>
               {
-                mapData
+                mapData?.mapSelfiesRange
                   ? (
                     <HistoryMap
                       className="relative h-[60rem] max-h-[80vh] w-full"

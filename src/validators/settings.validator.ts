@@ -11,4 +11,13 @@ export const SettingsValidator = z.object({
   username: z.string().min(4),
   password: z.string().optional(),
   confirm: z.string().optional(),
-});
+})
+  .superRefine(({ confirm, password }, ctx) => {
+    if (confirm !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "the passwords do not match",
+        path: ["confirm"],
+      });
+    }
+  });

@@ -95,7 +95,7 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
         <FormHelperText><i>nobody</i>&nbsp;can see this</FormHelperText>
       </FormControl>
 
-      <div className="flex flex-col space-y-4 lg:flex-col lg:space-x-4 lg:space-y-0">
+      <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
 
         <FormControl error={!!errors.password} className="grow">
           <FormLabel>password</FormLabel>

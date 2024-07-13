@@ -60,7 +60,7 @@ export default async function DashboardPage (): Promise<JSX.Element> {
             ? (
               <>
                 <div>
-                  <Typography level="h2" sx={{ textAlign: "center", mb: 5 }}>last posts</Typography>
+                  <Typography level="h2" sx={{ textAlign: "center", mb: 5 }}>latest posts</Typography>
 
                   <SelfieCard key={lastSelfie.hash} selfie={lastSelfie} priority />
                   {
@@ -88,7 +88,7 @@ export default async function DashboardPage (): Promise<JSX.Element> {
 
       <Card sx={{ minHeight: 150 }}>
         {
-          lastSelfie
+          lastSelfie && dashboardData.mapSelfiesRange
             ? (
               <>
                 <Typography level="h2" sx={{ textAlign: "center", mb: 5 }}>previous posts on a map</Typography>

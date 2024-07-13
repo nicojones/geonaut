@@ -13,7 +13,9 @@ export const serverFetch = <
 ): Promise<IResponseData<T>> => {
   return gFetch<T, Body>(options, cookies().get("token" satisfies IStorageKey)?.value ?? null)
     .catch((e: IResponse<T>) => {
-      if (e.responseData.status === 401) {
+      if (!e?.responseData) {
+        console.error(e);
+      } else if (e.responseData.status === 401) {
         redirect("/auth/logout" + toQuery({ status: e.responseData.status }));
       }
       // eslint-disable-next-line @typescript-eslint/no-throw-literal

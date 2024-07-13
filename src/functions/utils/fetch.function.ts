@@ -49,20 +49,20 @@ export const gFetch = <
             }
           })
       );
-      // return r.text().then(t => {
-      //   try {
-      //     console.log(t);
-      //     const parsed = JSON.parse(t);
-      //     parsed.responseData.status = status;
-      //     if (ok) {
-      //       return parsed;
-      //     } else {
-      //       // eslint-disable-next-line @typescript-eslint/no-throw-literal
-      //       throw parsed;
-      //     }
-      //   } catch (e) {
-      //     return {} as unknown as T;
-      //   }
-      // });
+    //   return r.text().then(t => {
+    //     try {
+    //       console.log(t);
+    //       const parsed = JSON.parse(t);
+    //       parsed.responseData.status = status;
+    //       if (ok) {
+    //         return parsed;
+    //       } else {
+    //         // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    //         throw parsed;
+    //       }
+    //     } catch (e) {
+    //       return {} as unknown as T;
+    //     }
+    //   });
     });
 };
