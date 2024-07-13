@@ -1,7 +1,8 @@
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 import { SelfiePage, UserPageHeader } from "@/components";
-import { userMetadata } from "@/functions";
+import { toQuery, userMetadata } from "@/functions";
 import { serverFetch } from "@/functions/server";
 import { IFetchSelfieBody, ISelfiesWithUserData, IUrlParams } from "@/types";
 
@@ -19,7 +20,8 @@ export async function generateMetadata (
 }
 
 async function getUserSelfies (body: IFetchSelfieBody): Promise<ISelfiesWithUserData> {
-  return await serverFetch<ISelfiesWithUserData, IFetchSelfieBody>({ body });
+  return await serverFetch<ISelfiesWithUserData, IFetchSelfieBody>({ body })
+    .catch(() => redirect("/user-not-found" + toQuery({ username: body.username })));
 }
 
 export default async function UserPage ({ params }: IUrlParams<"username">): Promise<JSX.Element> {
