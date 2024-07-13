@@ -7,6 +7,7 @@ import Link from "next/link";
 import { EditSelfieButton, LoveSelfie } from "@/components";
 import { CopyPath, MapViewer } from "@/components/generic";
 import { CommentList } from "@/components/selfies/comments/CommentList";
+import { NO_IMAGE } from "@/config";
 import { selfieBackgroundStyle, selfieLcImage, selfieMetadata, selfieMyImage, selfieNotFound, selfiePin, selfieTextColor } from "@/functions";
 import { serverFetch } from "@/functions/server";
 import { IFetchSelfieBody, IMapPin, ISelfie, ISelfieData, ISelfiePrevNext, IUrlParams } from "@/types";
@@ -108,14 +109,14 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
             </>
           }
           <Image
-            src={selfieMyImage(selfie)}
+            src={selfieExists ? selfieMyImage(selfie) : NO_IMAGE}
             alt={"My image for " + selfie.title}
             className="w-full"
             width={1000}
             height={750}
           />
           <Image
-            src={selfieLcImage(selfie)}
+            src={selfieExists ? selfieLcImage(selfie) : NO_IMAGE}
             alt={"Landscape image for " + selfie.title}
             className="w-full"
             width={1000}

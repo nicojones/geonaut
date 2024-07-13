@@ -16,7 +16,6 @@ export const gFetch = <
   token: string | null = null,
 ): Promise<IResponse<T>> => {
   return fetch(`${process.env.NEXT_PUBLIC_API_URL as string}${url}`, {
-    // return fetch(`${'https://travel.kupfer.es' as string}${url}`, {
 
     signal,
     next: { cache } as any,
