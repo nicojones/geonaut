@@ -2,7 +2,8 @@ import { Metadata } from "next";
 
 import { StickyHeader } from "@/components";
 import { DashboardSheet } from "@/components/generic";
-import { mustBeAuthenticated, serverFetch } from "@/functions/server";
+import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";
+import { serverFetch } from "@/functions/server/server-fetch.function";
 import { IResponseData, ISettings } from "@/types";
 
 import { SettingsForm } from "./SettingsForm";

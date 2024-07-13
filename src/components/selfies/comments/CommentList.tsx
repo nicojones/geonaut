@@ -1,6 +1,6 @@
 
 import { selfieTextColor } from "@/functions";
-import { serverFetch } from "@/functions/server";
+import { serverFetch } from "@/functions/server/server-fetch.function";
 import { ISelfie, ISelfieComment } from "@/types";
 
 import { AddComment } from "./AddComment";

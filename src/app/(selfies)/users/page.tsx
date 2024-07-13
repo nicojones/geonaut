@@ -3,28 +3,33 @@
 import { Metadata } from "next";
 
 import { SelfiePage } from "@/components";
-import { serverFetch } from "@/functions/server";
-import { IFetchSelfieBody, ISelfiesData } from "@/types";
+import { dbGetUsersWithLastSelfie } from "@/db/db-get-users-with-last-selfie.query";
+import { selfieResults } from "@/functions";
+import { getUserFromCookie } from "@/functions/server/get-user-from-cookie.function";
+import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";
+import { ISelfiesData } from "@/types";
 
 export const metadata: Metadata = {
   title: "users - geonaut",
   description: "the latest and greatest from our users",
 };
 
-const HOME_USER_SELFIES_BODY: IFetchSelfieBody = { s: "users", limit: 10, start: 0 };
-
-function getUserSelfies (): Promise<ISelfiesData> {
-  return serverFetch<ISelfiesData, IFetchSelfieBody>({ body: HOME_USER_SELFIES_BODY });
+async function getLastSelfieOfUsers (start: number): Promise<ISelfiesData> {
+  "use server";
+  const self = await getUserFromCookie();
+  const result = await dbGetUsersWithLastSelfie({ selfId: self?.id ?? 0, start, limit: 10 });
+  return selfieResults(result, 10, "users");
 }
 
-export default async function HomepageUsers (): Promise<JSX.Element> {
-  const selfiesData = await getUserSelfies();
+export default async function UsersPage (): Promise<JSX.Element> {
+  await mustBeAuthenticated();
+  const selfiesData = await getLastSelfieOfUsers(0);
+
   return (
     <SelfiePage
-      more={Boolean(Number(selfiesData.more))}
       initialSelfies={selfiesData.selfies}
       header={selfiesData.title}
-      fetcher={HOME_USER_SELFIES_BODY}
+      fetcher={selfiesData.more ? getLastSelfieOfUsers : undefined}
     />
   );
 }

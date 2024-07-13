@@ -4,39 +4,36 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { SCROLL_PADDING } from "@/config";
-import { useJwtTokenContext } from "@/context";
-import { raiseOnError } from "@/functions";
-import { ComponentChildren, IFetchSelfieBodyGeneric, ISelfie, ISelfiesAsyncLoad, ISelfiesData } from "@/types";
+import { ComponentChildren, ISelfie, ISelfiesAsyncLoad, ISelfiesData } from "@/types";
 
 import { SelfieCard } from "./SelfieCard";
 import { ThatsAllFolks } from "./ThatsAllFolks";
 
 interface SelfiesAsyncLoaderProps {
-  fetcher: IFetchSelfieBodyGeneric;
+  fetcher?: (start: number) => Promise<ISelfiesData>;
   children?: ComponentChildren;
-  more: boolean;
+  start: number;
 }
 
-export const SelfiesAsyncLoader = ({ children, more, fetcher }: SelfiesAsyncLoaderProps): JSX.Element => {
-  const { api } = useJwtTokenContext();
+export const SelfiesAsyncLoader = ({ children, start, fetcher }: SelfiesAsyncLoaderProps): JSX.Element => {
   const [data, setData] = useState<ISelfiesAsyncLoad>({
     selfies: [],
-    more,
-    start: (fetcher.start ?? 0),
+    start,
     loading: false,
+    more: !!fetcher,
   });
 
   const handleScroll = useCallback((): void => {
-    if (data.loading || !data.more) {
+    if (data.loading || !data.more || !fetcher) {
       return;
     }
     const doc = window.document.documentElement;
     const documentHeightToLoad = doc.scrollHeight - doc.clientHeight - SCROLL_PADDING;
     if (window.scrollY > documentHeightToLoad) {
-      const startFrom = data.start + (fetcher.limit ?? 0);
+      const startFrom = data.start + data.selfies.length;
       setData(d => ({ ...d, start: startFrom, loading: true }));
-      api<ISelfiesData, IFetchSelfieBodyGeneric>({ body: { ...fetcher, start: startFrom } })
-        .then(raiseOnError)
+      fetcher(startFrom)
+      // fetchMoreSelfies({ selfId: user?.id, start: startFrom, limit: fetcher.limit })
         .then(r => setData(d => ({
           ...d,
           more: !!r.more,

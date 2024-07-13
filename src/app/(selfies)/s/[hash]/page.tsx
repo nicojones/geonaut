@@ -3,13 +3,14 @@ import { Typography } from "@mui/joy";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { format } from "timeago.js";
 
 import { EditSelfieButton, LoveSelfie } from "@/components";
 import { CopyPath, MapViewer } from "@/components/generic";
 import { CommentList } from "@/components/selfies/comments/CommentList";
 import { NO_IMAGE } from "@/config";
 import { selfieBackgroundStyle, selfieLcImage, selfieMetadata, selfieMyImage, selfieNotFound, selfiePin, selfieTextColor } from "@/functions";
-import { serverFetch } from "@/functions/server";
+import { serverFetch } from "@/functions/server/server-fetch.function";
 import { IFetchSelfieBody, IMapPin, ISelfie, ISelfieData, ISelfiePrevNext, IUrlParams } from "@/types";
 
 import { renderDynamicSelfie } from "./render-dynamic-selfie.function";
@@ -39,7 +40,8 @@ const getPrevNext = async (hash: string, selfieExists: boolean = true): Promise<
 export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">): Promise<JSX.Element> {
   let selfie = (await getSelfie(params.hash)).selfie;
   const selfieExists = !!selfie;
-  const { prev, next } = (await getPrevNext(params.hash, selfieExists));
+
+  const { prev, next } = await getPrevNext(params.hash, selfieExists);
   if (!selfie || !selfieExists) {
     selfie = selfieNotFound({ hash: params.hash });
   }
@@ -79,18 +81,18 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
                   icon={<ShareIcon className="size-4 hover:text-blue-500" />}
                 />
               </span>
-              <span className="fric space-x-2" title={selfie.selfie_date_long}>
+              <span className="fric space-x-2" title={selfie.selfie_date}>
                 <CameraIcon className="size-4" />
                 <small>taken</small>{" "}
                 <span>
-                  {selfie.selfie_date_words}
+                  {format(selfie.selfie_date)}
                 </span>
               </span>
-              <span className="fric space-x-2" title={selfie.added_on_long}>
+              <span className="fric space-x-2" title={selfie.added_on}>
                 <CalendarIcon className="size-4" />
                 <small>added</small>
                 <span>
-                  {selfie.added_on_words}
+                  {format(selfie.added_on)}
                 </span>
               </span>
               <span className="fric space-x-2">

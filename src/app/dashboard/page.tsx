@@ -7,7 +7,8 @@ import Link from "next/link";
 import { SelfieCard } from "@/components";
 import { DashboardSheet, HistoryMap } from "@/components/generic";
 import { selfieLcImage, selfieMyImage } from "@/functions";
-import { mustBeAuthenticated, serverFetch } from "@/functions/server";
+import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";
+import { serverFetch } from "@/functions/server/server-fetch.function";
 import { IDashboardData } from "@/types";
 
 export const metadata: Metadata = {

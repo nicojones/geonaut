@@ -20,7 +20,7 @@ export const UserPageHeader = ({ user }: UserPageHeaderProps): JSX.Element => {
       ? Boolean(user.ifollow)
       : null,
   );
-  const updatedFollowers: number = (user.followers - (user.ifollow) + Number(follow));
+  const updatedFollowers: number = (user.followers - Number(user.ifollow) + Number(follow));
 
   const handleToggleFollow = (): void => {
     setFollow(_f => !_f);
@@ -54,7 +54,7 @@ export const UserPageHeader = ({ user }: UserPageHeaderProps): JSX.Element => {
           }
         </div>
         <div className="fric space-x-8 w-full">
-          <Avatar src={process.env.NEXT_PUBLIC_RESOURCE_URL as string + user.avatar} alt="Avatar" sx={{ width: 128, height: 128 }} />
+          <Avatar src={user.avatar} alt="Avatar" sx={{ width: 128, height: 128 }} />
           <div className="flex flex-col space-y-4 shrink basis-full">
             <div className="fric justify-between">
               <span>{user.pictures} picture{user.pictures === 1 ? "" : "s"}</span>

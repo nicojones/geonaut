@@ -1,7 +1,8 @@
 
 import { redirect } from "next/navigation";
 
-import { mustBeAuthenticated, serverFetch } from "@/functions/server";
+import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";
+import { serverFetch } from "@/functions/server/server-fetch.function";
 import { IResponseData, IResponseRedirect } from "@/types";
 
 const getSelfieDraft = (): Promise<IResponseData<IResponseRedirect>> => {

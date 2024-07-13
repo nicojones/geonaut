@@ -7,7 +7,7 @@ interface NotificationPostProps {
 export const NotificationPost = ({ notification }: NotificationPostProps): JSX.Element => {
   return (
     <>
-      post
+      post {JSON.stringify(notification)}
     </>
   );
 };

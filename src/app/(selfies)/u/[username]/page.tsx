@@ -2,39 +2,44 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { SelfiePage, UserPageHeader } from "@/components";
-import { toQuery, userMetadata } from "@/functions";
-import { serverFetch } from "@/functions/server";
-import { IFetchSelfieBody, ISelfiesWithUserData, IUrlParams } from "@/types";
+import { dbGetSelfies, dbGetUserIdFromUsername, dbGetUserInfo } from "@/db";
+import { selfieResults, toQuery, userMetadata } from "@/functions";
+import { getUserFromCookie } from "@/functions/server/get-user-from-cookie.function";
+import { ISelfiesData, IUrlParams, IUserData } from "@/types";
 
-const USER_SELFIES_PAGE_BODY_DEFAULT: IFetchSelfieBody = { s: "user", limit: 10, start: 0 };
+async function getUserInfo (userId: number): Promise<IUserData> {
+  const self = await getUserFromCookie();
+  return await dbGetUserInfo(self?.id ?? 0, userId);
+}
 
 export async function generateMetadata (
   { params }: IUrlParams<"username">,
 ): Promise<Metadata> {
-  const user = (await getUserSelfies({
-    ...USER_SELFIES_PAGE_BODY_DEFAULT,
-    info: 1,
-    username: params.username,
-  })).user;
-  return userMetadata(user);
+  const userId = await dbGetUserIdFromUsername(params.username);
+  const userInfo = await getUserInfo(userId);
+  return userMetadata(userInfo);
 }
 
-async function getUserSelfies (body: IFetchSelfieBody): Promise<ISelfiesWithUserData> {
-  return await serverFetch<ISelfiesWithUserData, IFetchSelfieBody>({ body })
-    .catch(() => redirect("/user-not-found" + toQuery({ username: body.username })));
+async function getUserSelfies (selfId: number, userId: number, start: number): Promise<ISelfiesData> {
+  "use server";
+  return await dbGetSelfies({ selfId, userId, start, limit: 10 })
+    .then(r => selfieResults(r, 10));
 }
 
 export default async function UserPage ({ params }: IUrlParams<"username">): Promise<JSX.Element> {
-  const USER_SELFIES_PAGE_BODY: IFetchSelfieBody = { ...USER_SELFIES_PAGE_BODY_DEFAULT, username: params.username };
-  const userSelfies = await getUserSelfies({ ...USER_SELFIES_PAGE_BODY, info: 1 });
+  const userId = await dbGetUserIdFromUsername(params.username)
+    .catch(() => redirect("/user-not-found" + toQuery({ username: params.username })));
+  const self = await getUserFromCookie();
+  const getUserSelfiesWithUserId = getUserSelfies.bind(null, self?.id ?? 0, userId);
+  const userSelfies = await getUserSelfiesWithUserId(0);
+  const userData = await getUserInfo(userId);
 
   return (
     <>
       <SelfiePage
-        fetcher={USER_SELFIES_PAGE_BODY}
-        more={Boolean(Number(userSelfies.more))}
+        fetcher={userSelfies.more ? getUserSelfiesWithUserId : undefined}
         initialSelfies={userSelfies.selfies}
-        header={<UserPageHeader user={userSelfies.user} />}
+        header={<UserPageHeader user={userData} />}
         sticky={false}
       />
     </>

@@ -7,7 +7,7 @@ import { MutableRefObject, useRef, useState } from "react";
 import { AttachmentUploader } from "@/components/edit-selfie/uploader/AttachmentUploader";
 
 import { QuillEditor } from "./editor/QuillEditor";
-const Delta = Quill.import("delta");
+// const Delta = Quill.import("delta");
 
 interface EditSelfieDescriptionFieldProps {
   value: string;

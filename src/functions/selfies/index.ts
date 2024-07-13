@@ -7,3 +7,4 @@ export * from "./selfie-pin.function";
 export * from "./selfie-styles.function";
 export * from "./get-coords.function";
 export * from "./selfie-not-found.function";
+export * from "./selfie-results.function";

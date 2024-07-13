@@ -2,7 +2,8 @@ import { Sheet } from "@mui/joy";
 
 import { EditSelfieForm } from "@/components";
 import { EditSelfieContextWrapper } from "@/context";
-import { mustBeAuthenticated, serverFetch } from "@/functions/server";
+import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";
+import { serverFetch } from "@/functions/server/server-fetch.function";
 import { IEditSelfieData, IResponseData, IUrlParams } from "@/types";
 
 const getSelfieDraft = (hash: string): Promise<any> => {

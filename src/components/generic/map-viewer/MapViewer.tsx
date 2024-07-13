@@ -7,7 +7,7 @@ import classNames from "classnames";
 import mapboxgl from "mapbox-gl";
 import { MutableRefObject, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 
-import { DEFAULT_MAP_ZOOM, MAX_MAP_ZOOM, SET_PIN_MAP_ZOOM, ZURICH_COORDS } from "@/config";
+import { DEFAULT_MAP_ZOOM, MAX_MAP_ZOOM, ZURICH_COORDS } from "@/config";
 import { IMapPin } from "@/types";
 
 import { createMapLayer } from "./create-map-layer.function";
@@ -45,10 +45,6 @@ interface MapProps {
    * @default DEFAULT_MAP_ZOOM
    */
   zoom?: number;
-  /**
-   * @default SET_PIN_MAP_ZOOM
-   */
-  panZoom?: number;
 }
 
 const getMapStyle = (_style: IMapStyle): string =>
@@ -66,7 +62,6 @@ export const MapViewer = ({
   extraConfig,
   onExtraConfigLoaded,
   zoom = DEFAULT_MAP_ZOOM,
-  panZoom = SET_PIN_MAP_ZOOM,
 }: MapProps): JSX.Element => {
   const mapContainer = useRef<HTMLElement>() as MutableRefObject<HTMLElement>;
   const mapRef = useRef<mapboxgl.Map | null>(null);

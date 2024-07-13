@@ -1,32 +1,33 @@
 import { Metadata } from "next";
 
 import { SelfiePage } from "@/components";
-import { mustBeAuthenticated, serverFetch } from "@/functions/server";
-import { IFetchSelfieBody, ISelfiesData } from "@/types";
+import { dbGetLovedSelfies } from "@/db";
+import { selfieResults } from "@/functions";
+import { getUserFromCookie } from "@/functions/server/get-user-from-cookie.function";
+import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";
+import { ISelfiesData } from "@/types";
 
 export const metadata: Metadata = {
   title: "loves - geonaut",
   description: "posts you love",
 };
 
-const LOVES_USER_SELFIES_BODY: IFetchSelfieBody = { s: "loves", limit: 10, start: 0 };
-
-function getUserSelfies (): Promise<ISelfiesData> {
-  return serverFetch<ISelfiesData, IFetchSelfieBody>(
-    { body: LOVES_USER_SELFIES_BODY },
-  );
+async function getLovedSelfies (start: number): Promise<ISelfiesData> {
+  "use server";
+  const user = await getUserFromCookie();
+  const result = await dbGetLovedSelfies({ selfId: user?.id, start, limit: 10 });
+  return selfieResults(result, 10, "loved");
 }
 
 export default async function LovesPage (): Promise<JSX.Element> {
   await mustBeAuthenticated();
-  const selfiesData = await getUserSelfies();
+  const selfiesData = await getLovedSelfies(0);
 
   return (
     <SelfiePage
       initialSelfies={selfiesData.selfies}
-      more={Boolean(Number(selfiesData.more))}
       header={selfiesData.title}
-      fetcher={LOVES_USER_SELFIES_BODY}
+      fetcher={selfiesData.more ? getLovedSelfies : undefined}
     />
   );
 }

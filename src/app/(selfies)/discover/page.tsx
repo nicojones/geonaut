@@ -1,32 +1,33 @@
 import { Metadata } from "next";
 
 import { SelfiePage } from "@/components";
-import { mustBeAuthenticated, serverFetch } from "@/functions/server";
-import { IFetchSelfieBody, ISelfiesData } from "@/types";
+import { dbGetFollowedSelfies } from "@/db";
+import { selfieResults } from "@/functions";
+import { getUserFromCookie } from "@/functions/server/get-user-from-cookie.function";
+import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";
+import { ISelfiesData } from "@/types";
 
 export const metadata: Metadata = {
   title: "discover - geonaut",
   description: "latest posts by those you're interested in",
 };
 
-const DISCOVER_USER_SELFIES_BODY: IFetchSelfieBody = { s: "discover", limit: 10, start: 0 };
-
-function getUserSelfies (): Promise<ISelfiesData> {
-  return serverFetch<ISelfiesData, IFetchSelfieBody>(
-    { body: DISCOVER_USER_SELFIES_BODY },
-  );
+async function getDiscoverSelfies (start: number): Promise<ISelfiesData> {
+  "use server";
+  const user = await getUserFromCookie();
+  const result = await dbGetFollowedSelfies({ selfId: user?.id, start, limit: 10 });
+  return selfieResults(result, 10, "discover");
 }
 
 export default async function DiscoverPage (): Promise<JSX.Element> {
   await mustBeAuthenticated();
-  const selfiesData = await getUserSelfies();
+  const selfiesData = await getDiscoverSelfies(0);
 
   return (
     <SelfiePage
       initialSelfies={selfiesData.selfies}
-      more={Boolean(Number(selfiesData.more))}
       header={selfiesData.title}
-      fetcher={DISCOVER_USER_SELFIES_BODY}
+      fetcher={selfiesData.more ? getDiscoverSelfies : undefined}
     />
   );
 }

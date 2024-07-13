@@ -1,8 +1,8 @@
 import { IBool, ISelfie, IUserData } from "@/types";
 
 export interface ISelfiesData {
-  more: IBool;
-  title: string;
+  more: IBool | boolean;
+  title?: string;
   selfies: ISelfie[];
 }
 

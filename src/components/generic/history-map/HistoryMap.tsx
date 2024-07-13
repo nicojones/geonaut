@@ -88,7 +88,6 @@ export const HistoryMap = ({ className = "", range, selfies, pinUrl }: HistoryMa
         connected
         lineColors={[PIN_GRADIENT_COLOR_FROM, PIN_GRADIENT_COLOR_TO]}
         zoom={2}
-        panZoom={2}
       />
     </div>
   );

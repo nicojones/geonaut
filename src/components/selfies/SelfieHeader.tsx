@@ -4,6 +4,7 @@ import { CalendarIcon, MapPinIcon, UserIcon } from "@heroicons/react/16/solid";
 import { Typography } from "@mui/joy";
 import Link from "next/link";
 import { CSSProperties, useMemo, useState } from "react";
+import { format } from "timeago.js";
 
 import { MapViewer } from "@/components/generic";
 import { selfiePin, selfieTextColor } from "@/functions";
@@ -37,7 +38,7 @@ export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
         <div className={`flex flex-col text-base text-[${lcColor}] shrink-0`}>
           <span className="fric space-x-2">
             <CalendarIcon className="size-4" />
-            <span title={`added on ${selfie.added_on_words}`}>{selfie.selfie_date_words}</span>
+            <span title={`added on ${selfie.selfie_date}`}>{format(selfie.selfie_date)}</span>
           </span>
           <span className="fric space-x-2 cursor-pointer" onClick={handleToggleMap}>
             <MapPinIcon className="size-4" />

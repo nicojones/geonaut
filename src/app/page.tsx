@@ -3,30 +3,30 @@
 import { Metadata } from "next";
 
 import { SelfiePage } from "@/components";
-import { serverFetch } from "@/functions/server";
-import { IFetchSelfieBody, ISelfiesData } from "@/types";
+import { dbGetSelfies } from "@/db/db-get-selfies.query";
+import { selfieResults } from "@/functions";
+import { getUserFromCookie } from "@/functions/server/get-user-from-cookie.function";
+import { ISelfiesData } from "@/types";
 
 export const metadata: Metadata = {
   title: "latest - geonaut",
   description: "the latest and greatest posts on the platform",
 };
 
-const HOME_SELFIES_BODY: IFetchSelfieBody = { s: "home", limit: 10, start: 0 };
-
-async function getHomeSelfies (): Promise<ISelfiesData> {
-  return await serverFetch<ISelfiesData, IFetchSelfieBody>(
-    { body: HOME_SELFIES_BODY },
-  );
+async function getHomeSelfies (start: number): Promise<ISelfiesData> {
+  "use server";
+  const user = await getUserFromCookie();
+  const result = await dbGetSelfies({ selfId: user?.id, start, limit: 10 });
+  return selfieResults(result, 10);
 }
 
 export default async function HomePage (): Promise<JSX.Element> {
-  const selfiesData = await getHomeSelfies();
+  const selfiesData = await getHomeSelfies(0);
   return (
     <SelfiePage
       initialSelfies={selfiesData.selfies}
-      more={Boolean(Number(selfiesData.more))}
       header="geonaut"
-      fetcher={HOME_SELFIES_BODY}
+      fetcher={selfiesData.more ? getHomeSelfies : undefined}
     />
   );
 }
