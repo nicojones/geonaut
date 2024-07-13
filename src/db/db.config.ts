@@ -1,3 +1,5 @@
+"use server";
+
 import mysql, { Connection } from "mysql2/promise";
 // @ts-expect-error invalid Typescript
 import named from "named-placeholders";
