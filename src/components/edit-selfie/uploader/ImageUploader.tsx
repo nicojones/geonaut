@@ -1,12 +1,11 @@
 import { ArrowPathIcon, MapPinIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import { Button, IconButton } from "@mui/joy";
-import classNames from "classnames";
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { AlertDialogModal } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { getCoords, imageCachePurge, loadingMask, raiseOnError } from "@/functions";
+import { getCoords, imageCachePurge, raiseOnError } from "@/functions";
 import { IEditSelfieCoords, IEditSelfieGps, IEditSelfieImageDetails, IReadFile } from "@/types";
 
 import { FileUploader } from "./FileUploader";
@@ -15,7 +14,7 @@ import { addCoordsAndPlace, readAddedImage } from "./functions";
 interface ImageUploaderProps {
   src: string | undefined;
   onUploadStatusChange: (uploadInProgress: boolean) => any;
-  type: "me" | "lc";
+  readonly type: "me" | "lc";
   /**
    * @default ""
    */
@@ -31,7 +30,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
   const { data, hash, setData, hasLocation } = useEditSelfieContext();
   const [imageData, setImageData] = useState<string | ArrayBuffer | null>(null);
   const [invalidateCache, setInvalidateCache] = useState<number>(imageCachePurge());
-  const [uploading, setUploading] = useState<boolean>(false);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const imageSrc = useMemo(() => (
     imageData
@@ -43,14 +42,14 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
       )
   ), [imageData, src, invalidateCache]);
 
-  const handleImageChange = (files: FileList): void => {
+  const handleImageChange = useCallback((files: FileList): void => {
     const file = files[0];
     if (!file?.type.startsWith("image/")) {
       toast.error("Invalid image type!");
       return;
     }
 
-    setUploading(true);
+    setIsUploading(true);
     readAddedImage(file, (result: IReadFile) => {
       setImageData(result);
 
@@ -71,19 +70,19 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
           setInvalidateCache(imageCachePurge());
           if (r.gps && !hasLocation) {
             // No images, and this one has GPS!
-            setData({
-              ...data,
-              images: { ...data.images, [type]: r },
-              selfie: addCoordsAndPlace(data.selfie, r.gps),
-            });
+            setData(_data => ({
+              ..._data,
+              images: { ..._data.images, [type]: r },
+              selfie: addCoordsAndPlace(_data.selfie, r.gps as IEditSelfieGps),
+            }));
           } else {
-            setData({ ...data, images: { ...data.images, [type]: r } });
+            setData(_data => ({ ..._data, images: { ..._data.images, [type]: r } }));
           }
           return r;
         })
         .finally(() => {
           onUploadStatusChange(false);
-          setUploading(false);
+          setIsUploading(false);
         });
 
       toast.promise(uploadPromise, {
@@ -91,7 +90,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
         error: _data => _data.message,
       });
     });
-  };
+  }, [onUploadStatusChange, hasLocation]);
 
   const handleRotateImage = (): void => {
     const rotatePromise = api<{ path: string; }, any>({
@@ -117,7 +116,8 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
     <>
       <FileUploader
         onFileAdded={handleImageChange}
-        className={classNames(className, loadingMask({ loading: uploading, spinner: true }))}
+        isUploading={isUploading}
+        className={className}
       >
         {
           (imageSrc)

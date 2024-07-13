@@ -1,8 +1,9 @@
 import classNames from "classnames";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { ALLOWED_CUSTOM_DATA_FILE_FORMATS } from "@/config";
+import { loadingMask } from "@/functions";
 import { IFileUploaderProps } from "@/types";
 
 export const FileUploader = ({
@@ -15,27 +16,28 @@ export const FileUploader = ({
 }: IFileUploaderProps): JSX.Element => {
   const [dragging, setDragging] = useState<boolean>(false);
 
-  const handleFileChange = (list: FileList | null): void => {
+  const handleFileChange = useCallback((list: FileList | null): void => {
     handleDrag(false);
     if (list?.length) {
       onFileAdded(list);
     } else {
       toast.error("You didn't add any files");
     }
-  };
+  }, [onFileAdded]);
 
-  const handleDrag = (enter: boolean): void => {
+  const handleDrag = useCallback((enter: boolean): void => {
     setDragging(enter);
-  };
+  }, []);
 
   return (
     <label
       className={classNames(
         "border-2 border-dashed group cursor-pointer rounded-lg w-full items-center flex justify-center p-4 transition-colors h-full aspect-[4/3]",
         (dragging ? "border-purple-300/30 bg-purple-300/20" : "hover:bg-pulze-200"),
-        { "pointer-events-none": isUploading },
+        loadingMask({ loading: isUploading, spinner: true }),
         className,
       )}
+      data-loading="uploading..."
       onDragEnter={() => {
         handleDrag(true);
       }}
