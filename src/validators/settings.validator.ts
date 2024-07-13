@@ -9,8 +9,8 @@ export const SettingsValidator = z.object({
   email: z.string().email(),
   name: z.string().min(5),
   username: z.string().min(4),
-  password: z.string().optional(),
-  confirm: z.string().optional(),
+  password: z.string().min(8).optional(),
+  confirm: z.string().min(8).optional(),
 })
   .superRefine(({ confirm, password }, ctx) => {
     if (confirm !== password) {
