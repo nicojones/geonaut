@@ -4,8 +4,8 @@ import { ISelfie } from "@/types";
 export const selfieNotFound = (selfie: Pick<ISelfie, "hash"> & Partial<ISelfie>): ISelfie => ({
   hash: selfie.hash,
   active_hash: selfie.hash,
-  title: selfie.title ?? "Not found!",
-  short_desc: `There is no selfie with hash ${selfie.hash}`,
+  title: selfie.title ?? "(Not found!)",
+  short_desc: `(There is no selfie with hash ${selfie.hash})`,
   id: selfie.id ?? -1,
   username: "(none)",
   selfie_place: "(nowhere)",
@@ -24,7 +24,7 @@ export const selfieNotFound = (selfie: Pick<ISelfie, "hash"> & Partial<ISelfie>)
   loves: 0,
   me_brightness: 255,
   possessive: "",
-  selfie_date: "never",
-  selfie_date_long: "never",
-  selfie_date_words: "never",
+  selfie_date: "(never)",
+  selfie_date_long: "(never)",
+  selfie_date_words: "(never)",
 });

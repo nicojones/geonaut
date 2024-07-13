@@ -62,42 +62,45 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
             <Typography level="h3" sx={({ color })}>{selfie.short_desc}</Typography>
           </div>
 
-          <div className={`flex flex-col min-w-max text-base text-[${color}]`}>
-            <span className="flex justify-between">
-              <Link href={`/u/${selfie.username}`} className="fric space-x-2 as-link">
-                <UserIcon className="size-4" />
-                <small>by</small>
+          {
+            selfieExists &&
+            <div className={`flex flex-col min-w-max text-base text-[${color}]`}>
+              <span className="flex justify-between">
+                <Link href={`/u/${selfie.username}`} className="fric space-x-2 as-link">
+                  <UserIcon className="size-4" />
+                  <small>by</small>
+                  <span>
+                    @{selfie.username}
+                  </span>
+                </Link>
+                <CopyPath
+                  className="bg-white p-1 text-black rounded-full"
+                  icon={<ShareIcon className="size-4 hover:text-blue-500" />}
+                />
+              </span>
+              <span className="fric space-x-2" title={selfie.selfie_date_long}>
+                <CameraIcon className="size-4" />
+                <small>taken</small>{" "}
                 <span>
-                  @{selfie.username}
+                  {selfie.selfie_date_words}
                 </span>
-              </Link>
-              <CopyPath
-                className="bg-white p-1 text-black rounded-full"
-                icon={<ShareIcon className="size-4 hover:text-blue-500" />}
-              />
-            </span>
-            <span className="fric space-x-2" title={selfie.selfie_date_long}>
-              <CameraIcon className="size-4" />
-              <small>taken</small>{" "}
-              <span>
-                {selfie.selfie_date_words}
               </span>
-            </span>
-            <span className="fric space-x-2" title={selfie.added_on_long}>
-              <CalendarIcon className="size-4" />
-              <small>added</small>
-              <span>
-                {selfie.added_on_words}
+              <span className="fric space-x-2" title={selfie.added_on_long}>
+                <CalendarIcon className="size-4" />
+                <small>added</small>
+                <span>
+                  {selfie.added_on_words}
+                </span>
               </span>
-            </span>
-            <span className="fric space-x-2">
-              <MapPinIcon className="size-4" />
-              <small>in</small>
-              <span>
-                {selfie.selfie_place}
+              <span className="fric space-x-2">
+                <MapPinIcon className="size-4" />
+                <small>in</small>
+                <span>
+                  {selfie.selfie_place}
+                </span>
               </span>
-            </span>
-          </div>
+            </div>
+          }
         </div>
 
         <div role="content" className="grid grid-flow-col lg:grid-flow-row grid-cols-1 grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 relative">
