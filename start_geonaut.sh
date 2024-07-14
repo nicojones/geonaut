@@ -3,7 +3,7 @@
 # Function to stop the script
 stop_script() {
     echo "Stopping the script..."
-    PID=$(ps aux | grep '[s]tart_geonaut.sh' | awk '{print $2}')
+    PID=$(ps aux | grep 'next-server' | awk '{print $2}')
     if [ -z "$PID" ]; then
         echo "No running script found."
     else
