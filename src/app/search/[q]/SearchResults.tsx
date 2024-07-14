@@ -25,10 +25,8 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
   );
 
   const handleGetSearchResults = (start: number, type: ISearchResultType): Promise<ISelfiesData> => {
-    console.log("asking for results", start);
     return getSearchResults(type, searchQuery, false, start, 10)
       .then((r: ISelfiesData) => {
-        console.log("the results", r);
         setResults(_results => {
           return ({
             ..._results,
