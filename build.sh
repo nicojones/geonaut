@@ -10,7 +10,11 @@ if [ ! -f ".next/BUILD_ID" ]; then
 fi
 
 # Step 3: Create a new branch called build (if it doesn't exist already)
-git checkout -b build || git checkout build
+if git show-ref --quiet refs/heads/build; then
+  git checkout build
+else
+  git checkout -b build
+fi
 
 # Step 4: Remove all files in the current branch except for .next
 find . -maxdepth 1 ! -name '.next' ! -name 'node_modules' ! -name '.' -exec rm -rf {} \;
