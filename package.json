@@ -9,7 +9,7 @@
     "lint": "eslint --ext .tsx,.ts ./src --max-warnings=0",
     "lint-fix": "npm run lint -- --fix",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d .next -b build "
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
