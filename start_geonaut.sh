@@ -1,9 +1,22 @@
 #!/bin/bash
 
-# TO STOP THE SCRIPT:
-# ps aux | grep start_geonaut.sh
-# kill -9 <PID>
-# then you can start it again
+# Function to stop the script
+stop_script() {
+    echo "Stopping the script..."
+    PID=$(ps aux | grep '[s]tart_geonaut.sh' | awk '{print $2}')
+    if [ -z "$PID" ]; then
+        echo "No running script found."
+    else
+        kill -9 $PID
+        echo "Script stopped successfully."
+    fi
+}
+
+# Check for --stop argument
+if [ "$1" == "--stop" ]; then
+    stop_script
+    exit 0
+fi
 
 set -e  # Exit immediately if a command exits with a non-zero status
 
