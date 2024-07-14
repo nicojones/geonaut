@@ -3,6 +3,9 @@
 echo "cd to folder"
 cd /var/www/geonaut/nextjs
 
+echo "pull latest changes"
+git pull origin master
+
 echo "running npm install..."
 npm i
 
