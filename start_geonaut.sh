@@ -7,10 +7,10 @@ echo "pull latest changes"
 git pull origin main
 
 echo "running npm install..."
-npm i
+/usr/bin/node /usr/bin/npm i
 
 echo "generating production build..."
-npm run build:prod -- -d
+/usr/bin/node /usr/bin/npm run build:prod -- -d
 
 echo "starting server"
-npm run start
+/usr/bin/node /usr/bin/npm run start
