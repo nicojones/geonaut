@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Step 0: Install everything
+npm i
+
 # Step 1: Run the build command
 npm run build
 
