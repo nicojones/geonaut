@@ -109,7 +109,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
                 {
                   results[_type] !== undefined
                     ? (
-                      results[_type].selfies.length === 0
+                      results[_type]?.selfies.length === 0
                         ? (
                           <div className="grid place-items-center place-content-center h-[80vh]">
                             <span className="inline-block">(no {_type} results for <kbd>{searchQuery}</kbd>)</span>
@@ -117,15 +117,15 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
                         )
                         : (
                           <SelfiesAsyncLoader
-                            start={results[_type].selfies.length ?? 0}
+                            start={results[_type]?.selfies.length ?? 0}
                             fetcher={
-                              results[_type].more
+                              results[_type]?.more
                                 ? handleSearch[_type]
                                 : undefined
                             }
                           >
                             {
-                              results[_type].selfies.map(s =>
+                              results[_type]?.selfies.map(s =>
                                 s && <SelfieCard key={s.active_hash} selfie={s} />,
                               )
                             }
