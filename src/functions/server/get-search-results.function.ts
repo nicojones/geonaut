@@ -51,7 +51,7 @@ export async function getSearchResults (
     });
   } else if (resultCount === 1 && type === "all") {
     const result: ISearchResult = searchResults[0];
-    if (result.hash === "0") {
+    if (result.hash === "") {
       return ({
         redirect: `/u/${result.username as string}`,
         selfies: [],
