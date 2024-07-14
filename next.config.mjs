@@ -8,6 +8,10 @@ const nextConfig = {
         hostname: "travel.kupfer.es",
       },
       {
+        protocol: "https",
+        hostname: "travel-api.kupfer.es",
+      },
+      {
         protocol: "http",
         hostname: "localhost",
       },
