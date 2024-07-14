@@ -20,7 +20,7 @@ else
 fi
 
 # Step 4: Remove all files in the current branch except for .next
-find . -maxdepth 1 ! -name '.next' ! -name 'node_modules' ! -name '.' -exec rm -rf {} \;
+find . -maxdepth 1 ! -name '.next' ! -name '.git' ! -name 'node_modules' ! -name '.' -exec rm -rf {} \;
 
 # Step 5: Move the contents of the .next directory to the root
 mv .next/* .
