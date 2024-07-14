@@ -1,11 +1,11 @@
-import { IBool, ISelfiesData } from "@/types";
+import { ISelfiesData } from "@/types";
 
 export const selfieNumResults = (data: ISelfiesData | undefined): string =>
   data === undefined
     ? ""
-    : numResults(data.selfies.length, data.more);
+    : numResults(data.selfies.length, Boolean(data.more));
 
-export const numResults = (results: number | undefined, hasMore: IBool = 0): string =>
+export const numResults = (results: number | undefined, hasMore: boolean = false): string =>
   results === undefined
     ? ""
     : (

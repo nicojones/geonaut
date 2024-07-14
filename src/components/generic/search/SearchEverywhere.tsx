@@ -4,12 +4,10 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
 
-import { useJwtTokenContext } from "@/context";
-import { raiseOnError } from "@/functions";
-import { ISearchBody, ISearchFindAll, PDefault } from "@/types";
+import { getSearchResults } from "@/functions/server/get-search-results.function";
+import { PDefault } from "@/types";
 
 export const SearchEverywhere = (): JSX.Element => {
-  const { api } = useJwtTokenContext();
   const [value, setValue] = useState<string>("");
   const router = useRouter();
 
@@ -20,13 +18,13 @@ export const SearchEverywhere = (): JSX.Element => {
   const handleSearch = (e: PDefault): void => {
     e.preventDefault();
     e.stopPropagation();
-    api<ISearchFindAll, ISearchBody>({
-      url: "/api/selfies",
-      body: { search: value, return: 1, s: "search" },
-    })
-      .then(raiseOnError)
+    getSearchResults("all", value, true)
+    // api<ISearchFindAll, ISearchBody>({
+    //   url: "/api/selfies",
+    //   body: { search: value, return: 1, s: "search" },
+    // })
       .then(r => {
-        if (r.redirect) {
+        if ("redirect" in r) {
           const selfiesTab = (r.searchType && r.searchType !== "selfie" ? `?type=${r.searchType}` : "");
           router.push(r.redirect + selfiesTab);
         } else {

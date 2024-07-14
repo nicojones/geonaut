@@ -5,9 +5,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { SelfieCard, SelfieCardSkeleton, SelfiesAsyncLoader } from "@/components";
 import { selfieNumResults } from "@/functions";
+import { getSearchResults } from "@/functions/server/get-search-results.function";
 import { ISearchResultData, ISearchResultType, ISelfieFetcher, ISelfiesData } from "@/types";
 
-import { getSearchResults } from "./get-search-results.function";
 import { SEARCH_TABS, SEARCH_TABS_MAP } from "./search-results-tab.definition";
 
 interface SearchResultsProps {
