@@ -1,13 +1,14 @@
-import { IFetchSelfieBodyGeneric, ISelfiesData } from "@/types";
+import { IFetchSelfieBodyGeneric, ISelfie, ISelfiesData } from "@/types";
 
 export type ISearchFindAll =
   {
     redirect: string;
     searchType?: ISearchResultType;
   }
-  &
+  |
   {
-    selfies: [];
+    selfies: ISelfie[];
+    more?: boolean;
   };
 
 export type ISearchFindMany = ISelfiesData;

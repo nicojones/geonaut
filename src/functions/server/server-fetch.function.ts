@@ -12,10 +12,6 @@ export const serverFetch = <
   options: IFetch<Body>,
 ): Promise<IResponseData<T>> => {
   return gFetch<T, Body>(options, cookies().get("token" satisfies IStorageKey)?.value ?? null)
-    .then(r => {
-      console.log("got the data", r);
-      return r;
-    })
     .catch((e: IResponse<T>) => {
       if (!e?.responseData) {
         console.error("NO RESPONSE DATA", e);

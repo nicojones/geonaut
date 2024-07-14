@@ -4,13 +4,13 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { SCROLL_PADDING } from "@/config";
-import { ComponentChildren, ISelfie, ISelfiesAsyncLoad, ISelfiesData } from "@/types";
+import { ComponentChildren, ISelfie, ISelfieFetcher, ISelfiesAsyncLoad } from "@/types";
 
 import { SelfieCard } from "./SelfieCard";
 import { ThatsAllFolks } from "./ThatsAllFolks";
 
 interface SelfiesAsyncLoaderProps {
-  fetcher?: (start: number) => Promise<ISelfiesData>;
+  fetcher?: ISelfieFetcher;
   children?: ComponentChildren;
   start: number;
 }
@@ -33,7 +33,6 @@ export const SelfiesAsyncLoader = ({ children, start, fetcher }: SelfiesAsyncLoa
       const startFrom = data.start + data.selfies.length;
       setData(d => ({ ...d, start: startFrom, loading: true }));
       fetcher(startFrom)
-      // fetchMoreSelfies({ selfId: user?.id, start: startFrom, limit: fetcher.limit })
         .then(r => setData(d => ({
           ...d,
           more: !!r.more,

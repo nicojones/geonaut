@@ -95,8 +95,12 @@ body {
     @apply animate-pulse text-sm z-10;
   }
 
+  .space-y-selfie {
+    @apply space-y-48;
+  }
+
   .selfie-list {
-    @apply mx-auto w-11/12 sm:w-10/12 md:w-8/12 flex flex-col space-y-48 mb-16;
+    @apply mx-auto w-11/12 sm:w-10/12 md:w-8/12 flex flex-col space-y-selfie mb-16;
   }
   .text-inset-shadow {
     background-color: #bbb;

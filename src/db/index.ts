@@ -4,3 +4,6 @@ export * from "./db-get-loved-selfies.query";
 export * from "./db-get-user-id-from-username.query";
 export * from "./db-get-user-info.query";
 export * from "./db-get-users-with-last-selfie.query";
+export * from "./db-get-search-results.query";
+export * from "./db-get-user-and-last-selfie.query";
+export * from "./db-get-selfie-by-hash.query";

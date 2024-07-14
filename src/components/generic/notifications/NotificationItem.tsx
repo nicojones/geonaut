@@ -26,7 +26,7 @@ export const NotificationItem = ({ notification: n }: NotificationItemProps): JS
   };
 
   return (
-    <a
+    <div
       className={classNames(
         "grid grid-cols-12 cursor-pointer hover:bg-slate-200 w-full py-1 relative",
         { "opacity-50 hover:opacity-100 transition-opacity": read },
@@ -69,6 +69,6 @@ export const NotificationItem = ({ notification: n }: NotificationItemProps): JS
           <NotificationPost notification={n} />
         }
       </div>
-    </a>
+    </div>
   );
 };

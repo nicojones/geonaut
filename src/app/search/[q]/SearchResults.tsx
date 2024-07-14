@@ -1,29 +1,22 @@
 "use client";
 
 import { Skeleton, Tab, TabList, TabPanel, Tabs } from "@mui/joy";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { SelfieCard, SelfieCardSkeleton, SelfiesAsyncLoader } from "@/components/selfies";
-import { useJwtTokenContext } from "@/context";
-import { raiseOnError, selfieNumResults } from "@/functions";
-import { ISearchBody, ISearchFindMany, ISearchResultData, ISearchResultType } from "@/types";
+import { SelfieCard, SelfieCardSkeleton, SelfiesAsyncLoader } from "@/components";
+import { selfieNumResults } from "@/functions";
+import { ISearchResultData, ISearchResultType, ISelfieFetcher, ISelfiesData } from "@/types";
 
+import { getSearchResults } from "./get-search-results.function";
 import { SEARCH_TABS, SEARCH_TABS_MAP } from "./search-results-tab.definition";
 
 interface SearchResultsProps {
   searchQuery: string;
-  searchType?: ISearchResultType;
+  searchType: ISearchResultType;
 }
 
 export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): JSX.Element => {
-  const SEARCH_BODY: Record<number, ISearchBody> = useMemo(() => ({
-    0: { s: "search", search: searchQuery, limit: 100, start: 0, type: SEARCH_TABS_MAP[0] },
-    1: { s: "search", search: searchQuery, limit: 100, start: 0, type: SEARCH_TABS_MAP[1] },
-    2: { s: "search", search: searchQuery, limit: 100, start: 0, type: SEARCH_TABS_MAP[2] },
-    3: { s: "search", search: searchQuery, limit: 100, start: 0, type: SEARCH_TABS_MAP[3] },
-  }), []);
-
-  const { api } = useJwtTokenContext();
+  const initialFetchRef = useRef<boolean>(true);
   const [results, setResults] = useState<ISearchResultData>({});
   const [selectedTab, setSelectedTab] = useState<number>(
     searchType
@@ -31,38 +24,51 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
       : 0,
   );
 
-  const handleFetchSearchResults = useCallback((_selectedTab: number = selectedTab): Promise<any> => {
-    if (results[SEARCH_TABS_MAP[_selectedTab]] !== undefined) {
-      return Promise.resolve();
-    }
-
-    return api<ISearchFindMany, ISearchBody>({
-      url: "/api/selfies",
-      body: SEARCH_BODY[_selectedTab],
-    })
-      .then(raiseOnError)
-      .then(r => {
-        setResults(_results => ({ ..._results, [SEARCH_TABS_MAP[_selectedTab]]: r }));
+  const handleGetSearchResults = (start: number, type: ISearchResultType): Promise<ISelfiesData> => {
+    console.log("asking for results", start);
+    return getSearchResults(type, searchQuery, false, start, 10)
+      .then((r: ISelfiesData) => {
+        console.log("the results", r);
+        setResults(_results => {
+          return ({
+            ..._results,
+            [type]:
+              _results[type]
+                // ? { ..._results[type], more: r.more, selfies: [..._results[type].selfies, ...r.selfies] }
+                ? { ..._results[type], more: r.more } // do not add
+                : r,
+          });
+        });
+        return r;
       });
-  }, [api, results, selectedTab]);
-
-  const handleChangeSelectedTab = (_event: any, tabIndex: number | string | null): void => {
-    setSelectedTab(Number(tabIndex));
   };
 
-  useEffect(() => {
-    // Object.keys(SEARCH_BODY).forEach((_, index) => handleFetchSearchResults(index));
-    handleFetchSearchResults()
-      .then(() => {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        Object.keys(SEARCH_BODY).forEach((_, index) => handleFetchSearchResults(index));
-      });
+  const handleSearch = useMemo<Record<ISearchResultType, ISelfieFetcher>>(() => ({
+    selfie: start => handleGetSearchResults(start, "selfie"),
+    location: start => handleGetSearchResults(start, "location"),
+    date: start => handleGetSearchResults(start, "date"),
+    user: start => handleGetSearchResults(start, "user"),
+  }), []);
+
+  const handleChangeSelectedTab = useCallback((_event: any, tabIndex: number | string | null): void => {
+    setSelectedTab(Number(tabIndex));
   }, []);
 
-  // useEffect(() => {
-  //   setResults({});
-  //   handleFetchSearchResults();
-  // }, [searchQuery]);
+  useEffect(() => {
+    if (initialFetchRef.current) {
+      const firstSearchType: ISearchResultType = searchType ?? "selfie";
+      // Fetch search results (either first tab, or requested tab)
+      handleGetSearchResults(0, firstSearchType)
+        .then(() => {
+          Object.values(SEARCH_TABS_MAP)
+            // Don't fetch twice!
+            .filter(t => t !== firstSearchType)
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            .forEach((_type) => handleGetSearchResults(0, _type));
+        });
+      initialFetchRef.current = false;
+    }
+  }, []);
 
   return (
     <>
@@ -80,7 +86,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
           {
             SEARCH_TABS.map((t, index) =>
               <Tab
-                disabled={results[SEARCH_TABS_MAP[index]]?.selfies?.length === 0}
+                // disabled={results[SEARCH_TABS_MAP[index]]?.selfies?.length === 0}
                 value={index}
                 key={t.value}
                 className="flex-col md:flex-row flex"
@@ -98,39 +104,46 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
         <br />
         <br />
         {
-          SEARCH_TABS.map((_, section: number) =>
-            <TabPanel value={section} key={section}>
-              {
-                results[SEARCH_TABS_MAP[section]] !== undefined
-                  ? (
-                    results[SEARCH_TABS_MAP[section]]?.selfies.length === 0
-                      ? (
-                        <div className="grid place-items-center place-content-center h-[80vh]">
-                          <span className="inline-block">(no {SEARCH_TABS_MAP[section]} results for <kbd>{searchQuery}</kbd>)</span>
-                        </div>
-                      )
-                      : (
-                        <SelfiesAsyncLoader
-                          fetcher={SEARCH_BODY[section]}
-                          more={Boolean(Number(results[SEARCH_TABS_MAP[section]]?.more))}
-
-                        >
-                          {
-                            results[SEARCH_TABS_MAP[section]]?.selfies.map(s =>
-                              s && <SelfieCard key={s.active_hash} selfie={s} />,
-                            )
-                          }
-                        </SelfiesAsyncLoader>
-                      )
-                  )
-                  : (
-                    <>
-                      <SelfieCardSkeleton />
-                      <SelfieCardSkeleton />
-                    </>
-                  )
-              }
-            </TabPanel>,
+          SEARCH_TABS.map((_, section: number) => {
+            const _type = SEARCH_TABS_MAP[section];
+            return (
+              <TabPanel value={section} key={section}>
+                {
+                  results[_type] !== undefined
+                    ? (
+                      results[_type].selfies.length === 0
+                        ? (
+                          <div className="grid place-items-center place-content-center h-[80vh]">
+                            <span className="inline-block">(no {_type} results for <kbd>{searchQuery}</kbd>)</span>
+                          </div>
+                        )
+                        : (
+                          <SelfiesAsyncLoader
+                            start={results[_type].selfies.length ?? 0}
+                            fetcher={
+                              results[_type].more
+                                ? handleSearch[_type]
+                                : undefined
+                            }
+                          >
+                            {
+                              results[_type].selfies.map(s =>
+                                s && <SelfieCard key={s.active_hash} selfie={s} />,
+                              )
+                            }
+                          </SelfiesAsyncLoader>
+                        )
+                    )
+                    : (
+                      <div className="flex flex-col space-y-selfie">
+                        <SelfieCardSkeleton />
+                        <SelfieCardSkeleton />
+                      </div>
+                    )
+                }
+              </TabPanel>
+            );
+          },
           )
         }
       </Tabs>
