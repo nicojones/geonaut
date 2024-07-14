@@ -10,7 +10,7 @@ echo "running npm install..."
 npm i
 
 echo "generating production build..."
-npm run build:prod
+npm run build:prod -- -d
 
 echo "starting server"
 npm run start
