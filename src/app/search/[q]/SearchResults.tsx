@@ -30,11 +30,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
         setResults(_results => {
           return ({
             ..._results,
-            [type]:
-              _results[type]
-                // ? { ..._results[type], more: r.more, selfies: [..._results[type].selfies, ...r.selfies] }
-                ? { ..._results[type], more: r.more } // do not add
-                : r,
+            [type]: _results[type] ?? r,
           });
         });
         return r;

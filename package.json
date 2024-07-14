@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --no-lint",
-    "build-help": "next build -h",
+    "build": "next build",
+    "build:prod": "NODE_ENV=production next build --no-lint",
     "start": "next start -p 3003",
     "lint": "eslint --ext .tsx,.ts ./src --max-warnings=0",
     "lint-fix": "npm run lint -- --fix",
