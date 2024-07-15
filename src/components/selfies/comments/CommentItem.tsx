@@ -17,7 +17,7 @@ export const CommentItem = ({ comment, selfie }: CommentItemProps): JSX.Element 
     >
       <div className="flex flex-col space-y-1">
         <Avatar
-          src={`${process.env.NEXT_PUBLIC_RESOURCE_URL as string}${comment.avatar}`}
+          src={`${process.env.NEXT_PUBLIC_RESOURCES_URL as string}${comment.avatar}`}
           alt={`Avatar of ${comment.name}`}
           className="size-10"
         />

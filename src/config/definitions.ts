@@ -28,4 +28,4 @@ export const MS_PER_YEAR = MS_PER_WEEK * 52;
 export const PIN_GRADIENT_COLOR_FROM = "#8e44ad" as const;
 export const PIN_GRADIENT_COLOR_TO = "#27ae60" as const;
 
-export const NO_IMAGE = (process.env.NEXT_PUBLIC_RESOURCE_URL as string) + "/images/pictures/ph.png";
+export const NO_IMAGE = (process.env.NEXT_PUBLIC_RESOURCES_URL as string) + "/images/pictures/ph.png";

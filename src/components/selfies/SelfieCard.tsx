@@ -42,6 +42,8 @@ export const SelfieCard = ({ className = "", disabled = false, priority = false,
             <EditSelfieButton selfie={selfie} />
           </>
         }
+        {selfieMyImage(selfie)}
+        {process.env.NEXT_PUBLIC_RESOURCES_URL}
         <Image
           src={disabled ? NO_IMAGE : selfieMyImage(selfie)}
           alt="My image"
