@@ -34,8 +34,6 @@ export default async function UserPage ({ params }: IUrlParams<"username">): Pro
   const userSelfies = await getUserSelfiesWithUserId(0);
   const userData = await getUserInfo(userId);
 
-  console.log(process.env);
-
   return (
     <>
       <SelfiePage
