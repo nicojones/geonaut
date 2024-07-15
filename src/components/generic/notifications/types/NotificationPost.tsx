@@ -17,6 +17,7 @@ export const NotificationPost = ({ notification: n }: NotificationPostProps): JS
           <Link
             href={`/u/${n.username}`}
             className="font-bold cursor-pointer hover:underline"
+            onClick={e => e.stopPropagation()}
           >{n.name}
           </Link>
           &nbsp;

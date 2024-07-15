@@ -50,7 +50,13 @@ export const NotificationItem = ({ notification: n }: NotificationItemProps): JS
         </div>
         <div className="flex flex-col space-y-2">
           <Avatar src={(process.env.NEXT_PUBLIC_RESOURCE_URL as string) + n.avatar} />
-          <Link href={`/u/${n.username}`} target="_blank" rel="noreferrer" className="text-secondary font-bold">
+          <Link
+            href={`/u/${n.username}`}
+            target="_blank"
+            rel="noreferrer"
+            className="text-secondary font-bold"
+            onClick={e => e.stopPropagation()}
+          >
             @{n.username}
           </Link>
         </div>

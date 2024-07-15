@@ -13,6 +13,7 @@ export const NotificationComment = ({ notification: n }: NotificationCommentProp
         <Link
           href={`/u/${n.username}`}
           className="font-bold cursor-pointer hover:underline"
+          onClick={e => e.stopPropagation()}
         >{n.name}
         </Link>
         &nbsp;
