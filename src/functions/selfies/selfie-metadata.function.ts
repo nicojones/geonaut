@@ -10,7 +10,7 @@ export const selfieMetadata = (selfie: ISelfie): Metadata => ({
   creator: selfie.name,
   openGraph: {
     type: "website",
-    url: `https://travel.kupfer.es/s/${selfie.hash}`,
+    url: `${process.env.NEXT_PUBLIC_FRONTEND_URL as string}/s/${selfie.hash}`,
     title: selfie.title,
     description: selfie.short_desc,
     siteName: "geonaut",

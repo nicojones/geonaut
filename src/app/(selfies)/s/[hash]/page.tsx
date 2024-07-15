@@ -3,9 +3,8 @@ import { Typography } from "@mui/joy";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { format } from "timeago.js";
 
-import { EditSelfieButton, LoveSelfie } from "@/components";
+import { EditSelfieButton, LoveSelfie, SelfieDate } from "@/components";
 import { CopyPath, MapViewer } from "@/components/generic";
 import { CommentList } from "@/components/selfies/comments/CommentList";
 import { NO_IMAGE } from "@/config";
@@ -27,12 +26,16 @@ export async function generateMetadata (
 }
 
 const getSelfie = (hash: string): Promise<ISelfieData<ISelfie | false>> =>
-  serverFetch<ISelfieData, IFetchSelfieBody>({ body: { s: "one", hash }, cache: "no-store" })
+  serverFetch<ISelfieData, IFetchSelfieBody>({ body: { s: "one", hash }, cacheTags: [hash] })
     .catch(_e => ({ selfie: false, title: "not found" }));
 
 const getPrevNext = async (hash: string, selfieExists: boolean = true): Promise<ISelfiePrevNext> => {
   if (selfieExists) {
-    return await serverFetch<ISelfiePrevNext, Record<string, never>>({ body: {}, url: `/api/next/${hash}` });
+    return await serverFetch<ISelfiePrevNext, Record<string, never>>({
+      body: {},
+      url: `/api/next/${hash}`,
+      cacheTags: [hash],
+    });
   }
   return { prev: null, next: null };
 };
@@ -81,20 +84,16 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
                   icon={<ShareIcon className="size-4 hover:text-blue-500" />}
                 />
               </span>
-              <span className="fric space-x-2" title={selfie.selfie_date}>
-                <CameraIcon className="size-4" />
-                <small>taken</small>{" "}
-                <span>
-                  {format(selfie.selfie_date)}
-                </span>
-              </span>
-              <span className="fric space-x-2" title={selfie.added_on}>
-                <CalendarIcon className="size-4" />
-                <small>added</small>
-                <span>
-                  {format(selfie.added_on)}
-                </span>
-              </span>
+              <SelfieDate
+                icon={<CameraIcon className="size-4" />}
+                label="taken"
+                date={selfie.selfie_date}
+              />
+              <SelfieDate
+                icon={<CalendarIcon className="size-4" />}
+                label="added"
+                date={selfie.added_on}
+              />
               <span className="fric space-x-2">
                 <MapPinIcon className="size-4" />
                 <small>in</small>

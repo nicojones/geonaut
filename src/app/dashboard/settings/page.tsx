@@ -16,6 +16,7 @@ const getSettings = (): Promise<ISettings> => {
   return serverFetch<IResponseData<{ settings: ISettings; }>, any>({
     url: "/api/admin/data",
     body: { s: "settings" },
+    cacheTags: ["__settings__"],
   })
     .then(r => r.settings);
 };

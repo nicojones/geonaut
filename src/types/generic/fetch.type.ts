@@ -24,4 +24,9 @@ export interface IFetch<Body> {
    * Invalidate cache
    */
   cache?: "no-store";
+  /**
+   * Tags for cache revalidation
+   * @default []
+   */
+  cacheTags?: string[];
 }

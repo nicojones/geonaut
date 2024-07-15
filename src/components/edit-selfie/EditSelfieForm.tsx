@@ -6,11 +6,11 @@ import { toast } from "sonner";
 
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
 import { raiseOnError } from "@/functions";
-import { IResponseRedirect } from "@/types";
 import { EditSelfieValidator } from "@/validators";
 
 import { EditSelfieFormFields } from "./form";
 import { ImagesUploaderBox } from "./uploader";
+import { saveEditSelfie } from "./uploader/functions/save-edit.function";
 
 export const EditSelfieForm = (): JSX.Element => {
   const { api } = useJwtTokenContext();
@@ -26,21 +26,18 @@ export const EditSelfieForm = (): JSX.Element => {
       return;
     }
 
-    const savePromise = api<IResponseRedirect, any>({
-      url: "/api/selfie/save-edit",
-      body: data.selfie,
-    })
-      .then(raiseOnError);
-
-    toast.promise(savePromise, {
-      success: r => {
-        router.push(r.redirect);
-        return r.message;
+    toast.promise(
+      saveEditSelfie(data.selfie),
+      {
+        success: r => {
+          router.push(r.redirect);
+          return r.message;
+        },
+        error: e => {
+          return String(e);
+        },
       },
-      error: e => {
-        return String(e);
-      },
-    });
+    );
   };
 
   useEffect(() => {

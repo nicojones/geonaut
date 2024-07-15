@@ -15,6 +15,7 @@ const getComments = (hash: string): Promise<ISelfieComment[]> => {
   return serverFetch<{ comments: ISelfieComment[]; }, any>({
     url: "/api/comments/get",
     body: { selfie: hash },
+    cacheTags: ["comments", hash],
   })
     .then(r => {
       const reversedComments = r.comments;

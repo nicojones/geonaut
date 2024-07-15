@@ -5,6 +5,8 @@ export * from "./SelfieHeader";
 export * from "./ThatsAllFolks";
 export * from "./SelfieCardSkeleton";
 export * from "./SelfieCardLoader";
+export * from "./SelfieDate";
+export * from "./SelfieMap";
 
 export * from "./edit";
 export * from "./love";

@@ -10,6 +10,7 @@ const getSelfieDraft = (hash: string): Promise<any> => {
   return serverFetch<IResponseData<IEditSelfieData>, any>({
     url: "/api/admin/data",
     body: { s: "edit", selfie: hash },
+    cacheTags: [hash],
   });
 };
 

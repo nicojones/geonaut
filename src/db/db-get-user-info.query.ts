@@ -58,7 +58,7 @@ export const dbGetUserInfo = async (selfId: number, userId: number): Promise<IUs
   if (userData.profile_pic) {
     userData.avatar = `${process.env.NEXT_PUBLIC_RESOURCE_URL as string}/images/pictures/uploads/${userData.profile_pic}/me.jpg`;
   } else {
-    userData.avatar = `${process.env.NEXT_PUBLIC_RESOURCE_URL as string}/images/icons/default_profile/${userData.profile_pic_default}`;
+    userData.avatar = `${process.env.NEXT_PUBLIC_FRONTEND_URL as string}/images/icons/default_profile/${userData.profile_pic_default}`;
   }
 
   return userData;
