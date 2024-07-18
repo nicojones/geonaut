@@ -48,7 +48,7 @@ if [ "$1" == "--stop" ]; then
     stop_script
     exit 0
 
-elif [ "$1" == "--restart"]; then
+elif [ "$1" == "--restart" ]; then
     stop_script
     # do not exit
 fi
