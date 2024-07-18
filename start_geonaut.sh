@@ -53,7 +53,8 @@ elif [ "$1" == "--restart"]; then
     # do not exit
 fi
 
-set -e  # Exit immediately if a command exits with a non-zero status
+# Exit immediately if a command exits with a non-zero status
+set -e
 
 echo "cd to folder"
 cd /var/www/geonaut/nextjs
