@@ -56,7 +56,7 @@ fi
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-echo "cd to folder"
+echo "cd to folder..."
 cd /var/www/geonaut/nextjs
 
 echo "check if branch is up-to-date..."
