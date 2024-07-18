@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 
-import { formatDate, timeAgo } from "@/functions";
+import { formatDate, parsedDate, timeAgo } from "@/functions";
 
 interface SelfieDateProps {
   icon: JSX.Element;
@@ -18,7 +18,7 @@ interface SelfieDateProps {
 export const SelfieDate = ({ date, icon, isDate = false, label }: SelfieDateProps): JSX.Element => {
   const [showDate, setShowDate] = useState<boolean>(false);
   const dateReadable = useMemo(() => {
-    const parsed = new Date(date);
+    const parsed = parsedDate(date);
     return (
       isNaN(parsed.getTime())
         ? String(date)

@@ -3,6 +3,8 @@ import { LocaleFunc } from "timeago.js/lib/interface";
 
 import { MS_PER_DAY } from "@/config";
 
+import { parsedDate } from "./parsed-date.function";
+
 const DATE_LOCALE = "date-locale" as const;
 const dateAgoLocale: LocaleFunc = (number: number, index: number, totalSec: number = 0): [string, string] => {
   // if it was less than 24h ago, it could be "today".
@@ -38,5 +40,5 @@ const dateAgoLocale: LocaleFunc = (number: number, index: number, totalSec: numb
 register(DATE_LOCALE, dateAgoLocale);
 
 export const timeAgo = (date: string | Date, isDate: boolean = false): string => {
-  return format(typeof date === "string" ? `${date.split(".")[0]}.000Z` : date, isDate ? DATE_LOCALE : undefined);
+  return format(parsedDate(date), isDate ? DATE_LOCALE : undefined);
 };
