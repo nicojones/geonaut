@@ -13,3 +13,4 @@ export * from "./img-cache-purge.function";
 export * from "./raise-on-error.function";
 export * from "./pluralise.function";
 export * from "./format-date.function";
+export * from "./time-ago.function";

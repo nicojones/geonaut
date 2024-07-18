@@ -3,7 +3,6 @@ import { IBool, IUserData } from "@/types";
 export interface INotification {
   active_hash: string;
   added_on: string;
-  added_on_words: string;
   avatar: string;
   comment: string;
   comment_id: number;

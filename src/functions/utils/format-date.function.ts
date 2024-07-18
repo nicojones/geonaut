@@ -1,4 +1,4 @@
-export const formatDate = (date: Date): string => {
+export const formatDate = (date: Date, isDate: boolean = false): string => {
   const pad = (num: number): string => num.toString().padStart(2, "0");
 
   const hours = pad(date.getHours());
@@ -7,7 +7,7 @@ export const formatDate = (date: Date): string => {
   const month = pad(date.getMonth() + 1);
   const year = date.getFullYear();
 
-  if (date.getHours() + date.getMinutes() === 0) {
+  if (isDate || date.getHours() + date.getMinutes() === 0) {
     return `${day}-${month}-${year}`;
   }
 

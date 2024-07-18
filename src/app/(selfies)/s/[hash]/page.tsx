@@ -1,4 +1,4 @@
-import { CalendarIcon, CameraIcon, MapPinIcon, ShareIcon, UserIcon } from "@heroicons/react/16/solid";
+import { ArrowUpTrayIcon, CameraIcon, MapPinIcon, ShareIcon, UserIcon } from "@heroicons/react/16/solid";
 import { Typography } from "@mui/joy";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -88,9 +88,10 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
                 icon={<CameraIcon className="size-4" />}
                 label="taken"
                 date={selfie.selfie_date}
+                isDate
               />
               <SelfieDate
-                icon={<CalendarIcon className="size-4" />}
+                icon={<ArrowUpTrayIcon className="size-4" />}
                 label="added"
                 date={selfie.added_on}
               />

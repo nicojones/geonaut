@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarIcon, UserIcon } from "@heroicons/react/16/solid";
+import { ArrowUpTrayIcon, UserIcon } from "@heroicons/react/16/solid";
 import { Typography } from "@mui/joy";
 import Link from "next/link";
 import { CSSProperties } from "react";
@@ -34,8 +34,8 @@ export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
               </Link>
               <div className={`flex flex-col text-base text-[${lcColor}] shrink-0`}>
                 <SelfieDate
-                  icon={<CalendarIcon className="size-4" />}
-                  date={selfie.selfie_date}
+                  icon={<ArrowUpTrayIcon className="size-4" />}
+                  date={selfie.added_on}
                   label="added"
                 />
                 {opener}

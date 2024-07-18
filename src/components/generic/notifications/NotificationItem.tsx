@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { useNotificationsContext } from "@/context";
+import { timeAgo } from "@/functions";
 import { INotification } from "@/types";
 
 import { NotificationComment, NotificationLike, NotificationPost } from "./types";
@@ -39,7 +40,7 @@ export const NotificationItem = ({ notification: n }: NotificationItemProps): JS
           <span
             title={n.added_on}
             className="absolute top-1 right-1 cursor-help text-xs"
-          >{n.added_on_words}
+          >{timeAgo(n.added_on)}
           </span>
           <div
             className={classNames(

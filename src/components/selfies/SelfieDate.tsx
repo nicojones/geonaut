@@ -1,24 +1,28 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { format } from "timeago.js";
 
-import { formatDate } from "@/functions";
+import { formatDate, timeAgo } from "@/functions";
 
 interface SelfieDateProps {
   icon: JSX.Element;
-  date: Date | string;
+  date: string;
   label?: string;
+  /**
+   * Dates (as opposed to Datetimes) are less exact
+   * @default false
+   */
+  readonly isDate?: boolean;
 }
 
-export const SelfieDate = ({ date, icon, label }: SelfieDateProps): JSX.Element => {
+export const SelfieDate = ({ date, icon, isDate = false, label }: SelfieDateProps): JSX.Element => {
   const [showDate, setShowDate] = useState<boolean>(false);
   const dateReadable = useMemo(() => {
     const parsed = new Date(date);
     return (
       isNaN(parsed.getTime())
         ? String(date)
-        : formatDate(new Date(date))
+        : formatDate(parsed, isDate)
     );
   }, [date]);
 
@@ -32,10 +36,10 @@ export const SelfieDate = ({ date, icon, label }: SelfieDateProps): JSX.Element 
       {
         showDate
           ? (
-            <span title={(label ? label + " " : "") + format(date)}>{dateReadable}</span>
+            <span title={(label ? label + " " : "") + timeAgo(date, isDate)}>{dateReadable}</span>
           )
           : (
-            <span title={(label ? label + " " : "") + dateReadable}>{format(date)}</span>
+            <span title={(label ? label + " " : "") + dateReadable}>{timeAgo(date, isDate)}</span>
           )
       }
     </span>
