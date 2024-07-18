@@ -19,7 +19,7 @@ check_git_status() {
     return 1
   fi
 
-  # Check if the local branch is up to date with the remote branch
+  # Check if the local branch is up to date with the remote branch:
   git fetch
 
   LOCAL=$(git rev-parse @)
