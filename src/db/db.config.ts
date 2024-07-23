@@ -21,6 +21,8 @@ const dbConnection = mysql.createPool({
 });
 
 export const getDbConnection = async (): Promise<[Connection, () => any]> => {
+  "use server";
+
   const connection = await dbConnection.getConnection();
 
   return [

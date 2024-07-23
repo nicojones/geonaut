@@ -7,6 +7,8 @@ export interface IUserData {
   following: number;
   gender: 0 | 1 | 2;
   hobbies: string;
+  short_desc: string;
+  long_desc: string;
   /**
    * 0 --> No follow button (UI)
    * 1/0 --> i follow them

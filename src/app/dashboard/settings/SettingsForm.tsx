@@ -1,7 +1,7 @@
 "use client";
 
 import { EnvelopeIcon, KeyIcon, UserIcon } from "@heroicons/react/16/solid";
-import { Button, FormControl, FormHelperText, FormLabel, Input } from "@mui/joy";
+import { FormControl, FormHelperText, FormLabel, Input, Option, Select } from "@mui/joy";
 import Image from "next/image";
 import { ChangeEvent, useCallback, useLayoutEffect, useState } from "react";
 import { toast } from "sonner";
@@ -12,6 +12,9 @@ import { createZodErrorObject, raiseOnError } from "@/functions";
 import { ISettings, PDefault, ZodErrorMapping } from "@/types";
 import { SettingsValidator } from "@/validators";
 
+import { SettingsFormProfilePic } from "./SettingsFormProfilePic";
+import { SettingsFormSave } from "./SettingsFormSave";
+
 interface SettingsFormProps {
   settings: ISettings;
 }
@@ -21,6 +24,7 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
 
   const [settings, setSettings] = useState<ISettings>(initialSettings);
   const [errors, setErrors] = useState<ZodErrorMapping<ISettings>>({});
+  const [loading, setLoading] = useState<boolean>(false);
   const hasErrors = (Object.keys(errors).length > 0);
 
   const handleChange = (field: keyof ISettings): ((v: ChangeEvent<HTMLInputElement>) => any) =>
@@ -28,6 +32,7 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
 
   const handleSettingsSave = useCallback((event: PDefault) => {
     event.preventDefault();
+    setLoading(true);
 
     api<{ token: string; }, ISettings>({
       method: "POST",
@@ -41,7 +46,8 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
       })
       .catch(e => {
         toast.error(e.message);
-      });
+      })
+      .finally(() => setLoading(false));
   }, [api, settings, setJwt]);
 
   useLayoutEffect(() => {
@@ -95,6 +101,35 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
         <FormHelperText><i>nobody</i>&nbsp;can see this</FormHelperText>
       </FormControl>
 
+      <FormControl
+        error={!!errors.short_desc}
+        sx={{ gridColumn: "1/-1" }}
+      >
+        <FormLabel>summary</FormLabel>
+        <Input
+          value={settings.short_desc}
+          onChange={handleChange("short_desc")}
+        />
+        {errors.short_desc && <FormHelperText>{errors.short_desc}</FormHelperText>}
+      </FormControl>
+
+      <FormControl
+        error={!!errors.gender}
+        sx={{ gridColumn: "1/-1" }}
+      >
+        <FormLabel>pronouns</FormLabel>
+        <Select
+          name="gender"
+          value={settings.gender}
+          onChange={(_evt, value) => setSettings(_s => ({ ..._s, gender: value ?? 0 }))}
+        >
+          <Option value={0}>neutral (they / them / their)</Option>
+          <Option value={1}>male (he / him / his)</Option>
+          <Option value={2}>female (she / her / hers)</Option>
+        </Select>
+        {errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
+      </FormControl>
+
       <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
 
         <FormControl error={!!errors.password} className="grow">
@@ -141,7 +176,6 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
       </div>
 
       <hr />
-      <p>(coming soon)</p>
       <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
         <SelectableCard
           onClick={() => setSettings(s => ({ ...s, theme: 1 }))}
@@ -157,17 +191,17 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
           <Image src="/images/icons/generic/theme-dark.png" alt="Dark Theme" width={250} height={250} />
         </SelectableCard>
       </div>
-      <hr/>
+      <hr />
 
-      <Button
-        className="w-full"
-        size="lg"
-        type="submit"
-        color={hasErrors ? "danger" : undefined}
+      <SettingsFormProfilePic
+        value={settings.profile_pic}
+        onChange={p => setSettings(_s => ({ ..._s, profile_pic: p }))}
+      />
+
+      <SettingsFormSave
         disabled={hasErrors}
-      >
-        Save settings
-      </Button>
+        loading={loading}
+      />
     </form>
   );
 };

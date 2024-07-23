@@ -1,8 +1,12 @@
+"use server";
+
 import { ISelfie } from "@/types";
 
 import { getDbConnection } from "./db.config";
 
 export const dbGetUserAndLastSelfie = async (username: string, selfId: number = 0): Promise<ISelfie | null> => {
+  "use server";
+
   const [connection, close] = await getDbConnection();
   let query = "";
   const params: Record<string, string | number> = { username };

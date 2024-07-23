@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { BellPositionValidator } from "./bell-position.validator";
+import { GenderTypeValidator } from "./gender-type.validator";
 import { ThemeTypeValidator } from "./theme-type.validator";
 
 export const SettingsValidator = z.object({
@@ -8,6 +9,9 @@ export const SettingsValidator = z.object({
   theme: ThemeTypeValidator,
   email: z.string().email(),
   name: z.string().min(5),
+  short_desc: z.string().min(5),
+  profile_pic: z.string().min(1),
+  gender: GenderTypeValidator,
   username: z.string().min(4),
   password: z.string().min(8).optional(),
   confirm: z.string().min(8).optional(),

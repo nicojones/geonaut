@@ -1,8 +1,11 @@
+"use server";
 import { IUserData } from "@/types";
 
 import { getDbConnection } from "./db.config";
 
 export const dbGetUserInfo = async (selfId: number, userId: number): Promise<IUserData> => {
+  "use server";
+
   const [connection, close] = await getDbConnection();
 
   const [userFollowersInfoResult] = await connection.query(`

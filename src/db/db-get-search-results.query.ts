@@ -1,3 +1,4 @@
+"use server";
 import { ISearchResultType } from "@/types";
 
 import { getDbConnection } from "./db.config";
@@ -16,6 +17,8 @@ export const dbGetSearchResults = async (
   start: number,
   limit: number,
 ): Promise<ISearchResult[]> => {
+  "use server";
+
   const searchQueryLower = searchQuery.toLowerCase();
   let query = "";
   let params: Record<string, any> = {};

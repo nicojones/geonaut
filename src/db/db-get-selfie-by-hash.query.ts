@@ -1,25 +1,15 @@
-import { getDbConnection } from "./db.config"; // Adjust the import path as necessary
+"use server";
+import { ISelfie } from "@/types";
 
-interface ISelfie {
-  id: number;
-  user_id: number;
-  hash: string;
-  selfie_date: string;
-  ago: number;
-  love: number;
-  following: number;
-  is_owner: string;
-  type: string;
-  loves: number;
-  long_desc?: string;
-  // Add other fields as necessary
-}
+import { getDbConnection } from "./db.config"; // Adjust the import path as necessary
 
 export const dbGetSelfieByHash = async (
   hash: string,
   selfId: number | false = false,
   longDesc: boolean = false,
 ): Promise<ISelfie | null> => {
+  "use server";
+
   const [connection, close] = await getDbConnection();
   let query = "";
   const params: Record<string, string | number> = { hash };

@@ -1,3 +1,4 @@
+"use server";
 import { IGetSelfiesOptions, ISelfie } from "@/types";
 
 import { getDbConnection } from "./db.config";
@@ -16,6 +17,8 @@ import { getDbConnection } from "./db.config";
 export const dbGetSelfies = async (
   { selfId = 0, userId = 0, start = 0, limit = 10 }: IGetSelfiesOptions,
 ): Promise<ISelfie[]> => {
+  "use server";
+
   const [connection, close] = await getDbConnection();
   if (userId) {
     const [results, _fields] = await connection.query(
