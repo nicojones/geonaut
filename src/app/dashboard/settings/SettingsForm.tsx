@@ -1,14 +1,14 @@
 "use client";
 
 import { EnvelopeIcon, KeyIcon, UserIcon } from "@heroicons/react/16/solid";
-import { FormControl, FormHelperText, FormLabel, Input, Option, Select, useColorScheme } from "@mui/joy";
+import { FormControl, FormHelperText, FormLabel, Input, Option, Select } from "@mui/joy";
 import Image from "next/image";
-import { ChangeEvent, useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { ChangeEvent, useCallback, useLayoutEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { SelectableCard } from "@/components/generic";
 import { useJwtTokenContext } from "@/context";
-import { createZodErrorObject, raiseOnError, schemeFromTheme } from "@/functions";
+import { createZodErrorObject, raiseOnError } from "@/functions";
 import { ISettings, IThemeType, PDefault, ZodErrorMapping } from "@/types";
 import { SettingsValidator } from "@/validators";
 
