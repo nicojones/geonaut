@@ -20,8 +20,7 @@ interface SettingsFormProps {
 }
 
 export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): JSX.Element => {
-  const { api, user, setJwt } = useJwtTokenContext();
-  const { setMode } = useColorScheme();
+  const { api, setJwt } = useJwtTokenContext();
 
   const [settings, setSettings] = useState<ISettings>(initialSettings);
   const [errors, setErrors] = useState<ZodErrorMapping<ISettings>>({});
@@ -32,7 +31,6 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
     value => setSettings(s => ({ ...s, [field]: value.target.value }));
 
   const handleSetTheme = (theme: IThemeType): void => {
-    setMode(schemeFromTheme(theme));
     setSettings(s => ({ ...s, theme }));
   };
 
@@ -69,10 +67,6 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
         console.error(e);
       });
   }, [settings]);
-
-  useEffect(() => {
-    return () => setMode(schemeFromTheme(user?.theme as IThemeType));
-  }, [user?.theme]);
 
   return (
     <form onSubmit={handleSettingsSave} className="flex flex-col space-y-4">
@@ -185,22 +179,6 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
         </SelectableCard>
       </div>
 
-      <hr />
-      <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
-        <SelectableCard
-          onClick={() => handleSetTheme(1)}
-          selected={settings.theme === 1}
-        >
-          <Image src="/images/icons/generic/theme-light.png" alt="Light theme" width={250} height={250} />
-        </SelectableCard>
-
-        <SelectableCard
-          onClick={() => handleSetTheme(2)}
-          selected={settings.theme === 2}
-        >
-          <Image src="/images/icons/generic/theme-dark.png" alt="Dark Theme" width={250} height={250} />
-        </SelectableCard>
-      </div>
       <hr />
 
       <SettingsFormProfilePic
