@@ -18,7 +18,7 @@ interface StickyHeaderProps {
 
 export const StickyHeader = ({ header, small = false, sticky }: StickyHeaderProps): JSX.Element =>
   <div
-    className={classNames("top-2 w-full fric justify-center z-[10]", { sticky }, small ? "my-10" : "my-[25vh]")}
+    className={classNames("top-2 w-full fric dark:text-white justify-center z-[10]", { sticky }, small ? "my-10" : "my-[25vh]")}
   >
     {
       typeof header === "string"

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpTrayIcon, UserIcon } from "@heroicons/react/16/solid";
+import { CameraIcon, UserIcon } from "@heroicons/react/16/solid";
 import { Typography } from "@mui/joy";
 import Link from "next/link";
 import { CSSProperties } from "react";
@@ -33,10 +33,16 @@ export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
                 <Typography level="h3" sx={({ color })}>{selfie.short_desc}</Typography>
               </Link>
               <div className={`flex flex-col text-base text-[${lcColor}] shrink-0`}>
-                <SelfieDate
+                {/* <SelfieDate
                   icon={<ArrowUpTrayIcon className="size-4" />}
                   date={selfie.added_on}
                   label="added"
+                /> */}
+                <SelfieDate
+                  icon={<CameraIcon className="size-4" />}
+                  label="taken"
+                  date={selfie.selfie_date}
+                  isDate
                 />
                 {opener}
                 <Link href={`/u/${selfie.username}`} className="fric space-x-2 as-link">

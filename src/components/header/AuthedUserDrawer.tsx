@@ -139,7 +139,7 @@ export const AuthedUserDrawer = (): JSX.Element => {
                       <IconButton
                         variant="plain"
                         onClick={toggle}
-                        className="text-black rounded-full"
+                        className="text-black dark:text-white rounded-full"
                         size="lg"
                       >
                         <BellIcon className="size-6" />

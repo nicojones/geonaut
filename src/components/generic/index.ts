@@ -6,6 +6,7 @@ export * from "./CopyToClipboard";
 export * from "./CopyPath";
 export * from "./LoadingPage";
 export * from "./Footer";
+export * from "./SystemModeColorCookie";
 
 // ~~ FOLDERS
 export * from "./history-map";

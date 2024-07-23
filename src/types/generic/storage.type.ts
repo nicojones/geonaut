@@ -1,1 +1,1 @@
-export type IStorageKey = "token";
+export type IStorageKey = "token" | "theme";

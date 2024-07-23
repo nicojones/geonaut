@@ -1,15 +1,15 @@
 "use client";
 
 import { EnvelopeIcon, KeyIcon, UserIcon } from "@heroicons/react/16/solid";
-import { FormControl, FormHelperText, FormLabel, Input, Option, Select } from "@mui/joy";
+import { FormControl, FormHelperText, FormLabel, Input, Option, Select, useColorScheme } from "@mui/joy";
 import Image from "next/image";
-import { ChangeEvent, useCallback, useLayoutEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { SelectableCard } from "@/components/generic";
 import { useJwtTokenContext } from "@/context";
-import { createZodErrorObject, raiseOnError } from "@/functions";
-import { ISettings, PDefault, ZodErrorMapping } from "@/types";
+import { createZodErrorObject, raiseOnError, schemeFromTheme } from "@/functions";
+import { ISettings, IThemeType, PDefault, ZodErrorMapping } from "@/types";
 import { SettingsValidator } from "@/validators";
 
 import { SettingsFormProfilePic } from "./SettingsFormProfilePic";
@@ -20,7 +20,8 @@ interface SettingsFormProps {
 }
 
 export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): JSX.Element => {
-  const { api, setJwt } = useJwtTokenContext();
+  const { api, user, setJwt } = useJwtTokenContext();
+  const { setMode } = useColorScheme();
 
   const [settings, setSettings] = useState<ISettings>(initialSettings);
   const [errors, setErrors] = useState<ZodErrorMapping<ISettings>>({});
@@ -29,6 +30,11 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
 
   const handleChange = (field: keyof ISettings): ((v: ChangeEvent<HTMLInputElement>) => any) =>
     value => setSettings(s => ({ ...s, [field]: value.target.value }));
+
+  const handleSetTheme = (theme: IThemeType): void => {
+    setMode(schemeFromTheme(theme));
+    setSettings(s => ({ ...s, theme }));
+  };
 
   const handleSettingsSave = useCallback((event: PDefault) => {
     event.preventDefault();
@@ -63,6 +69,10 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
         console.error(e);
       });
   }, [settings]);
+
+  useEffect(() => {
+    return () => setMode(schemeFromTheme(user?.theme as IThemeType));
+  }, [user?.theme]);
 
   return (
     <form onSubmit={handleSettingsSave} className="flex flex-col space-y-4">
@@ -178,14 +188,14 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
       <hr />
       <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
         <SelectableCard
-          onClick={() => setSettings(s => ({ ...s, theme: 1 }))}
+          onClick={() => handleSetTheme(1)}
           selected={settings.theme === 1}
         >
           <Image src="/images/icons/generic/theme-light.png" alt="Light theme" width={250} height={250} />
         </SelectableCard>
 
         <SelectableCard
-          onClick={() => setSettings(s => ({ ...s, theme: 2 }))}
+          onClick={() => handleSetTheme(2)}
           selected={settings.theme === 2}
         >
           <Image src="/images/icons/generic/theme-dark.png" alt="Dark Theme" width={250} height={250} />
