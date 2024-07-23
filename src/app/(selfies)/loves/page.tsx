@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { SelfiePage } from "@/components";
-import { dbGetLovedSelfies } from "@/db";
+import { dbGetLovedSelfies } from "@/db/db-get-loved-selfies.query";
 import { selfieResults } from "@/functions";
 import { getUserFromCookie } from "@/functions/server/get-user-from-cookie.function";
 import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";

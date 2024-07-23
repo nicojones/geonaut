@@ -2,7 +2,9 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { SelfiePage, UserPageHeader } from "@/components";
-import { dbGetSelfies, dbGetUserIdFromUsername, dbGetUserInfo } from "@/db";
+import { dbGetSelfies } from "@/db/db-get-selfies.query";
+import { dbGetUserIdFromUsername } from "@/db/db-get-user-id-from-username.query";
+import { dbGetUserInfo } from "@/db/db-get-user-info.query";
 import { selfieResults, toQuery, userMetadata } from "@/functions";
 import { getUserFromCookie } from "@/functions/server/get-user-from-cookie.function";
 import { ISelfiesData, IUrlParams, IUserData } from "@/types";

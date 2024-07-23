@@ -1,6 +1,8 @@
 "use server";
 
-import { dbGetSearchResults, dbGetSelfieByHash, dbGetUserAndLastSelfie, ISearchResult } from "@/db";
+import { dbGetSearchResults, ISearchResult } from "@/db/db-get-search-results.query";
+import { dbGetSelfieByHash } from "@/db/db-get-selfie-by-hash.query";
+import { dbGetUserAndLastSelfie } from "@/db/db-get-user-and-last-selfie.query";
 import { getUserFromCookie } from "@/functions/server/get-user-from-cookie.function";
 import { ISearchFindAll, ISearchResultType, ISelfie, ISelfiesData } from "@/types";
 

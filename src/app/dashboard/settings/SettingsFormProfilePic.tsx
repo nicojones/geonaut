@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { useJwtTokenContext } from "@/context";
-import { dbGetSelfies } from "@/db";
+import { dbGetSelfies } from "@/db/db-get-selfies.query";
 import { range, selfieMyImage } from "@/functions";
 import { ISelfie } from "@/types";
 
