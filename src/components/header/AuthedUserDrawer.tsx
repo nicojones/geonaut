@@ -1,4 +1,4 @@
-import { AdjustmentsHorizontalIcon, ArrowLeftStartOnRectangleIcon, BellIcon, CameraIcon, RectangleGroupIcon, UserCircleIcon, UserIcon } from "@heroicons/react/16/solid";
+import { AdjustmentsHorizontalIcon, ArrowLeftStartOnRectangleIcon, BellIcon, CameraIcon, RectangleGroupIcon, UserCircleIcon } from "@heroicons/react/16/solid";
 import { Avatar, Badge, DialogContent, DialogTitle, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemDecorator, Typography } from "@mui/joy";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { NotificationsDrawer } from "@/components/generic/notifications";
 import { useJwtTokenContext, useNotificationsContext } from "@/context";
 
-export const AuthedUserDropdown = (): JSX.Element => {
+export const AuthedUserDrawer = (): JSX.Element => {
   const pathname = usePathname();
   const { isAuthed, user } = useJwtTokenContext();
   const { unread } = useNotificationsContext();
@@ -103,16 +103,6 @@ export const AuthedUserDropdown = (): JSX.Element => {
                         <CameraIcon className="size-5" />
                       </ListItemDecorator>
                       <span>upload</span>
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
-                <Link href="/dashboard/profile">
-                  <ListItem>
-                    <ListItemButton className="fric">
-                      <ListItemDecorator>
-                        <UserIcon className="size-5" />
-                      </ListItemDecorator>
-                      <span>profile</span>
                     </ListItemButton>
                   </ListItem>
                 </Link>

@@ -11,7 +11,7 @@ import { logoImage } from "@/assets";
 import { SearchEverywhere } from "@/components/generic";
 import { NotificationsWrapper, useJwtTokenContext } from "@/context";
 
-import { AuthedUserDropdown } from "./AuthedUserDropdown";
+import { AuthedUserDrawer } from "./AuthedUserDrawer";
 import { HamburgerMenuButton } from "./HamburgerMenuButton";
 
 export const HeaderAndDrawer = (): JSX.Element => {
@@ -103,7 +103,7 @@ export const HeaderAndDrawer = (): JSX.Element => {
         </div>
         <div className="fric space-x-4 -z-[1]">
           <NotificationsWrapper>
-            <AuthedUserDropdown />
+            <AuthedUserDrawer />
           </NotificationsWrapper>
         </div>
       </nav>
