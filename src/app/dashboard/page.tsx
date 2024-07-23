@@ -112,7 +112,7 @@ export default async function DashboardPage (): Promise<JSX.Element> {
               <>
                 <Typography level="h2" sx={{ textAlign: "center", mb: 5 }}>by people you follow</Typography>
                 <div className="w-full mx-auto">
-                  <div className="selfie-list">
+                  <div className="selfie-list !space-y-20">
                     {
                       dashboardData.following.map(s => <SelfieCard key={s.active_hash} selfie={s} />)
                     }
