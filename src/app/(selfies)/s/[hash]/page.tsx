@@ -55,7 +55,7 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
 
   return (
     <div
-      className="flex flex-col max-w-full py-[var(--header-height)] relative min-h-screen"
+      className="flex flex-col max-w-full py-[var(--header-height)] relative fill-screen"
       style={{ background: selfieBackgroundStyle(selfie.me_color, selfie.lc_color) }}
     >
       <div className="flex flex-col mx-auto w-[calc(100vw-100px)] md:w-[calc(100vw-200px)] lg:w-[calc(100vw-300px)]">

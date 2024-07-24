@@ -155,7 +155,7 @@ export const AuthedUserDrawer = (): JSX.Element => {
       : (
         <>
           <Link href="/auth/sign-in" className="p-4 group">
-            <UserCircleIcon className="size-8 opacity-60 group-hover:opacity-100 transition-opacity" />
+            <UserCircleIcon className="size-14 opacity-20 group-hover:opacity-60 transition-opacity" />
           </Link>
           {/* <Link href="/auth/sign-up">
               <Button variant="soft">sign up</Button>

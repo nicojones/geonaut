@@ -21,7 +21,7 @@ export const SelfieMap = ({ children, selfie }: SelfieMapProps): JSX.Element => 
   };
   return children(
     <span
-      className="fric space-x-2 cursor-pointer"
+      className="fric space-x-3 cursor-pointer"
       onClick={handleToggleMap}
       title={mapOpen ? "close map" : "open map"}
     >

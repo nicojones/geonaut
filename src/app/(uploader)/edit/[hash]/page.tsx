@@ -19,7 +19,7 @@ export default async function UploadSelfiePage ({ params }: IUrlParams<"hash">):
   const data = await getSelfieDraft(params.hash);
 
   return (
-    <Sheet className="w-screen min-h-screen flex flex-col py-24 bg-transparent">
+    <Sheet className="w-screen fill-screen flex flex-col py-24 bg-transparent">
       <EditSelfieContextWrapper initialData={data}>
         <EditSelfieForm />
       </EditSelfieContextWrapper>

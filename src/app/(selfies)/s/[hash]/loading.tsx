@@ -4,7 +4,7 @@ export default async function Loading (): Promise<JSX.Element> {
   return (
     <>
       <div
-        className="flex flex-col max-w-full py-[var(--header-height)] relative min-h-screen"
+        className="flex flex-col max-w-full py-[var(--header-height)] relative fill-screen"
       >
         <div className="flex flex-col mx-auto w-[calc(100vw-100px)] md:w-[calc(100vw-200px)] lg:w-[calc(100vw-300px)] space-y-2">
           <div

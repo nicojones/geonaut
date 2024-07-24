@@ -28,7 +28,7 @@ export const SelfieDate = ({ date, icon, isDate = false, label }: SelfieDateProp
 
   return (
     <span
-      className="fric space-x-2 cursor-pointer"
+      className="fric space-x-3 cursor-pointer"
       role="button"
       onClick={() => setShowDate(_d => !_d)}
     >

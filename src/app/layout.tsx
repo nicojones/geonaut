@@ -45,8 +45,8 @@ export default async function RootLayout ({
       suppressHydrationWarning={true}
       className={colorScheme}
     >
-      <body className="min-h-screen">
-        <CssVarsProvider defaultMode={colorScheme ?? "system"}>
+      <body className="fill-screen">
+        <CssVarsProvider defaultMode={colorScheme ?? "system"} >
           {/* makes sure the color scheme is in sync with the device */}
           <SystemModeColorCookie />
           <NextTopLoader showSpinner={false} />

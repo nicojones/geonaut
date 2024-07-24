@@ -1,4 +1,23 @@
-@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap");
+/* latin */
+@font-face {
+  font-family: "Dosis";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/dosis/v32/HhyaU5sn9vOmLzloC_WoEoZK.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 200 1000;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/mulish/v13/1Ptvg83HX_SGhgqk3wotYKNnBQ.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,6 +31,7 @@
   --background-body: rgb(var(--background-rgb));
 
   --joy-fontFamily-display: "Mulish", -apple-system, "Roboto", sans-serif;
+  --font-family: var(--joy-fontFamily-display);
 }
 
 html.dark {
@@ -22,19 +42,21 @@ html.dark {
 body {
   color: rgb(var(--foreground-rgb));
   background: var(--background-body);
-  font-family: var(--joy-fontFamily-display) !important;
+  font-family: var(--font-family) !important;
 }
 
 * {
-  font-family: var(--joy-fontFamily-display) !important;
+  font-family: var(--font-family) !important;
 }
 
-.text-difference {
-  color: rgb(100, 100, 100);
-  /* color: #0000ff; */
-  /* mix-blend-mode: darken; */
-  mix-blend-mode: difference;
+/* Prevent `margin-top` and `margin-left` when a <style/> is rendered inline */
+[class*="space-x-"] > style:first-child + * {
+  margin-left: 0 !important;
 }
+[class*="space-y-"] > style:first-child + * {
+  margin-top: 0 !important;
+}
+
 
 @layer utilities {
   .text-balance {
@@ -107,4 +129,9 @@ body {
   .subtle-hover {
     @apply text-gray-300 hover:text-black transition-colors;
   }
+
+  .fill-screen {
+    @apply min-h-[calc(100vh-var(--header-height))]
+  }
+
 }
