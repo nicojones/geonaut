@@ -17,7 +17,7 @@ export const AuthCard = ({ children, orElse, title }: AuthCardProps): JSX.Elemen
     <div className="grid place-content-center mt-[var(--header-height)] min-h-screen">
       <Card
         variant="outlined"
-        className="max-h-max min-w-96 relative -top-24"
+        sx={{ maxHeight: "max-content", minWidth: 384, top: -96 }}
       >
         <Typography level="h3">{title}</Typography>
 
