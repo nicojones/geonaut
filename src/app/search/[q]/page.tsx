@@ -1,4 +1,3 @@
-import { Typography } from "@mui/joy";
 import { Metadata } from "next";
 
 import { StickyHeader } from "@/components/header";

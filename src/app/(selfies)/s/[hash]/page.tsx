@@ -8,11 +8,13 @@ import { EditSelfieButton, LoveSelfie, SelfieDate } from "@/components";
 import { CopyPath, MapViewer } from "@/components/generic";
 import { CommentList } from "@/components/selfies/comments/CommentList";
 import { NO_IMAGE } from "@/config";
+import { dbGetSelfieByHash } from "@/db/db-get-selfie-by-hash.query";
 import { selfieBackgroundStyle, selfieLcImage, selfieMetadata, selfieMyImage, selfieNotFound, selfiePin, selfieTextColor } from "@/functions";
-import { serverFetch } from "@/functions/server/server-fetch.function";
-import { IFetchSelfieBody, IMapPin, ISelfie, ISelfieData, ISelfiePrevNext, IUrlParams } from "@/types";
+import { getUserFromCookie } from "@/functions/server/get-user-from-cookie.function";
+import { IMapPin, ISelfie, ISelfieData, IUrlParams } from "@/types";
 
 import { renderDynamicSelfie } from "./render-dynamic-selfie.function";
+import { SelfiePrevNext } from "./SelfiePrevNext";
 
 export async function generateMetadata (
   { params }: IUrlParams<"hash">,
@@ -25,26 +27,16 @@ export async function generateMetadata (
   }
 }
 
-const getSelfie = (hash: string): Promise<ISelfieData<ISelfie | false>> =>
-  serverFetch<ISelfieData, IFetchSelfieBody>({ body: { s: "one", hash }, cacheTags: [hash] })
-    .catch(_e => ({ selfie: false, title: "not found" }));
-
-const getPrevNext = async (hash: string, selfieExists: boolean = true): Promise<ISelfiePrevNext> => {
-  if (selfieExists) {
-    return await serverFetch<ISelfiePrevNext, Record<string, never>>({
-      body: {},
-      url: `/api/next/${hash}`,
-      cacheTags: [hash],
-    });
-  }
-  return { prev: null, next: null };
+const getSelfie = async (hash: string): Promise<ISelfieData<ISelfie | null>> => {
+  const user = await getUserFromCookie();
+  return await dbGetSelfieByHash(hash, user?.id, true)
+    .then(s => ({ title: s?.title ?? "not found", selfie: s }));
 };
 
 export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">): Promise<JSX.Element> {
   let selfie = (await getSelfie(params.hash)).selfie;
   const selfieExists = !!selfie;
 
-  const { prev, next } = await getPrevNext(params.hash, selfieExists);
   if (!selfie || !selfieExists) {
     selfie = selfieNotFound({ hash: params.hash });
   }
@@ -129,34 +121,8 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
             height={750}
           />
           {
-            prev &&
-            <Link
-              className="cursor-pointer opacity-30 hover:opacity-50 left-0 h-full absolute translate-x-[-100%] transition-opacity"
-              href={`/s/${prev.hash}`}
-            >
-              <Image
-                src={selfieLcImage(prev)}
-                alt={"Previous image: " + prev.title}
-                className="h-full w-auto"
-                width={1000}
-                height={750}
-              />
-            </Link>
-          }
-          {
-            next &&
-            <Link
-              className="cursor-pointer opacity-30 hover:opacity-50 right-0 h-full absolute translate-x-[100%] transition-opacity"
-              href={`/s/${next.hash}`}
-            >
-              <Image
-                src={selfieMyImage(next)}
-                alt={"Next image: " + next.title}
-                className="h-full w-auto"
-                width={1000}
-                height={750}
-              />
-            </Link>
+            selfieExists &&
+            <SelfiePrevNext selfie={selfie} />
           }
         </div>
 

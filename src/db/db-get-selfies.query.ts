@@ -26,13 +26,11 @@ export const dbGetSelfies = async (
       SELECT
               s.id, s.user_id, s.active_hash, s.hash, s.title, s.short_desc, s.selfie_date,
               s.selfie_place, s.lat, s.lng, s.selfietype_id, s.added_on, s.edited_on,
-              s.lc_color, s.me_color, s.lc_brightness, s.me_brightness, s.username, s.name, s.possessive, s.ago,
+              s.lc_color, s.me_color, s.lc_brightness, s.me_brightness, s.username, s.name, s.possessive,
               IF(l.user_id = :selfId, 1, 0) AS love,
               -- IF(f.follower = :selfId, 1, 0) AS following,
-              DATEDIFF(CURRENT_TIMESTAMP, s.selfie_date) AS ago,
-              DATEDIFF(CURRENT_TIMESTAMP, s.added_on) AS aago,
               'profile' AS 'type',
-      COALESCE(lc.loves, 0) as loves
+              COALESCE(lc.loves, 0) as loves
       FROM selfies_with_user s
       LEFT JOIN love l ON (s.id = l.selfie_id AND :selfId = l.user_id)
       -- LEFT JOIN follow f ON s.user_id = f.followed
@@ -40,8 +38,8 @@ export const dbGetSelfies = async (
       WHERE (s.user_id = :userId)
       GROUP BY s.id, s.user_id, s.active_hash, s.hash, s.title, s.short_desc, s.selfie_date,
                 s.selfie_place, s.lat, s.lng, s.selfietype_id, s.added_on, s.edited_on,
-                s.lc_color, s.lc_brightness, s.me_color, s.me_brightness, s.username, s.name, s.possessive, s.ago,
-                'type', ago, love, loves
+                s.lc_color, s.lc_brightness, s.me_color, s.me_brightness, s.username, s.name, s.possessive,
+                'type', love, loves
       ORDER BY s.selfie_date DESC, s.added_on DESC LIMIT :start, :limit
       `,
       {
@@ -61,11 +59,9 @@ export const dbGetSelfies = async (
         SELECT
               s.id, s.user_id, s.active_hash, s.hash, s.title, s.short_desc, s.selfie_date,
               s.selfie_place, s.lat, s.lng, s.selfietype_id, s.added_on, s.edited_on,
-              s.lc_color, s.me_color, s.lc_brightness, s.me_brightness, s.username, s.name, s.possessive, s.ago,
+              s.lc_color, s.me_color, s.lc_brightness, s.me_brightness, s.username, s.name, s.possessive,
               IF(l.user_id = :selfId, 1, 0) AS love,
               -- IF(f.follower = :selfId, 1, 0) AS following,
-              DATEDIFF(CURRENT_TIMESTAMP, s.selfie_date) AS ago,
-              DATEDIFF(CURRENT_TIMESTAMP, s.added_on) AS aago,
               'selfie' AS 'type',
               COALESCE(lc.loves, 0) as loves
         FROM selfies_with_user s
@@ -75,8 +71,8 @@ export const dbGetSelfies = async (
         GROUP BY s.id, s.user_id, s.active_hash, s.hash, s.title, s.short_desc, s.selfie_date,
                   s.selfie_place, s.lat, s.lng, s.selfietype_id, s.added_on, s.edited_on,
                   s.lc_color, s.lc_brightness, s.me_color, s.me_brightness,
-                  s.username, s.name, s.possessive, s.ago,
-                  'type', ago, love, loves
+                  s.username, s.name, s.possessive,
+                  'type', love, loves
         ORDER BY s.added_on DESC LIMIT :start, :limit
       `,
       {

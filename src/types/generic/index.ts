@@ -11,5 +11,6 @@ export * from "./url-params.type";
 export * from "./value-label.type";
 export * from "./rgb.type";
 export * from "./read-file.type";
+export * from "./remove-falsy.type";
 export * from "./response-redirect";
 export * from "./exclude-keys.type";

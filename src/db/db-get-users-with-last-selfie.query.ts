@@ -18,9 +18,7 @@ export const dbGetUsersWithLastSelfie = async (
             IF(:selfId = s.user_id, 'yes', 'no')) as is_owner,
             'user' AS 'type',
             COALESCE(lc.loves, 0) as loves,
-            REPLACE(u.short_desc, '&#10;', '') AS profile,
-            DATEDIFF(CURRENT_TIMESTAMP, s.selfie_date) AS ago,
-            DATEDIFF(CURRENT_TIMESTAMP, s.added_on) AS aago
+            REPLACE(u.short_desc, '&#10;', '') AS profile
         FROM selfies_with_user s
         INNER JOIN selfies_added_on sao ON (s.added_on = sao.added_on AND s.user_id = sao.user_id)
         LEFT JOIN love l ON (s.id = l.selfie_id AND :selfId = l.user_id)
@@ -28,7 +26,7 @@ export const dbGetUsersWithLastSelfie = async (
         LEFT JOIN users u ON u.id = s.user_id
         GROUP BY s.id, s.user_id, s.active_hash, s.hash, s.title, s.short_desc, s.selfie_date,
                   s.selfie_place, s.lat, s.lng, s.selfietype_id, s.added_on, s.edited_on,
-                  s.lc_color, s.me_color, s.me_brightness, s.lc_brightness, s.username, s.name, s.possessive, s.ago,
+                  s.lc_color, s.me_color, s.me_brightness, s.lc_brightness, s.username, s.name, s.possessive,
                   is_owner, 'type', profile, love, loves
         ORDER BY s.added_on DESC
         LIMIT :start, :limit

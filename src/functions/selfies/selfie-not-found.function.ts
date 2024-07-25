@@ -13,8 +13,6 @@ export const selfieNotFound = (selfie: Pick<ISelfie, "hash"> & Partial<ISelfie>)
   lng: 0,
   long_desc: "",
   added_on: (new Date(0)).toISOString(),
-  aago: 0,
-  ago: 0,
   edited_on: "",
   lc_brightness: 255,
   love: 0,

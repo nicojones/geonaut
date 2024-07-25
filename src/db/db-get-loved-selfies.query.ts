@@ -25,7 +25,6 @@ export const dbGetLovedSelfies = async (
         SELECT
           s.*,
           IF(l.user_id = :selfId, 1, 0) AS love,
-          DATEDIFF(CURRENT_TIMESTAMP, s.selfie_date) AS ago,
           'selfie' AS 'type',
           1 as loves
         FROM selfies_with_user s
@@ -34,8 +33,8 @@ export const dbGetLovedSelfies = async (
         WHERE (l.user_id = :selfId)
         GROUP BY s.id, l.love_on, s.user_id, s.active_hash, s.hash, s.title, s.short_desc, s.selfie_date,
                   s.selfie_place, s.lat, s.lng, s.selfietype_id, s.added_on, s.edited_on,
-                  s.lc_color, s.lc_brightness, s.me_color, s.me_brightness, s.username, s.name, s.possessive, s.ago,
-                  'type', ago, love, loves
+                  s.lc_color, s.lc_brightness, s.me_color, s.me_brightness, s.username, s.name, s.possessive,
+                  'type', love, loves
         ORDER BY l.love_on DESC
         LIMIT :start, :limit
       `,

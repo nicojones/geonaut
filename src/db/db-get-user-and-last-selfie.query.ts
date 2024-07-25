@@ -15,7 +15,6 @@ export const dbGetUserAndLastSelfie = async (username: string, selfId: number = 
     query = `
       SELECT
         s.*,
-        DATEDIFF(CURRENT_TIMESTAMP, s.selfie_date) AS ago,
         IF(l.user_id = :selfId, 1, 0) AS love,
         IF(f.follower = :selfId, 1, 0) AS following,
         IF(s.user_id = :selfId, 'yes', 'no') AS is_owner,
@@ -35,7 +34,6 @@ export const dbGetUserAndLastSelfie = async (username: string, selfId: number = 
     query = `
       SELECT
         s.*,
-        DATEDIFF(CURRENT_TIMESTAMP, s.selfie_date) AS ago,
         0 AS love, 0 AS following, 'no' AS is_owner,
         'user' AS 'type',
         COALESCE(lc.loves, 0) AS loves

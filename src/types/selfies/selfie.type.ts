@@ -1,8 +1,6 @@
 import { IBool, ISelfieTypeKey } from "@/types";
 
 export interface ISelfie {
-  aago: number;
-  ago: number;
   active_hash: string;
   /**
    * When the picture was uploaded
