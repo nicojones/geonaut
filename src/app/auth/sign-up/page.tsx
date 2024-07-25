@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 
 import { AuthCard } from "@/components";
-import { mustBeAuthenticated } from "@/functions/server";
 
 import { SignUpForm } from "./SignUpForm";
 
@@ -11,8 +10,6 @@ export const metadata: Metadata = {
 };
 
 export default async function SignUp (): Promise<JSX.Element> {
-  await mustBeAuthenticated("/dashboard", false);
-
   return (
     <AuthCard
       title="create an account"

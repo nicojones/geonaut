@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 
 import { logoImage } from "@/assets";
 import { SearchEverywhere } from "@/components/generic";
+import { REDIRECT_IF_ANONYMOUS, REDIRECT_IF_AUTHENTICATED } from "@/config";
 import { NotificationsWrapper, useJwtTokenContext } from "@/context";
 
 import { AuthedUserDrawer } from "./AuthedUserDrawer";
@@ -97,7 +98,7 @@ export const HeaderAndDrawer = (): JSX.Element => {
       <nav className="fric justify-between pl-3 lg:pl-12 pr-2 py-2 fixed top-0 left-0 w-screen h-[var(--header-height)] z-[1]">
         <div className="fric space-x-3 lg:space-x-8">
           <HamburgerMenuButton open={menuOpen} onClick={handleHamburgerToggle} />
-          <Link href={isAuthed ? "/dashboard" : "/"}>
+          <Link href={isAuthed ? REDIRECT_IF_AUTHENTICATED : REDIRECT_IF_ANONYMOUS}>
             <Image src={logoImage} width={50} height={50} alt="Logo" priority />
           </Link>
         </div>

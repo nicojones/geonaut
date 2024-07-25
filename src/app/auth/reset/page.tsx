@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { AuthCard } from "@/components";
-import { mustBeAuthenticated } from "@/functions/server";
 import { IUrlParams } from "@/types";
 
 import { ResetPasswordForm } from "./ResetPasswordForm";
@@ -17,7 +16,6 @@ export default async function ResetPassword ({ searchParams }: IUrlParams<never,
   if (!searchParams.token) {
     redirect("/auth/sign-in");
   }
-  await mustBeAuthenticated("/dashboard", false);
 
   return (
     <AuthCard

@@ -4,7 +4,6 @@ import { SelfiePage } from "@/components";
 import { dbGetLovedSelfies } from "@/db/db-get-loved-selfies.query";
 import { selfieResults } from "@/functions";
 import { getUserFromCookie } from "@/functions/server/get-user-from-cookie.function";
-import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";
 import { ISelfiesData } from "@/types";
 
 export const metadata: Metadata = {
@@ -20,7 +19,6 @@ async function getLovedSelfies (start: number): Promise<ISelfiesData> {
 }
 
 export default async function LovesPage (): Promise<JSX.Element> {
-  await mustBeAuthenticated();
   const selfiesData = await getLovedSelfies(0);
 
   return (

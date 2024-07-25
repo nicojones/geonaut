@@ -2,7 +2,6 @@ import { Sheet } from "@mui/joy";
 
 import { EditSelfieForm } from "@/components";
 import { EditSelfieContextWrapper } from "@/context";
-import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";
 import { serverFetch } from "@/functions/server/server-fetch.function";
 import { IEditSelfieData, IResponseData, IUrlParams } from "@/types";
 
@@ -15,7 +14,6 @@ const getSelfieDraft = (hash: string): Promise<any> => {
 };
 
 export default async function UploadSelfiePage ({ params }: IUrlParams<"hash">): Promise<JSX.Element> {
-  await mustBeAuthenticated();
   const data = await getSelfieDraft(params.hash);
 
   return (

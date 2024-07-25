@@ -7,7 +7,6 @@ import Link from "next/link";
 import { SelfieCard } from "@/components";
 import { DashboardSheet, HistoryMap } from "@/components/generic";
 import { selfieLcImage, selfieMyImage } from "@/functions";
-import { mustBeAuthenticated } from "@/functions/server/must-be-authenticated.function";
 import { serverFetch } from "@/functions/server/server-fetch.function";
 import { IDashboardData } from "@/types";
 
@@ -24,7 +23,6 @@ const getDashboardData = (): Promise<IDashboardData> =>
   });
 
 export default async function DashboardPage (): Promise<JSX.Element> {
-  await mustBeAuthenticated();
   const dashboardData = await getDashboardData();
 
   const [lastSelfie, ...latestSelfies] = (dashboardData.last ?? []);
