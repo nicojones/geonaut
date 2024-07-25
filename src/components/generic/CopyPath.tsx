@@ -9,7 +9,7 @@ export const CopyPath = (props: ICopyPathProps): JSX.Element => {
     <CopyToClipboard
       {...props}
       // text={window.location.href}
-      copyValue={window.location.href}
+      copyValue={window?.location.href ?? ""}
       showNotification="URL copied! Share it anywhere"
     />
   );
