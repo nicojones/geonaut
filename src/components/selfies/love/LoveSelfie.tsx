@@ -40,7 +40,7 @@ export const LoveSelfie = ({ selfie }: LoveProps): JSX.Element => {
               onClick={handleToggleLove}
               className={
                 classNames(
-                  "cursor-pointer hover:drop-shadow-sm transition-all relative select-none",
+                  "cursor-pointer inline-block hover:drop-shadow-sm transition-all relative select-none w-10",
                   (!isAuthed || selfie.love ? "opacity-100" : "opacity-80 hover:opacity-100 hover:drop-shadow"),
                 )
               }
@@ -49,7 +49,7 @@ export const LoveSelfie = ({ selfie }: LoveProps): JSX.Element => {
             </a>
           )
           : (
-            <span className="relative">
+            <span className="relative inline-block w-10">
               <LoveButton count={loves} />
             </span>
           )

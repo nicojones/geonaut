@@ -7,8 +7,8 @@ interface LoveButtonProps {
 export const LoveButton = ({ count }: LoveButtonProps): JSX.Element => {
   return (
     <>
-      <span className="absolute z-10 top-5 left-5 text-white translate-x-[-50%] translate-y-[-50%] text-sm inline-block">{count}</span>
-      <HeartIcon className="size-10 text-red-500" />
+      <HeartIcon className="absolute top-0 mx-auto size-10 text-red-500" />
+      <span className="relative z-10 top-2 w-full text-center text-white text-sm inline-block">{count}</span>
     </>
   );
 };

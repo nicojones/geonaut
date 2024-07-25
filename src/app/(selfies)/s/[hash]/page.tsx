@@ -47,7 +47,7 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
 
   return (
     <div
-      className="flex flex-col max-w-full py-[var(--header-height)] relative fill-screen"
+      className="flex flex-col max-w-screen py-[var(--header-height)] relative fill-screen overflow-x-hidden"
       style={{ background: selfieBackgroundStyle(selfie.me_color, selfie.lc_color) }}
     >
       <div className="flex flex-col mx-auto w-[calc(100vw-100px)] md:w-[calc(100vw-200px)] lg:w-[calc(100vw-300px)]">
@@ -109,14 +109,14 @@ export default async function SingleSelfiePage ({ params }: IUrlParams<"hash">):
           <Image
             src={selfieExists ? selfieMyImage(selfie) : NO_IMAGE}
             alt={"My image for " + selfie.title}
-            className="w-full"
+            className="w-full aspect-[4/3]"
             width={1000}
             height={750}
           />
           <Image
             src={selfieExists ? selfieLcImage(selfie) : NO_IMAGE}
             alt={"Landscape image for " + selfie.title}
-            className="w-full"
+            className="w-full aspect-[4/3]"
             width={1000}
             height={750}
           />
