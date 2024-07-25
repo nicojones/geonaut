@@ -4,10 +4,11 @@ export const PROTECTED_ROUTES = [
   "/discover",
   "/loves",
   "/dashboard/?(?:[^/]*)",
+  "/auth/logout",
 ] as const;
 
 export const ANONYMOUS_ROUTES = [
-  "/auth/(?:[^/]+)",
+  "/auth/(?!logout)[^/]+",
 ];
 
 export const REDIRECT_IF_UNAUTHORIZED = "/auth/sign-in";
