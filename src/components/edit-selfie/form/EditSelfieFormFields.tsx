@@ -20,6 +20,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
   const { api } = useJwtTokenContext();
   const { data, errors, setSelfieData, hasImages, markers } = useEditSelfieContext();
   const router = useRouter();
+  const dateFromPicture: string | undefined = hasImages?.me ? data.images.me.date : data.images.lc.date;
 
   const handleValueChange = (key: keyof ISelfieEdit):
   ((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void) => {
@@ -37,7 +38,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
 
   const handleSetPictureDate = (): void => {
     // `hasImages` is not undefined
-    setSelfieData({ date: hasImages?.me ? data.images.me.date : data.images.lc.date });
+    setSelfieData({ date: dateFromPicture });
   };
 
   if (!hasImages) {
@@ -87,7 +88,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
               <span>date</span>
               <span className="fric space-x-4 subtle-hover">
                 {
-                  hasImages &&
+                  dateFromPicture &&
                   <a
                     role="button"
                     className="cursor-pointer hover:underline"
