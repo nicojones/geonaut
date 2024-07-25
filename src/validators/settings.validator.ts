@@ -2,11 +2,9 @@ import { z } from "zod";
 
 import { BellPositionValidator } from "./bell-position.validator";
 import { GenderTypeValidator } from "./gender-type.validator";
-import { ThemeTypeValidator } from "./theme-type.validator";
 
 export const SettingsValidator = z.object({
   bell_position: BellPositionValidator,
-  theme: ThemeTypeValidator,
   email: z.string().email(),
   name: z.string().min(5),
   short_desc: z.string().min(5),

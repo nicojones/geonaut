@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { SelectableCard } from "@/components/generic";
 import { useJwtTokenContext } from "@/context";
 import { createZodErrorObject, raiseOnError } from "@/functions";
-import { ISettings, IThemeType, PDefault, ZodErrorMapping } from "@/types";
+import { ISettings, PDefault, ZodErrorMapping } from "@/types";
 import { SettingsValidator } from "@/validators";
 
 import { SettingsFormProfilePic } from "./SettingsFormProfilePic";
@@ -29,10 +29,6 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
 
   const handleChange = (field: keyof ISettings): ((v: ChangeEvent<HTMLInputElement>) => any) =>
     value => setSettings(s => ({ ...s, [field]: value.target.value }));
-
-  const handleSetTheme = (theme: IThemeType): void => {
-    setSettings(s => ({ ...s, theme }));
-  };
 
   const handleSettingsSave = useCallback((event: PDefault) => {
     event.preventDefault();

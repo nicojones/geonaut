@@ -16,4 +16,3 @@ export * from "./format-date.function";
 export * from "./time-ago.function";
 export * from "./parsed-date.function";
 export * from "./range.function";
-export * from "./scheme-from-theme.function";

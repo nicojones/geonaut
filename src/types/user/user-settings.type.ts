@@ -1,4 +1,4 @@
-import { IThemeType, IUserData } from "@/types";
+import { IUserData } from "@/types";
 
 export type IUserSettingsBellPosition = "top" | "menu";
 
@@ -12,5 +12,4 @@ export interface ISimpleUserSettings {
 export type IUserSettings = ISimpleUserSettings & IUserData & {
   avatar: string;
   email: string;
-  theme: IThemeType;
 };
