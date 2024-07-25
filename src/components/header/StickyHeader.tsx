@@ -4,7 +4,7 @@ import classNames from "classnames";
 interface StickyHeaderProps {
   sticky: boolean;
 
-  header: JSX.Element | string;
+  header: JSX.Element | string | undefined;
 
   /**
    * @default false
