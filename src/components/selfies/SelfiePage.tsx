@@ -7,7 +7,7 @@ import { SelfieCard } from "./SelfieCard";
 
 interface SelfiePageProps {
   initialSelfies: ISelfie[];
-  header: JSX.Element | string;
+  header: JSX.Element | string | undefined;
   fetcher?: (start: number) => Promise<ISelfiesData>;
   /**
    * @default true
