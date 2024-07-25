@@ -17,14 +17,9 @@ interface SelfieDateProps {
 
 export const SelfieDate = ({ date, icon, isDate = false, label }: SelfieDateProps): JSX.Element => {
   const [showDate, setShowDate] = useState<boolean>(false);
-  const dateReadable = useMemo(() => {
-    const parsed = parsedDate(date);
-    return (
-      isNaN(parsed.getTime())
-        ? String(date)
-        : formatDate(parsed, isDate)
-    );
-  }, [date]);
+  const dateReadable = useMemo(() => formatDate(parsedDate(date), isDate), [date]);
+
+  console.log("readable", dateReadable);
 
   return (
     <span

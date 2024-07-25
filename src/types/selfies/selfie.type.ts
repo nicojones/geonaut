@@ -5,6 +5,7 @@ export interface ISelfie {
   ago: number;
   active_hash: string;
   /**
+   * When the picture was uploaded
    * @type DateTime
    */
   added_on: string;
@@ -29,6 +30,7 @@ export interface ISelfie {
   name: string;
   possessive: string;
   /**
+   * The date the picture was taken
    * @type Date
    */
   selfie_date: string;

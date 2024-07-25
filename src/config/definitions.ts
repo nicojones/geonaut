@@ -3,6 +3,8 @@
  */
 export const SCROLL_PADDING = 150;
 
+export const TZ_OFFSET = new Date().getTimezoneOffset() * 60_000;
+
 /**
  * Allowed image types
  */
