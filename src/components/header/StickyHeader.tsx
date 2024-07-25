@@ -1,12 +1,10 @@
 import { Typography } from "@mui/joy";
 import classNames from "classnames";
 
-import { ComponentChildren } from "@/types";
-
 interface StickyHeaderProps {
   sticky: boolean;
 
-  header: ComponentChildren;
+  header: JSX.Element | string;
 
   /**
    * @default false
@@ -20,15 +18,9 @@ export const StickyHeader = ({ header, small = false, sticky }: StickyHeaderProp
   <div
     className={classNames("top-2 w-full fric dark:text-white justify-center z-[10]", { sticky }, small ? "my-10" : "my-[25vh]")}
   >
-    {
-      typeof header === "string"
-        ? (
-          <Typography
-            level="h1"
-          >
-            {header}
-          </Typography>
-        )
-        : header
-    }
+    <Typography
+      level="h1"
+    >
+      {header}
+    </Typography>
   </div>;

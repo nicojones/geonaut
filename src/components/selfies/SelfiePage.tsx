@@ -1,13 +1,13 @@
 
 import { StickyHeader } from "@/components/header";
-import { ComponentChildren, ISelfie, ISelfiesData } from "@/types";
+import { ISelfie, ISelfiesData } from "@/types";
 
 import { SelfiesAsyncLoader } from "./SelfieAsyncLoader";
 import { SelfieCard } from "./SelfieCard";
 
 interface SelfiePageProps {
   initialSelfies: ISelfie[];
-  header: ComponentChildren;
+  header: JSX.Element | string;
   fetcher?: (start: number) => Promise<ISelfiesData>;
   /**
    * @default true

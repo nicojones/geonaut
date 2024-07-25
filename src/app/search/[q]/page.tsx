@@ -23,9 +23,7 @@ export default async function SearchResultsPage ({ params, searchParams }: IUrlP
     <div className="selfie-list">
       <StickyHeader
         sticky={false}
-        header={
-          <Typography level="h1" sx={{ textAlign: "center" }}>search results for <kbd>{searchQuery}</kbd></Typography>
-        }
+        header={<>search results for <kbd>{searchQuery}</kbd></>}
       />
 
       <SearchResults searchQuery={searchQuery} searchType={searchType} />
