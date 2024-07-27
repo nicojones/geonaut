@@ -33,7 +33,6 @@ export const config: MiddlewareConfig = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
-    "/_not-found",
+    "/((?!api|_next/static|_next/image|favicon.ico|_not-found).*)",
   ],
 };
