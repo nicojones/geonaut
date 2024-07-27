@@ -1,4 +1,6 @@
 "use server";
+import { decode } from "html-entities";
+
 import { ISelfie } from "@/types";
 
 import { getDbConnection } from "./db.config"; // Adjust the import path as necessary
@@ -6,7 +8,7 @@ import { getDbConnection } from "./db.config"; // Adjust the import path as nece
 export const dbGetSelfieByHash = async (
   hash: string,
   selfId: number | false = false,
-  longDesc: boolean = false,
+  fetchLongDesc: boolean = false,
 ): Promise<ISelfie | null> => {
   "use server";
 
@@ -55,10 +57,8 @@ export const dbGetSelfieByHash = async (
 
   const selfie: ISelfie = (results as any[])[0];
 
-  if (longDesc) {
-    const longDescResult = await getLongDesc(selfie.id);
-    selfie.long_desc = longDescResult ?? "";
-    // selfie.long_desc = longDescResult ? htmlEntityDecode(longDescResult.long_desc) : "";
+  if (fetchLongDesc) {
+    selfie.long_desc = await getLongDesc(selfie.id) ?? "";
   }
 
   return selfie;
@@ -74,5 +74,5 @@ const getLongDesc = async (id: number): Promise<string | null> => {
     return null;
   }
 
-  return (results as any[])[0];
+  return decode((results as any[])[0]?.long_desc ?? "") ?? "";
 };
