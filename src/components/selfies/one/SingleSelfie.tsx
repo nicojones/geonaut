@@ -97,6 +97,7 @@ export const SingleSelfie = ({ exists = true }: SingleSelfieProps): JSX.Element 
             className="w-full aspect-[4/3]"
             width={1000}
             height={750}
+            priority
           />
           <Image
             src={exists ? selfieLcImage(selfie) : NO_IMAGE}
@@ -104,6 +105,7 @@ export const SingleSelfie = ({ exists = true }: SingleSelfieProps): JSX.Element 
             className="w-full aspect-[4/3]"
             width={1000}
             height={750}
+            priority
           />
           {
             exists &&
