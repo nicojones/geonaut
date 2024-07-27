@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { dbGetSelfieByHash } from "@/db/db-get-selfie-by-hash.query";
@@ -16,7 +15,6 @@ interface SingleSelfieContextWrapperProps {
 }
 
 export const SingleSelfieContextWrapper = ({ children, initialData }: SingleSelfieContextWrapperProps): JSX.Element => {
-  const router = useRouter();
   const [selfie, setSelfie] = useState<ISelfie>(initialData);
   const { api, user } = useJwtTokenContext();
   const [prevNext, setPrevNext] = useState<ISelfiePrevNext>({ prev: null, next: null });
@@ -29,7 +27,7 @@ export const SingleSelfieContextWrapper = ({ children, initialData }: SingleSelf
   const handleNavigate = (hash: string): void => {
     if (selfieStore.current[hash]) {
       setSelfie(selfieStore.current[hash]);
-      router.prefetch(`/s/${hash}`);
+      window.history.pushState(null, "", `/s/${hash}`);
       return;
     }
     dbGetSelfieByHash(hash, user?.id, true)
@@ -37,7 +35,7 @@ export const SingleSelfieContextWrapper = ({ children, initialData }: SingleSelf
         if (s) {
           selfieStore.current[s.hash] = s;
           setSelfie(s);
-          // router.push(`/s/${hash}`);
+          window.history.pushState(null, "", `/s/${hash}`);
         } else {
           throw new Error(`No selfie with hash ${hash}`);
         }
