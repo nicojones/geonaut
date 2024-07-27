@@ -10,6 +10,8 @@ export * from "./SelfieMap";
 
 export * from "./edit";
 export * from "./love";
+export * from "./one";
+export * from "./comments";
 
 // DO NOT IMPORT! (it's a server component)
 // export * from "./comments";

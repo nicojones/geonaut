@@ -18,9 +18,15 @@ export const StickyHeader = ({ header, small = false, sticky }: StickyHeaderProp
   <div
     className={classNames("top-2 w-full fric dark:text-white justify-center z-[10]", { sticky }, small ? "my-10" : "my-[25vh]")}
   >
-    <Typography
-      level="h1"
-    >
-      {header}
-    </Typography>
+    {
+      typeof header === "string"
+        ? (
+          <Typography
+            level="h1"
+          >
+            {header}
+          </Typography>
+        )
+        : header
+    }
   </div>;
