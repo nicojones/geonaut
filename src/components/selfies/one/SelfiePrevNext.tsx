@@ -26,7 +26,7 @@ export const SelfiePrevNext = (): JSX.Element => {
           <Image
             src={selfieMyImage(prev)}
             alt={"Previous image: " + prev.title}
-            className="-l-[1000rem] absolute"
+            className="-left-[1000rem] absolute"
             width={1000}
             height={750}
           />
@@ -49,7 +49,7 @@ export const SelfiePrevNext = (): JSX.Element => {
           <Image
             src={selfieLcImage(next)}
             alt={"Previous image: " + next.title}
-            className="-l-[1000rem] absolute"
+            className="-left-[1000rem] absolute"
             width={1000}
             height={750}
           />
