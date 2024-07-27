@@ -1,31 +1,25 @@
+"use client";
+import { useEffect, useState } from "react";
 
 import { selfieTextColor } from "@/functions";
-import { serverFetch } from "@/functions/server/server-fetch.function";
 import { ISelfie, ISelfieComment } from "@/types";
 
 import { AddComment } from "./AddComment";
 import { CommentItem } from "./CommentItem";
 import { CommentPlaceholder } from "./CommentPlaceholder";
+import { fetchComments } from "./fetch-comments.function";
 
 interface CommentsProps {
   selfie: ISelfie;
 }
 
-const getComments = (hash: string): Promise<ISelfieComment[]> => {
-  return serverFetch<{ comments: ISelfieComment[]; }, any>({
-    url: "/api/comments/get",
-    body: { selfie: hash },
-    cacheTags: ["comments", hash],
-  })
-    .then(r => {
-      const reversedComments = r.comments;
-      reversedComments.reverse();
-      return reversedComments;
-    });
-};
+export const CommentList = ({ selfie }: CommentsProps): JSX.Element => {
+  const [comments, setComments] = useState<ISelfieComment[] | null>(null);
 
-export const CommentList = async ({ selfie }: CommentsProps): Promise<JSX.Element> => {
-  const comments = await getComments(selfie.hash);
+  useEffect(() => {
+    fetchComments(selfie.hash)
+      .then(c => setComments(c));
+  }, [selfie.hash]);
 
   return (
     <div className="flex flex-col">
@@ -33,15 +27,21 @@ export const CommentList = async ({ selfie }: CommentsProps): Promise<JSX.Elemen
         selfie={selfie}
       />
       {
-        comments.length
-          ? comments.map(c => <CommentItem key={c.id} comment={c} selfie={selfie} />)
+        comments
+          ? (
+            comments.length
+              ? comments.map(c => <CommentItem key={c.id} comment={c} selfie={selfie} />)
+              : (
+                <CommentPlaceholder
+                  color={selfieTextColor(selfie)}
+                  hoverEffect={false}
+                >
+                  No comments yet. Be the first
+                </CommentPlaceholder>
+              )
+          )
           : (
-            <CommentPlaceholder
-              color={selfieTextColor(selfie)}
-              hoverEffect={false}
-            >
-              No comments yet. Be the first
-            </CommentPlaceholder>
+            "Loading..."
           )
       }
     </div>

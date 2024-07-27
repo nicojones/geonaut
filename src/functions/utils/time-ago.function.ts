@@ -8,7 +8,6 @@ import { parsedDate } from "./parsed-date.function";
 const DATE_LOCALE = "date-locale" as const;
 const dateAgoLocale: LocaleFunc = (number: number, index: number, totalSec: number = 0): [string, string] => {
   // if it was less than 24h ago, it could be "today".
-  console.log(totalSec * 1000 - MS_PER_DAY, totalSec);
   if (totalSec * 1000 < MS_PER_DAY) {
     const unixNow = +(new Date());
     if ((new Date().getDate()) === (new Date(unixNow - (totalSec ?? 0))).getDate()) {

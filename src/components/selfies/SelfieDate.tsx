@@ -19,8 +19,6 @@ export const SelfieDate = ({ date, icon, isDate = false, label }: SelfieDateProp
   const [showDate, setShowDate] = useState<boolean>(false);
   const dateReadable = useMemo(() => formatDate(parsedDate(date), isDate), [date]);
 
-  console.log("readable", dateReadable);
-
   return (
     <span
       className="fric space-x-3 cursor-pointer"

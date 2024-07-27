@@ -62,11 +62,11 @@ export const UserPageHeader = ({ user }: UserPageHeaderProps): JSX.Element => {
               <span>{pluralise(updatedFollowers, ["follower", "followers"])}</span>
               <span>{user.following} following</span>
             </div>
-            <Typography>
-              <Typography level="body-lg">{user.name}</Typography>
+            <p>
+              <Typography level="body-lg" sx={{ fontWeight: "bold" }}>{user.name}</Typography>
               {" "}
               <Typography>{user.profile}</Typography>
-            </Typography>
+            </p>
           </div>
         </div>
         {
