@@ -23,6 +23,13 @@ export const SelfiePrevNext = (): JSX.Element => {
             width={1000}
             height={750}
           />
+          <Image
+            src={selfieMyImage(prev)}
+            alt={"Previous image: " + prev.title}
+            className="-l-[1000rem] absolute"
+            width={1000}
+            height={750}
+          />
         </a>
       }
       {
@@ -36,6 +43,13 @@ export const SelfiePrevNext = (): JSX.Element => {
             src={selfieMyImage(next)}
             alt={"Next image: " + next.title}
             className="h-full w-auto"
+            width={1000}
+            height={750}
+          />
+          <Image
+            src={selfieLcImage(next)}
+            alt={"Previous image: " + next.title}
+            className="-l-[1000rem] absolute"
             width={1000}
             height={750}
           />
