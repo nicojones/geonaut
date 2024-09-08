@@ -125,7 +125,7 @@ export const SingleSelfie = ({ exists = true }: SingleSelfieProps): JSX.Element 
           selfie.long_desc.length >= 5 &&
           <div
             className="w-full border mx-auto p-16 flex flex-col justify-center"
-            style={{ color: `${color} !important` }}
+            style={{ color }}
           >
             {renderDynamicSelfie(selfie.long_desc)}
           </div>

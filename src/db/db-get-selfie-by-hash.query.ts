@@ -29,7 +29,7 @@ export const dbGetSelfieByHash = async (
       LEFT JOIN love l ON (s.id = l.selfie_id AND :selfId = l.user_id)
       LEFT JOIN follow f ON s.user_id = f.followed
       LEFT JOIN love_count lc ON lc.selfie_id = s.id
-      WHERE s.hash = :hash
+      WHERE s.active_hash = :hash
       LIMIT 1
     `;
     params.selfId = selfId;
@@ -43,7 +43,7 @@ export const dbGetSelfieByHash = async (
       FROM selfies_with_user s
       LEFT JOIN users u ON s.user_id = u.id
       LEFT JOIN love_count lc ON lc.selfie_id = s.id
-      WHERE s.hash = :hash
+      WHERE s.active_hash = :hash
       LIMIT 1
     `;
   }

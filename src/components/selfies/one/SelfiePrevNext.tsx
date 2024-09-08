@@ -14,7 +14,7 @@ export const SelfiePrevNext = (): JSX.Element => {
         <a
           role="button"
           className="cursor-pointer opacity-30 hover:opacity-50 left-0 h-full absolute translate-x-[-100%] transition-opacity"
-          onClick={() => loadSelfie(prev.hash)}
+          onClick={() => loadSelfie(prev.active_hash)}
         >
           <Image
             src={selfieLcImage(prev)}
@@ -37,7 +37,7 @@ export const SelfiePrevNext = (): JSX.Element => {
         <a
           role="button"
           className="cursor-pointer opacity-30 hover:opacity-50 right-0 h-full absolute translate-x-[100%] transition-opacity"
-          onClick={() => loadSelfie(next.hash)}
+          onClick={() => loadSelfie(next.active_hash)}
         >
           <Image
             src={selfieMyImage(next)}
