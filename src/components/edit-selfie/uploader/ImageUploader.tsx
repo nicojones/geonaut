@@ -12,8 +12,17 @@ import { FileUploader } from "./FileUploader";
 import { addCoordsAndPlace, readAddedImage } from "./functions";
 
 interface ImageUploaderProps {
+  /**
+   * Src of the image
+   */
   src: string | undefined;
+  /**
+   * Hook to trigger when the upload status has changed
+   */
   onUploadStatusChange: (uploadInProgress: boolean) => any;
+  /**
+   * Type of selfie. Can't be changed.
+   */
   readonly type: "me" | "lc";
   /**
    * @default ""
