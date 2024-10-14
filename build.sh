@@ -26,11 +26,12 @@ git add .
 git commit -m "Build: deploy build to build branch"
 
 # Step 7: Push the branch to GitHub
+git push origin --delete next-build
 git push origin next-build
 
 echo "Build pushed to the build branch on GitHub."
 
-# Step 8: Switch back to main
+# Step 8: Switch back to maina
 git checkout main
 
 # Step 9: Delete branch (again)
