@@ -12,27 +12,26 @@ if [ ! -f ".next/BUILD_ID" ]; then
   exit 1
 fi
 
-# Step 3: Create a new branch called build (if it doesn't exist already)
-if git show-ref --quiet refs/heads/build; then
-  git checkout build
-else
-  git checkout -b build
-fi
+# Step 3: Remove old `next-build` branch and create a new one
+git branch -D next-build
+git checkout --orphan next-build
+
+rm -rf .next/cache
 
 # Step 4: Remove all files in the current branch except for .next
-find . -maxdepth 1 ! -name '.next' ! -name '.git' ! -name 'node_modules' ! -name '.' -exec rm -rf {} \;
-
-# Step 5: Move the contents of the .next directory to the root
-mv .next/* .
+find . -maxdepth 1 ! -name '.next' ! -name '.git' ! -name '.env.production' ! -name 'package.json' -exec rm -rf {} \;
 
 # Step 6: Add all the files and commit
 git add .
 git commit -m "Build: deploy build to build branch"
 
 # Step 7: Push the branch to GitHub
-git push origin build
+git push origin next-build
 
 echo "Build pushed to the build branch on GitHub."
 
 # Step 8: Switch back to main
 git checkout main
+
+# Step 9: Delete branch (again)
+git branch -D next-build
