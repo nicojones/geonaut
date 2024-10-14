@@ -11,9 +11,7 @@
     "start-server": "npm i && npm run build:prod -- -d && npm run start",
     "lint": "eslint --ext .tsx,.ts ./src --max-warnings=0",
     "lint-fix": "npm run lint -- --fix",
-    "predeploy": "npm run build",
-    "server-deploy": "NODE_ENV=production npm run build && npm run gh-deploy",
-    "gh-deploy": "gh-pages -b next-builds -d .next .env.production build.sh start_geonaut.sh package.json"
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
