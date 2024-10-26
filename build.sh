@@ -36,3 +36,6 @@ git checkout main
 
 # Step 9: Delete branch (again)
 git branch -D next-build
+
+# Step 10: Reinstall modules
+npm i
