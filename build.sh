@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Step 0: Remove old `next-build` branch and create a new one
-git branch -d next-build
-git push -d origin next-build
+git branch -D next-build
+git push -D origin next-build
 git checkout --orphan next-build
 
 # Step 1: Install everything
