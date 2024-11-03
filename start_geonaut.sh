@@ -29,4 +29,4 @@ echo "cd to folder..."
 cd /var/www/geonaut/nextjs
 
 echo "starting server"
-nohup /usr/bin/node /usr/bin/npm run start > /var/log/geonaut.log 2>&1 &
+/usr/bin/npm run start > /var/log/geonaut.log 2>&1 &
