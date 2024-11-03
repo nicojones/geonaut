@@ -14,8 +14,9 @@ rm -rf node_modules
 rm -rf __MACOSX
 
 echo "Unzipping node_modules.zip ..."
-unzip -d . ../node_modules.zip | awk 'BEGIN {ORS=""} {if(NR%1000==0)print "."}'
+unzip -d . ../node_modules.zip | awk 'BEGIN {ORS=" "} {if(NR%1000==0)print "."}'
 rm -rf __MACOSX
+echo ""
 
 echo "Starting geonaut..."
 systemctl start geonaut
