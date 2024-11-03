@@ -4,7 +4,7 @@
 npm i
 
 # Step 1: Run the build command
-npm run build
+npm run build:prod
 
 # Step 2: Check if the BUILD_ID file exists in the .next directory
 if [ ! -f ".next/BUILD_ID" ]; then
