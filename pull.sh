@@ -1,5 +1,6 @@
 #!/bin/bash
 
+systemctl stop geonaut
 
 git checkout main
 git branch -D next-build
@@ -12,4 +13,4 @@ rm -rf __MACOSX
 unzip -d . ../node_modules.zip
 rm -rf __MACOSX
 
-npm run start
+systemctl start geonaut
