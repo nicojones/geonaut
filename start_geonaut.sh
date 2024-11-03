@@ -28,5 +28,9 @@ set -e
 echo "cd to folder..."
 cd /var/www/geonaut/nextjs
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # Load nvm
+nvm use 20 # Use Node 20
+
 echo "starting server"
-/root/.nvm/versions/node/v20.15.1/bin/npm run start
+npm run start
