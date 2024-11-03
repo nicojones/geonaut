@@ -10,7 +10,7 @@ git pull origin next-build
 rm -rf node_modules
 rm -rf __MACOSX
 
-unzip -d . ../node_modules.zip | awk 'BEGIN {ORS=" "} {if(NR%20==0)print "."}'
+unzip -d . ../node_modules.zip | awk 'BEGIN {ORS=" "} {if(NR%1000==0)print "."}'
 rm -rf __MACOSX
 
 systemctl start geonaut
