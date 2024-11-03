@@ -28,7 +28,5 @@ set -e
 echo "cd to folder..."
 cd /var/www/geonaut/nextjs
 
-echo "Node.js version: $(node -v)"
-
 echo "starting server"
 /root/.nvm/versions/node/v20.15.1/bin/npm run start
