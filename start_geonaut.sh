@@ -31,4 +31,4 @@ cd /var/www/geonaut/nextjs
 echo "Node.js version: $(node -v)"
 
 echo "starting server"
-~/.nvm/versions/node/v18.16.0/bin/npm run start
+/root/.nvm/versions/node/v20.15.1/bin/npm run start
