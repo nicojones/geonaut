@@ -3,6 +3,7 @@
 
 git checkout main
 git branch -D next-build
+git checkout --orphan next-build
 git pull origin next-build
 
 rm -rf node_modules
