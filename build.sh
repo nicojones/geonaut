@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source .env.production
+
 # Step 0: Remove old `next-build` branch and create a new one
 git branch -D next-build
 git push -d origin next-build
