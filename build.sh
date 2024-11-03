@@ -28,7 +28,7 @@ git commit -m "Build: deploy build to build branch"
 
 # Step 7: Push the branch to GitHub
 git push origin --delete next-build
-git push origin next-build
+git push origin next-build --force
 
 echo "Build pushed to the build branch on GitHub."
 
