@@ -1,20 +1,20 @@
 #!/bin/bash
 
-# Step 0: Install everything
+# Step 0: Remove old `next-build` branch and create a new one
+git branch -D next-build
+git checkout --orphan next-build
+
+# Step 1: Install everything
 npm i
 
-# Step 1: Run the build command
+# Step 2: Run the build command
 npm run build:prod
 
-# Step 2: Check if the BUILD_ID file exists in the .next directory
+# Step 3: Check if the BUILD_ID file exists in the .next directory
 if [ ! -f ".next/BUILD_ID" ]; then
   echo "BUILD_ID file does not exist. Make sure the build process was successful."
   exit 1
 fi
-
-# Step 3: Remove old `next-build` branch and create a new one
-git branch -D next-build
-git checkout --orphan next-build
 
 rm -rf .next/cache
 
