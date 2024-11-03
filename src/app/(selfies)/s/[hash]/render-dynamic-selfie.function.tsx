@@ -7,7 +7,7 @@ export const renderDynamicSelfie = (text: string): React.ReactNode[] => {
   let lastIndex = 0;
 
   text.replace(regex, (match: string, hash: string, offset: number) => {
-    parts.push(<span key={lastIndex} dangerouslySetInnerHTML={{ __html: text.substring(lastIndex, offset) }} />);
+    parts.push(<span className="quill-part" key={lastIndex} dangerouslySetInnerHTML={{ __html: text.substring(lastIndex, offset) }} />);
     parts.push(<SelfieCardLoader key={offset} hash={hash} />);
     lastIndex = offset + match.length;
     return match;
