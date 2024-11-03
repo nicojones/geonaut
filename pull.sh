@@ -4,6 +4,12 @@ echo "~~~~~~~~~~~~~~~~~~~~~~"
 echo "⚪️ Stopping geonaut..."
 systemctl stop geonaut
 
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "⚪️ Pulling main changes..."
+git reset --hard
+git checkout main
+git pull origin main
+
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "⚪️ Checking out the new build (orphan branch)"
 git checkout main
