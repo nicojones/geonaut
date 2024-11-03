@@ -38,7 +38,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
 
   const handleSetPictureDate = (): void => {
     // `hasImages` is not undefined
-    setSelfieData({ date: dateFromPicture });
+    setSelfieData({ date: new Date(dateFromPicture as string).toISOString() });
   };
 
   if (!hasImages) {
