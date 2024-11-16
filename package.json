@@ -8,7 +8,6 @@
     "build": "next build",
     "build:prod": "NODE_ENV=production next build --no-lint",
     "start": "next start -p 3003",
-    "start-server": "npm i && npm run build:prod -- -d && npm run start",
     "lint": "eslint --ext .tsx,.ts ./src --max-warnings=0",
     "lint-fix": "npm run lint -- --fix",
     "predeploy": "npm run build"
