@@ -17,7 +17,7 @@ interface IMapboxSuggestion {
   mapbox_id: string;
   name: string;
   place_formatted: string;
-  feature_type: "poi" | "country" | "region" | "postcode" | "district" | "place" | "locality" | "neighborhood" | "address";
+  feature_type: "poi" | "postcode" | "district" | "place" | "locality" | "neighborhood" | "address";
 }
 interface IMapboxPlaceResult {
   features: IMapboxPlace[];
@@ -67,7 +67,12 @@ export const EditSelfieFormAutocomplete = ({ onUpdateCoords }: EditSelfieFormAut
     if (newValue === null || typeof newValue === "string") {
       return;
     }
-    fetch(`https://api.mapbox.com/search/searchbox/v1/retrieve/${newValue.mapbox_id}${toQuery(CREDENTIALS)}`)
+
+    const options = {
+      ...CREDENTIALS,
+      ...(data.selfie.lat && data.selfie.lng ? { proximity: `${data.selfie.lng},${data.selfie.lat}` } : {}),
+    };
+    fetch(`https://api.mapbox.com/search/searchbox/v1/retrieve/${newValue.mapbox_id}${toQuery(options)}`)
       .then(r => r.json())
       .then(r => {
         const [lng, lat] = (r as IMapboxPlaceResult).features[0].geometry.coordinates;

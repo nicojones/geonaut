@@ -46,7 +46,7 @@ export const EditSelfieCustomUrl = (): JSX.Element => {
       { "!text-green-500": urlTaken === false },
     )}
     >
-      <span>{process.env.NEXT_PUBLIC_API_URL}/s/</span>
+      <span>{process.env.NEXT_PUBLIC_FRONTEND_URL}/s/</span>
       <input
         value={url}
         onChange={handleChangeUrl}
