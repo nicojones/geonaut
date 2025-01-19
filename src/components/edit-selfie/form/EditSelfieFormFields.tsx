@@ -37,7 +37,8 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
   };
 
   const handleSetPictureDate = (): void => {
-    const date = new Date(dateFromPicture as string).toISOString().split("T")[0];
+    const secondsMultiplier = (new Date(dateFromPicture as string)).getFullYear() === 1970 ? 1000 : 1
+    const date = new Date((Number(dateFromPicture) * secondsMultiplier)).toISOString().split("T")[0];
     console.log("Using picture's date: ", dateFromPicture, date);
     // `hasImages` is not undefined
     setSelfieData({ date });
