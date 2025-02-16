@@ -50,7 +50,7 @@ export const SelfiesAsyncLoader = ({ children, skip: initialSkip, fetcher }: Sel
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     const delayHandleScroll = (): void => {
-      clearTimeout(timeout)
+      clearTimeout(timeout);
       timeout = setTimeout(handleScroll, 300);
     };
 
