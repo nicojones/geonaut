@@ -22,7 +22,7 @@ export interface ISelfiePrevNext {
 
 export interface ISelfiesAsyncLoad {
   more: boolean;
-  start: number;
+  skip: number;
   selfies: ISelfie[];
   loading: boolean;
 }

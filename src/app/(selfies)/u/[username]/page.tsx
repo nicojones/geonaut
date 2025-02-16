@@ -22,9 +22,9 @@ export async function generateMetadata (
   return userMetadata(userInfo);
 }
 
-async function getUserSelfies (selfId: number, userId: number, start: number): Promise<ISelfiesData> {
+async function getUserSelfies (selfId: number, userId: number, skip: number): Promise<ISelfiesData> {
   "use server";
-  return await dbGetSelfies({ selfId, userId, start, limit: 10 })
+  return await dbGetSelfies({ selfId, userId, skip, limit: 10 })
     .then(r => selfieResults(r, 10));
 }
 

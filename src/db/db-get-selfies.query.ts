@@ -15,7 +15,7 @@ import { getDbConnection } from "./db.config";
  * @return array The result
  */
 export const dbGetSelfies = async (
-  { selfId = 0, userId = 0, start = 0, limit = 10 }: IGetSelfiesOptions,
+  { selfId = 0, userId = 0, skip = 0, limit = 10 }: IGetSelfiesOptions,
 ): Promise<ISelfie[]> => {
   "use server";
 
@@ -40,12 +40,12 @@ export const dbGetSelfies = async (
                 s.selfie_place, s.lat, s.lng, s.selfietype_id, s.added_on, s.edited_on,
                 s.lc_color, s.lc_brightness, s.me_color, s.me_brightness, s.username, s.name, s.possessive,
                 'type', love, loves
-      ORDER BY s.selfie_date DESC, s.added_on DESC LIMIT :start, :limit
+      ORDER BY s.selfie_date DESC, s.added_on DESC LIMIT :skip, :limit
       `,
       {
         userId,
         selfId,
-        start,
+        skip,
         limit,
       },
     );
@@ -77,7 +77,7 @@ export const dbGetSelfies = async (
       `,
       {
         selfId,
-        start,
+        start: skip,
         limit,
       },
     );

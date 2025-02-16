@@ -15,6 +15,14 @@ interface SelfieHeaderProps {
   readonly selfie: ISelfie;
 }
 
+const getMonday = (date: string): string => {
+  const d = new Date(date); // Create a copy of the date
+  const day = d.getDay(); // Get current day (0 = Sunday, 1 = Monday, etc.)
+  const diff = (day === 0 ? -6 : 1) - day; // Adjust to the previous Monday
+  d.setDate(d.getDate() + diff);
+  return d.toISOString();
+};
+
 export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
   const color: CSSProperties["color"] = selfieTextColor(selfie);
   const lcColor: CSSProperties["color"] = selfieTextColor(selfie, "lc");
@@ -29,6 +37,7 @@ export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
               className="flex flex-col md:flex-row md:space-y-0 sm:space-x-0 md:space-x-4 space-y-2 justify-between p-4"
             >
               <Link href={`/s/${selfie.hash}`} className="flex flex-col as-link" style={{ color }}>
+                {getMonday(selfie.selfie_date).split("T")[0]}
                 <Typography level="h1" sx={({ color })}>{selfie.title}</Typography>
                 <Typography level="h3" sx={({ color })}>{selfie.short_desc}</Typography>
               </Link>

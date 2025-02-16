@@ -12,7 +12,7 @@ export interface IGetSelfiesOptions {
   /**
    * @default 0
    */
-  start?: number;
+  skip?: number;
   /**
    * The number of results
    * @default 10

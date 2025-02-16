@@ -4,7 +4,7 @@ import { IGetSelfiesOptions, ISelfie } from "@/types";
 import { getDbConnection } from "./db.config";
 
 export const dbGetUsersWithLastSelfie = async (
-  { selfId = 0, start = 0, limit = 10 }: IGetSelfiesOptions,
+  { selfId = 0, skip: start = 0, limit = 10 }: IGetSelfiesOptions,
 ): Promise<ISelfie[]> => {
   "use server";
 

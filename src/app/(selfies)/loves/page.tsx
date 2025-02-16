@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 async function getLovedSelfies (start: number): Promise<ISelfiesData> {
   "use server";
   const user = await getUserFromCookie();
-  const result = await dbGetLovedSelfies({ selfId: user?.id, start, limit: 10 });
+  const result = await dbGetLovedSelfies({ selfId: user?.id, skip: start, limit: 10 });
   return selfieResults(result, 10, "loved");
 }
 

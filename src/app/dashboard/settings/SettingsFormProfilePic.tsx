@@ -29,7 +29,7 @@ export const SettingsFormProfilePic = ({ value, onChange }: SettingsFormProfileP
     if (allSelfies.data) {
       setAllSelfies(v => ({ ...v, loaded: true }));
     }
-    dbGetSelfies({ selfId: user?.id, userId: user?.id, start: 0, limit: 100000 })
+    dbGetSelfies({ selfId: user?.id, userId: user?.id, skip: 0, limit: 100000 })
       .then(_selfies => {
         setAllSelfies({ loaded: true, data: _selfies });
       });

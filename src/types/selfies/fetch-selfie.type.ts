@@ -2,7 +2,7 @@ import { IBool, ISelfiesData } from "@/types";
 
 export type ISelfieSection = "home" | "discover" | "loves" | "users" | "user" | "one" | "search";
 
-export type ISelfieFetcher = (start: number) => Promise<ISelfiesData>;
+export type ISelfieFetcher = (skip: number) => Promise<ISelfiesData>;
 
 export interface IFetchSelfieBodyGeneric {
 

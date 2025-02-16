@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 async function getHomeSelfies (start: number): Promise<ISelfiesData> {
   "use server";
   const user = await getUserFromCookie();
-  const result = await dbGetSelfies({ selfId: user?.id, start, limit: 10 });
+  const result = await dbGetSelfies({ selfId: user?.id, skip: start, limit: 10 });
   return selfieResults(result, 10);
 }
 

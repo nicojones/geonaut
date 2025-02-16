@@ -113,7 +113,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
                         )
                         : (
                           <SelfiesAsyncLoader
-                            start={results[_type]?.selfies.length ?? 0}
+                            skip={results[_type]?.selfies.length ?? 0}
                             fetcher={
                               results[_type]?.more
                                 ? handleSearch[_type]

@@ -12,13 +12,13 @@ import { ThatsAllFolks } from "./ThatsAllFolks";
 interface SelfiesAsyncLoaderProps {
   fetcher?: ISelfieFetcher;
   children?: ComponentChildren;
-  start: number;
+  skip: number;
 }
 
-export const SelfiesAsyncLoader = ({ children, start, fetcher }: SelfiesAsyncLoaderProps): JSX.Element => {
+export const SelfiesAsyncLoader = ({ children, skip: initialSkip, fetcher }: SelfiesAsyncLoaderProps): JSX.Element => {
   const [data, setData] = useState<ISelfiesAsyncLoad>({
     selfies: [],
-    start,
+    skip: initialSkip,
     loading: false,
     more: !!fetcher,
   });
@@ -30,32 +30,43 @@ export const SelfiesAsyncLoader = ({ children, start, fetcher }: SelfiesAsyncLoa
     const doc = window.document.documentElement;
     const documentHeightToLoad = doc.scrollHeight - doc.clientHeight - SCROLL_PADDING;
     if (window.scrollY > documentHeightToLoad) {
-      const startFrom = data.start + data.selfies.length;
-      setData(d => ({ ...d, start: startFrom, loading: true }));
-      fetcher(startFrom)
+      console.log("GETTING MORE ELEMENTS", data.skip);
+      setData(d => ({ ...d, loading: true }));
+      fetcher(data.skip)
         .then(r => setData(d => ({
           ...d,
           more: !!r.more,
+          skip: data.skip + r.selfies.length,
           selfies: [...d.selfies, ...r.selfies],
           loading: false,
         })))
-        .catch(e => toast.error(String(e)))
-        .finally(() => setData(d => ({ ...d, loading: false })));
+        .catch(e => {
+          setData(d => ({ ...d, loading: false }));
+          toast.error(String(e));
+        });
     }
-  }, [data, fetcher]);
+  }, [data.loading, data.skip, data.more, fetcher]);
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    const delayHandleScroll = (): void => {
+      clearTimeout(timeout)
+      timeout = setTimeout(handleScroll, 300);
+    };
+
     // Add event listener on component mount
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", delayHandleScroll);
 
     // Remove event listener on component unmount
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", delayHandleScroll);
+      clearTimeout(timeout);
     };
   }, [handleScroll]);
 
   return (
     <main className="flex flex-col space-y-48" onScroll={handleScroll}>
+      <div className="fixed top-36 left-1/3 bg-pink-500 z-50">async length: {data.selfies.length}, start from: {data.skip}, loaded: {data.selfies.length + initialSkip}</div>
       {children}
 
       {
