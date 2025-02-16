@@ -66,7 +66,6 @@ export const SelfiesAsyncLoader = ({ children, skip: initialSkip, fetcher }: Sel
 
   return (
     <main className="flex flex-col space-y-48" onScroll={handleScroll}>
-      <div className="fixed top-36 left-1/3 bg-pink-500 z-50">async length: {data.selfies.length}, start from: {data.skip}, loaded: {data.selfies.length + initialSkip}</div>
       {children}
 
       {
