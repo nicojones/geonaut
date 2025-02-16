@@ -3,7 +3,7 @@
 source .env.production
 
 # Step 0: Remove old `next-build` branch and create a new one
-git branch -D next-build
+git branch -D next-build 2>/dev/null || true
 git push -d origin next-build
 git checkout --orphan next-build
 
