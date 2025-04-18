@@ -37,7 +37,7 @@ export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
               className="flex flex-col md:flex-row md:space-y-0 sm:space-x-0 md:space-x-4 space-y-2 justify-between p-4"
             >
               <Link href={`/s/${selfie.hash}`} className="flex flex-col as-link" style={{ color }}>
-                {getMonday(selfie.selfie_date).split("T")[0]}
+                {/* {getMonday(selfie.selfie_date).split("T")[0]} */}
                 <Typography level="h1" sx={({ color })}>{selfie.title}</Typography>
                 <Typography level="h3" sx={({ color })}>{selfie.short_desc}</Typography>
               </Link>
