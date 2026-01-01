@@ -15,10 +15,12 @@ import { EditSelfieFormAutocomplete } from "./EditSelfieFormAutocomplete";
 import { EditSelfieRandomizeCoords } from "./EditSelfieRandomizeCoords";
 
 interface EditSelfieFormFieldsProps {
-  onSubmit: () => any;
+  onPublish: () => any;
 }
 
-export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): JSX.Element => {
+const EMPTY_COORDS = { lat: 0, lng: 0 } as const satisfies IEditSelfieCoords;
+
+export const EditSelfieFormFields = ({ onPublish }: EditSelfieFormFieldsProps): JSX.Element => {
   const router = useRouter();
   const { api } = useJwtTokenContext();
   const { data, errors, setSelfieData, hasImages, markers } = useEditSelfieContext();
@@ -31,7 +33,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
       setSelfieData({ [key]: event.target.value });
   };
 
-  const handleUpdateCoords = useCallback((place: string, coords: IEditSelfieCoords = {} as IEditSelfieCoords): void => {
+  const handleUpdateCoords = useCallback((place: string, coords: IEditSelfieCoords = EMPTY_COORDS): void => {
     setSelfieData({ place, ...(coords) });
     setMapCoords(c => ({ c, ...(coords) }));
   }, [setSelfieData]);
@@ -72,7 +74,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
   return (
     <form
       className="flex flex-col space-y-10"
-      onSubmit={e => { e.preventDefault(); onSubmit(); }}
+      onSubmit={e => { e.preventDefault(); onPublish(); }}
     >
       <div className="flex flex-col space-y-10 lg:flex-row lg:space-x-10 lg:space-y-0 items-start">
         <div className="flex flex-col space-y-10 flex-1 w-full">
@@ -104,7 +106,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
               <span>date</span>
               <span className="fric space-x-4 subtle-hover">
                 {
-                  dateFromPicture &&
+                  !!dateFromPicture &&
                   <a
                     role="button"
                     className="cursor-pointer hover:underline"
@@ -116,7 +118,8 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
                   role="button"
                   className="cursor-pointer hover:underline"
                   onClick={() => setSelfieData({ date: (new Date()).toISOString().split("T")[0] })}
-                >today
+                >
+                  today
                 </a>
               </span>
             </FormLabel>
@@ -140,7 +143,7 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
             <EditSelfieFormAutocomplete
               onUpdateCoords={handleUpdateCoords}
             />
-            {(data.selfie.lat || data.selfie.lng) &&
+            {!!(data.selfie.lat || data.selfie.lng) &&
               <div className="ml-auto">
                 <EditSelfieRandomizeCoords onClick={handleUpdateRandomCoords} />
               </div>}

@@ -6,6 +6,7 @@ export interface IEditSelfieData {
   selfie: ISelfieEdit;
   images: IEditSelfieImages;
   constraints: IConstraints;
+  attachmentPrefix: string;
   attachments: string[];
 }
 
@@ -51,5 +52,7 @@ export interface IConstraints {
 
 export interface IEditSelfieAttachment {
   uploadedType: string;
-  src: string;
+  attachment: string;
+  attachmentPrefix: string;
+  message: string;
 }

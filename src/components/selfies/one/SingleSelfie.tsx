@@ -32,7 +32,7 @@ export const SingleSelfie = ({ exists = true }: SingleSelfieProps): JSX.Element 
 
   return (
     <div
-      className="flex flex-col max-w-screen py-[var(--header-height)] relative fill-screen overflow-x-hidden"
+      className="flex flex-col max-w-screen py-[var(--header-height)] relative fill-screen overflow-hidden"
       style={{ background: selfieBackgroundStyle(selfie.me_color, selfie.lc_color) }}
     >
       <div className="flex flex-col mx-auto w-[calc(100vw-100px)] md:w-[calc(100vw-200px)] lg:w-[calc(100vw-300px)]">

@@ -59,7 +59,6 @@ export const EditSelfieDescriptionField = ({
       {error && <FormHelperText>{error}</FormHelperText>}
       <br />
       <AttachmentUploader
-        className="!h-24"
         onUseImage={handleUseAttachment}
         onUploadComplete={handleUseAttachment}
       />

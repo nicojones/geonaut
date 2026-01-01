@@ -1,5 +1,6 @@
 "use client";
 
+import JSConfetti from "js-confetti";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
@@ -10,7 +11,7 @@ import { EditSelfieValidator } from "@/validators";
 
 import { EditSelfieFormFields } from "./form";
 import { ImagesUploaderBox } from "./uploader";
-import { saveEditSelfie } from "./uploader/functions/save-edit.function";
+import { publishSelfie } from "./uploader/functions/publish-selfie.function";
 
 export const EditSelfieForm = (): JSX.Element => {
   const { api } = useJwtTokenContext();
@@ -19,7 +20,7 @@ export const EditSelfieForm = (): JSX.Element => {
   const autosaveTimeoutRef = useRef<any>();
   const lastAutosaveRef = useRef<string>(JSON.stringify(data.selfie));
 
-  const handleFormSubmit = (): void => {
+  const handlePublishSelfie = (): void => {
     const valid = EditSelfieValidator.safeParse(data.selfie);
     if (!valid.success) {
       toast.error("please correct the errors!");
@@ -27,10 +28,16 @@ export const EditSelfieForm = (): JSX.Element => {
     }
 
     toast.promise(
-      saveEditSelfie(data.selfie),
+      publishSelfie(data.selfie),
       {
         success: r => {
           router.push(r.redirect);
+          if (r.new) {
+            setTimeout(() => {
+              const confetti = new JSConfetti();
+              confetti.addConfetti({ confettiRadius: 0 });
+            }, 3000);
+          }
           return r.message;
         },
         error: e => {
@@ -70,7 +77,7 @@ export const EditSelfieForm = (): JSX.Element => {
     <div className="flex flex-col space-y-8 w-[95vw] sm:w-[90vw] mx-auto lg:w-[60vw]">
       <ImagesUploaderBox />
 
-      <EditSelfieFormFields onSubmit={handleFormSubmit} />
+      <EditSelfieFormFields onPublish={handlePublishSelfie} />
     </div>
   );
 };

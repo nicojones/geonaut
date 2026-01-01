@@ -1,5 +1,6 @@
 import { ArrowPathIcon, MapPinIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import { Button, IconButton } from "@mui/joy";
+import classNames from "classnames";
 import { CSSProperties, useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -126,7 +127,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
       <FileUploader
         onFileAdded={handleImageChange}
         isUploading={isUploading}
-        className={className}
+        className={classNames("items-center flex justify-center aspect-[4/3]", className)}
       >
         {
           (imageSrc)
