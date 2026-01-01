@@ -123,7 +123,7 @@ export const MapViewer = ({
         mapRef.current.triggerRepaint();
       }
     }, 500);
-  }, [markers]);
+  }, [connected, extraConfig, lineColors, markers]);
 
   useEffect(() => {
     if (!mapFirstLoadRef.current) {
@@ -135,7 +135,7 @@ export const MapViewer = ({
     if (!mapFirstLoadRef.current) {
       handleSetMarkers();
     }
-  }, [markers]);
+  }, [handleSetMarkers, markers]);
 
   useLayoutEffect(() => {
     if (mapRef.current) {
@@ -192,7 +192,9 @@ export const MapViewer = ({
     }
 
     // return () => currentMap.remove();
-  }, []);
+  },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  []);
 
   return (
     <div

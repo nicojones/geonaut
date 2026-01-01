@@ -64,7 +64,7 @@ export const EditSelfieForm = (): JSX.Element => {
 
     const timeout = autosaveTimeoutRef.current;
     return () => clearTimeout(timeout);
-  }, [data.selfie]);
+  }, [api, data.selfie]);
 
   return (
     <div className="flex flex-col space-y-8 w-[95vw] sm:w-[90vw] mx-auto lg:w-[60vw]">

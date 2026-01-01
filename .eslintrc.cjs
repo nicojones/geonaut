@@ -68,7 +68,7 @@ module.exports = {
       children: true,
     }],
     semi: "off",
-    "react-hooks/exhaustive-deps": "off",
+    "react-hooks/exhaustive-deps": ESLINT_ERROR_TYPE,
     "@typescript-eslint/no-invalid-void-type": ["off"],
     "@typescript-eslint/semi": [ESLINT_ERROR_TYPE, "always"],
     "explicit-function-return": "off",

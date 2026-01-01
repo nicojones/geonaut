@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { raiseOnError } from "@/functions";
@@ -19,29 +19,19 @@ export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): J
   const [notifications, setNotifications] = useState<INotification[]>([]);
   const [unread, setUnread] = useState<number | undefined>(0);
 
-  const handleSetRead = (id: number): void => {
-    setNotifications(_ns => [
-      ..._ns.map(_n => ({
-        ..._n,
-        seen: _n.id === id ? (new Date()).toISOString() : _n.seen,
-      })),
-    ]);
-    setUnread(u => Math.max(0, (u ?? 0) - 1));
-    markNotification(id, true);
-  };
+  const fetchNotifications = useCallback((signal?: AbortSignal): void => {
+    api<INotificationResponse, any>({
+      url: `/api/notifications?limit=${limit}`,
+      signal,
+    })
+      .then(raiseOnError)
+      .then(response => {
+        setNotifications(response.notifications);
+        setUnread(response.unread);
+      });
+  }, [api, limit]);
 
-  const handleSetUnread = (id: number): void => {
-    setNotifications(_ns => [
-      ..._ns.map(_n => ({
-        ..._n,
-        seen: _n.id === id ? null : _n.seen,
-      })),
-    ]);
-    setUnread(u => (u ?? 0) + 1);
-    markNotification(id, false);
-  };
-
-  const markNotification = (id: number, seen: boolean): void => {
+  const markNotification = useCallback((id: number, seen: boolean): void => {
     api<{ unread: number; }, any>({
       url: "/api/notifications/mark",
       body: { unread: Number(!seen), id },
@@ -55,19 +45,29 @@ export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): J
         console.error(e);
         toast.error(String(e));
       });
-  };
+  }, [api, fetchNotifications]);
 
-  const fetchNotifications = (signal?: AbortSignal): void => {
-    api<INotificationResponse, any>({
-      url: `/api/notifications?limit=${limit}`,
-      signal,
-    })
-      .then(raiseOnError)
-      .then(response => {
-        setNotifications(response.notifications);
-        setUnread(response.unread);
-      });
-  };
+  const handleSetRead = useCallback((id: number): void => {
+    setNotifications(_ns => [
+      ..._ns.map(_n => ({
+        ..._n,
+        seen: _n.id === id ? (new Date()).toISOString() : _n.seen,
+      })),
+    ]);
+    setUnread(u => Math.max(0, (u ?? 0) - 1));
+    markNotification(id, true);
+  }, [markNotification]);
+
+  const handleSetUnread = useCallback((id: number): void => {
+    setNotifications(_ns => [
+      ..._ns.map(_n => ({
+        ..._n,
+        seen: _n.id === id ? null : _n.seen,
+      })),
+    ]);
+    setUnread(u => (u ?? 0) + 1);
+    markNotification(id, false);
+  }, [markNotification]);
 
   const context: INotificationsContext = useMemo(
     () => ({
@@ -78,7 +78,7 @@ export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): J
       loadMore: () => setLimit(l => l + 10),
       _insideContext_: true,
     }),
-    [notifications, unread],
+    [handleSetRead, handleSetUnread, notifications, unread],
   );
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): J
       clearTimeout(notificationsTimeout);
       clearInterval(notificationsInterval);
     };
-  }, [jwt, limit]);
+  }, [fetchNotifications, jwt, limit]);
 
   return (
     <NotificationsContext.Provider value={context} >

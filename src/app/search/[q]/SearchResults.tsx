@@ -24,7 +24,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
       : 0,
   );
 
-  const handleGetSearchResults = (start: number, type: ISearchResultType): Promise<ISelfiesData> => {
+  const handleGetSearchResults = useCallback((start: number, type: ISearchResultType): Promise<ISelfiesData> => {
     return getSearchResults(type, searchQuery, false, start, 10)
       .then((r: ISelfiesData) => {
         setResults(_results => {
@@ -35,14 +35,14 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
         });
         return r;
       });
-  };
+  }, [searchQuery]);
 
   const handleSearch = useMemo<Record<ISearchResultType, ISelfieFetcher>>(() => ({
     selfie: start => handleGetSearchResults(start, "selfie"),
     location: start => handleGetSearchResults(start, "location"),
     date: start => handleGetSearchResults(start, "date"),
     user: start => handleGetSearchResults(start, "user"),
-  }), []);
+  }), [handleGetSearchResults]);
 
   const handleChangeSelectedTab = useCallback((_event: any, tabIndex: number | string | null): void => {
     setSelectedTab(Number(tabIndex));
@@ -62,7 +62,7 @@ export const SearchResults = ({ searchQuery, searchType }: SearchResultsProps): 
         });
       initialFetchRef.current = false;
     }
-  }, []);
+  }, [handleGetSearchResults, searchType]);
 
   return (
     <>

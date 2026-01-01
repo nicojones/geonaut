@@ -17,7 +17,7 @@ interface SelfieDateProps {
 
 export const SelfieDate = ({ date, icon, isDate = false, label }: SelfieDateProps): JSX.Element => {
   const [showDate, setShowDate] = useState<boolean>(false);
-  const dateReadable = useMemo(() => formatDate(parsedDate(date), isDate), [date]);
+  const dateReadable = useMemo(() => formatDate(parsedDate(date), isDate), [date, isDate]);
 
   return (
     <span

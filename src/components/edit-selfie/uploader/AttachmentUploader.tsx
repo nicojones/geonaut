@@ -1,5 +1,5 @@
-import { ArrowUpTrayIcon } from "@heroicons/react/16/solid";
-import { useState } from "react";
+import { ArrowUpTrayIcon, CheckBadgeIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
@@ -23,7 +23,7 @@ export const AttachmentUploader = ({ className = "", onUseImage, onUploadComplet
   const { data, hash } = useEditSelfieContext();
   const [images, setImages] = useState<Array<string | null>>(data.attachments);
 
-  const handleImageChange = (files: FileList): void => {
+  const handleImageChange = useCallback((files: FileList): void => {
     const file = files[0];
     if (!file?.type.startsWith("image/")) {
       toast.error("Invalid image type!");
@@ -60,7 +60,30 @@ export const AttachmentUploader = ({ className = "", onUseImage, onUploadComplet
         error: _data => _data.message,
       });
     });
-  };
+  }, [api, hash, onUploadComplete]);
+
+  const handleDeleteImage = useCallback((src: string): void => {
+    if (confirm("this image will be deleted.\n\nplease delete any references to it in the description!")) {
+      const deletePromise = api<IEditSelfieAttachment, any>({
+        method: "PUT",
+        url: "/api/imageupload",
+        body: {
+          hash,
+          src,
+        },
+      })
+        .then(raiseOnError)
+        .then(r => {
+          setImages(sources => [...sources.filter(_src => _src !== src)]);
+          return r;
+        });
+
+      toast.promise(deletePromise, {
+        success: _data => _data.message,
+        error: _data => _data.message,
+      });
+    }
+  }, [api, hash]);
 
   return (
     <>
@@ -86,18 +109,21 @@ export const AttachmentUploader = ({ className = "", onUseImage, onUploadComplet
       </FileUploader>
       <div className="flex flex-col space-y-2 py-4">
         {
-          images.map(i =>
-            i
-              ? (
-                <a role="button" onClick={() => onUseImage(i)} key={i} className="fric space-x-4 cursor-pointer">
-                  <div
-                    className="aspect-square h-16 bg-no-repeat bg-center bg-cover rounded-full"
-                    style={{ backgroundImage: `url(${(process.env.NEXT_PUBLIC_API_URL as string) + i})` }}
-                  />
-                  <pre className="text-secondary">{i.split("/attachment_").pop()}</pre>
-                </a>
-              )
-              : null,
+          images.map(src =>
+            src &&
+            (
+              <div key={src} className="fric space-x-4 cursor-pointer">
+                <div
+                  className="aspect-square h-16 bg-no-repeat bg-center bg-cover rounded-full"
+                  style={{ backgroundImage: `url(${(process.env.NEXT_PUBLIC_API_URL as string) + src})` }}
+                />
+                <pre className="text-secondary">{src.split("/attachment_").pop()}</pre>
+                <div className="ml-auto flex items-center gap-4">
+                  <CheckBadgeIcon className="size-5" role="button" onClick={() => onUseImage(src)} title="use" />
+                  <XMarkIcon className="size-5" role="button" onClick={() => handleDeleteImage(src)} title="delete" />
+                </div>
+              </div>
+            ),
           )
         }
       </div>

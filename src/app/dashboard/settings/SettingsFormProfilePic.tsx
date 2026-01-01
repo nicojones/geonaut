@@ -33,7 +33,7 @@ export const SettingsFormProfilePic = ({ value, onChange }: SettingsFormProfileP
       .then(_selfies => {
         setAllSelfies({ loaded: true, data: _selfies });
       });
-  }, [allSelfies]);
+  }, [allSelfies, user?.id]);
 
   const handleSelectProfilePicture = (hash: string): void => {
     setAllSelfies(v => ({ ...v, loaded: null }));

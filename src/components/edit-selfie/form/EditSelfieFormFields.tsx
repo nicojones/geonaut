@@ -1,25 +1,28 @@
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { Button, FormControl, FormHelperText, FormLabel, Input, Typography } from "@mui/joy";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useCallback } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 
 import { MapViewer } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
 import { deleteSelfie, getCoords } from "@/functions";
+import { generateCoordinateNoise } from "@/functions/selfies/generate-coordinate-noise.function";
 import { IEditSelfieCoords, ISelfieEdit } from "@/types";
 
 import { EditSelfieCustomUrl } from "./EditSelfieCustomUrl";
 import { EditSelfieDescriptionField } from "./EditSelfieDescriptionField";
 import { EditSelfieFormAutocomplete } from "./EditSelfieFormAutocomplete";
+import { EditSelfieRandomizeCoords } from "./EditSelfieRandomizeCoords";
 
 interface EditSelfieFormFieldsProps {
   onSubmit: () => any;
 }
 
 export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): JSX.Element => {
+  const router = useRouter();
   const { api } = useJwtTokenContext();
   const { data, errors, setSelfieData, hasImages, markers } = useEditSelfieContext();
-  const router = useRouter();
+  const [mapCoords, setMapCoords] = useState<IEditSelfieCoords>({ lat: data.selfie.lat, lng: data.selfie.lng });
   const dateFromPicture: string | undefined = hasImages?.me ? data.images.me.date : data.images.lc.date;
 
   const handleValueChange = (key: keyof ISelfieEdit):
@@ -28,16 +31,26 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
       setSelfieData({ [key]: event.target.value });
   };
 
-  const handleUpdateCoords = useCallback((place: string, coords?: IEditSelfieCoords): void => {
-    setSelfieData({ place, ...(coords ?? {}) });
-  }, [data]);
+  const handleUpdateCoords = useCallback((place: string, coords: IEditSelfieCoords = {} as IEditSelfieCoords): void => {
+    setSelfieData({ place, ...(coords) });
+    setMapCoords(c => ({ c, ...(coords) }));
+  }, [setSelfieData]);
+
+  const handleUpdateRandomCoords = useCallback((maxDistanceMeters: number): void => {
+    const [deltaLat, deltaLng] = generateCoordinateNoise(maxDistanceMeters, mapCoords.lat);
+
+    const newLat = mapCoords.lat + deltaLat;
+    const newLng = mapCoords.lng + deltaLng;
+
+    setSelfieData(({ ...data.selfie, lat: newLat, lng: newLng }));
+  }, [data.selfie, mapCoords.lat, mapCoords.lng, setSelfieData]);
 
   const handleDeleteSelfie = (): void => {
     deleteSelfie(api, { name: data.selfie.title, hash: data.selfie.hash }, _r => router.push("/new"));
   };
 
   const handleSetPictureDate = (): void => {
-    const secondsMultiplier = (new Date(dateFromPicture as string)).getFullYear() === 1970 ? 1000 : 1
+    const secondsMultiplier = (new Date(dateFromPicture as string)).getFullYear() === 1970 ? 1000 : 1;
     const date = new Date((Number(dateFromPicture) * secondsMultiplier)).toISOString().split("T")[0];
     console.log("Using picture's date: ", dateFromPicture, date);
     // `hasImages` is not undefined
@@ -119,11 +132,18 @@ export const EditSelfieFormFields = ({ onSubmit }: EditSelfieFormFieldsProps): J
           <FormControl error={!!errors.place}>
             <FormLabel sx={{ width: "100%" }}>
               place
-              <pre className="ml-auto text-xs subtle-hover">{getCoords(data.selfie)}</pre>
+              <div className="ml-auto text-xs flex gap-2 items-center">
+                <pre className="subtle-hover">{getCoords(data.selfie)}</pre>
+
+              </div>
             </FormLabel>
             <EditSelfieFormAutocomplete
               onUpdateCoords={handleUpdateCoords}
             />
+            {(data.selfie.lat || data.selfie.lng) &&
+              <div className="ml-auto">
+                <EditSelfieRandomizeCoords onClick={handleUpdateRandomCoords} />
+              </div>}
             {errors?.place && <FormHelperText>{errors.place}</FormHelperText>}
           </FormControl>
         </div>

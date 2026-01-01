@@ -16,6 +16,10 @@ export const FileUploader = ({
 }: IFileUploaderProps): JSX.Element => {
   const [dragging, setDragging] = useState<boolean>(false);
 
+  const handleDrag = useCallback((enter: boolean): void => {
+    setDragging(enter);
+  }, []);
+
   const handleFileChange = useCallback((list: FileList | null): void => {
     handleDrag(false);
     if (list?.length) {
@@ -23,11 +27,7 @@ export const FileUploader = ({
     } else {
       toast.error("You didn't add any files");
     }
-  }, [onFileAdded]);
-
-  const handleDrag = useCallback((enter: boolean): void => {
-    setDragging(enter);
-  }, []);
+  }, [handleDrag, onFileAdded]);
 
   return (
     <label

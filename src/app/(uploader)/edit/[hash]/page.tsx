@@ -5,7 +5,7 @@ import { EditSelfieContextWrapper } from "@/context";
 import { serverFetch } from "@/functions/server/server-fetch.function";
 import { IEditSelfieData, IResponseData, IUrlParams } from "@/types";
 
-const getSelfieDraft = (hash: string): Promise<any> => {
+const getSelfieDraft = (hash: string): Promise<IEditSelfieData> => {
   return serverFetch<IResponseData<IEditSelfieData>, any>({
     url: "/api/admin/data",
     body: { s: "edit", selfie: hash },

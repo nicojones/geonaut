@@ -31,7 +31,7 @@ export const EditSelfieButton = ({ allowDelete, selfie }: EditSelfieProps): JSX.
     (): void => {
       deleteSelfie(api, selfie, _r => router.push("/"));
     },
-    [api, selfie],
+    [api, router, selfie],
   );
 
   return (

@@ -30,8 +30,8 @@ export const HistoryMap = ({ className = "", range, selfies, pinUrl }: HistoryMa
   const [dateRange, setDateRange] = useState<IMapDateRange>([Math.max(range[0], range[1] - MS_PER_YEAR), range[1]]);
   const [uiDateRange, setUiDateRange] = useState<IMapDateRange>(dateRange);
   const [loading, setLoading] = useState<boolean>(false);
-  const markers = useMemo(() => getMarkersFromSelfies(selfies, dateRange, pinUrl), [dateRange, pinUrl]);
-  const rangeMarks = useMemo(() => getRangeMarks(range), []);
+  const markers = useMemo(() => getMarkersFromSelfies(selfies, dateRange, pinUrl), [dateRange, pinUrl, selfies]);
+  const rangeMarks = useMemo(() => getRangeMarks(range), [range]);
 
   const handleDateRangeChange = (_event: Event, newRange: number | number[]): void => {
     setLoading(true);

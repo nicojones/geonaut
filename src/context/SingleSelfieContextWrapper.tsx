@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { dbGetSelfieByHash } from "@/db/db-get-selfie-by-hash.query";
 import { raiseOnError } from "@/functions";
@@ -24,7 +24,7 @@ export const SingleSelfieContextWrapper = ({ children, initialData }: SingleSelf
     [initialData.hash]: initialData,
   });
 
-  const handleNavigate = (hash: string): void => {
+  const handleNavigate = useCallback((hash: string): void => {
     if (selfieStore.current[hash]) {
       setSelfie(selfieStore.current[hash]);
       window.history.pushState(null, "", `/s/${hash}`);
@@ -40,7 +40,7 @@ export const SingleSelfieContextWrapper = ({ children, initialData }: SingleSelf
           throw new Error(`No selfie with hash ${hash}`);
         }
       });
-  };
+  }, [user?.id]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -63,7 +63,7 @@ export const SingleSelfieContextWrapper = ({ children, initialData }: SingleSelf
       });
 
     return () => abortController.abort();
-  }, [selfie.hash]);
+  }, [api, selfie.hash]);
 
   const context: ISingleSelfieContex = useMemo(
     () => ({
@@ -73,7 +73,7 @@ export const SingleSelfieContextWrapper = ({ children, initialData }: SingleSelf
       loadSelfie: handleNavigate,
       _insideContext_: true,
     }),
-    [prev, next, selfie],
+    [prev, next, selfie, handleNavigate],
   );
 
   return (

@@ -21,7 +21,7 @@ export const SelfieCardLoader = ({ hash }: SelfieCardProps): JSX.Element => {
       .then(r => {
         setSelfie(r.responseData.selfie);
       });
-  }, []);
+  }, [api, hash]);
 
   return (
     selfie

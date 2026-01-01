@@ -99,7 +99,7 @@ export const ImageUploader = ({ className = "", imageStyle = {}, onUploadStatusC
         error: _data => _data.message,
       });
     });
-  }, [onUploadStatusChange, hasLocation]);
+  }, [onUploadStatusChange, hash, type, api, hasLocation, setData]);
 
   const handleRotateImage = (): void => {
     const rotatePromise = api<{ path: string; }, any>({

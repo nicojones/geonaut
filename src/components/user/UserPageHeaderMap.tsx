@@ -34,7 +34,7 @@ export const UserPageHeaderMap = ({ username }: UserPageHeaderMapProps): JSX.Ele
         toast.error(String(e));
         console.error(e);
       });
-  }, [showMap]);
+  }, [api, mapData, showMap, username]);
 
   return (
     <>

@@ -33,7 +33,7 @@ export default function Logout ({ searchParams }: IUrlParams<never, "status">): 
         ? "/auth/sign-in"
         : "/",
     );
-  }, [router, setJwt]);
+  }, [router, searchParams.status, setJwt]);
 
   return (
     <>...</>

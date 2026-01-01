@@ -41,15 +41,15 @@ export const EditSelfieContextWrapper = ({ children, initialData }: EditSelfieCo
   const [data, setData] = useState<IEditSelfieData>(initialData);
   const addedImages: IEditSelfieImagesAdded = useMemo(
     () => getAddedImages(data.images),
-    [data.images.me, data.images.lc],
+    [data.images],
   );
   const hasLocation: boolean = useMemo(
     () => getHasLocation(data.selfie),
-    [data.selfie.lat, data.selfie.lng],
+    [data.selfie],
   );
   const markers = useMemo<IMapPin[]>(
     (): IMapPin[] => getMarkers(addedImages, data.selfie),
-    [data.selfie.lat, data.selfie.lng, addedImages],
+    [addedImages, data.selfie],
   );
   const [errors, setErrors] = useState<ZodErrorMapping<ISelfieEdit>>({});
 
@@ -77,7 +77,7 @@ export const EditSelfieContextWrapper = ({ children, initialData }: EditSelfieCo
       markers,
       _insideContext_: true,
     }),
-    [data, markers],
+    [addedImages, data, errors, handleSetSelfieData, hasLocation, markers],
   );
 
   return (

@@ -54,7 +54,7 @@ export const JwtTokenContextWrapper = ({ children, contextData }: JwtTokenContex
         // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw e;
       }),
-  [jwt],
+  [jwt, router],
   );
 
   const contextValue = useMemo<IJwtContext>(
@@ -77,7 +77,7 @@ export const JwtTokenContextWrapper = ({ children, contextData }: JwtTokenContex
   useEffect(() => {
     handleUpdateUser(jwtCookie);
     // We don't want to act when the user changes, only when the cookie value changes
-  }, [jwtCookie]);
+  }, [handleUpdateUser, jwtCookie]);
 
   return (
     <JwtTokenContext.Provider value={contextValue}>

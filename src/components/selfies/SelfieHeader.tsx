@@ -15,7 +15,7 @@ interface SelfieHeaderProps {
   readonly selfie: ISelfie;
 }
 
-const getMonday = (date: string): string => {
+const _getMonday = (date: string): string => {
   const d = new Date(date); // Create a copy of the date
   const day = d.getDay(); // Get current day (0 = Sunday, 1 = Monday, etc.)
   const diff = (day === 0 ? -6 : 1) - day; // Adjust to the previous Monday
