@@ -40,7 +40,7 @@ jobs:
           
           # Zip node_modules only if changed
           if [ "${{ steps.changed-deps.outputs.any_changed }}" == "true" ]; then
-            zip -r modules.zip node_modules
+            zip -ry modules.zip node_modules
           fi
 
       - name: Upload to Server
