@@ -44,7 +44,9 @@ export const QuillEditor = forwardRef<Quill | null, QuillEditorProps>(
         },
       });
 
-      ref.current = quill;
+      if (ref) {
+        ref.current = quill;
+      }
 
       if (defaultValueRef.current) {
         quill.clipboard.dangerouslyPasteHTML(defaultValueRef.current, "api");
@@ -59,7 +61,9 @@ export const QuillEditor = forwardRef<Quill | null, QuillEditorProps>(
       });
 
       return () => {
-        ref.current = null;
+        if (ref) {
+          ref.current = null;
+        }
         container.innerHTML = "";
       };
     }, [ref]);
