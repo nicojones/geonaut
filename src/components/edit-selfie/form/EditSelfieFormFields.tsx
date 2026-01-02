@@ -38,9 +38,13 @@ export const EditSelfieFormFields = ({ onPublish }: EditSelfieFormFieldsProps): 
   };
 
   const handleUpdateCoords = useCallback((place: string, coords: IEditSelfieCoords = EMPTY_COORDS): void => {
-    setSelfieData({ place, ...(coords) });
-    setMapCoords(c => ({ c, ...(coords) }));
-  }, [setSelfieData]);
+    const newCoords = {
+      lat: coords.lat || data.selfie.lat,
+      lng: coords.lng || data.selfie.lng,
+    };
+    setSelfieData({ place, ...newCoords });
+    setMapCoords(c => ({ c, ...newCoords }));
+  }, [data.selfie.lat, data.selfie.lng, setSelfieData]);
 
   const handleUpdateRandomCoords = useCallback((maxDistanceMeters: number): void => {
     const [deltaLat, deltaLng] = generateCoordinateNoise(maxDistanceMeters, mapCoords.lat);

@@ -22,7 +22,7 @@ export default async function SearchResultsPage ({ params, searchParams }: IUrlP
     <div className="selfie-list">
       <StickyHeader
         sticky={false}
-        header={<>search results for <kbd>{searchQuery}</kbd></>}
+        header={<span>search results for <b>{searchQuery}</b></span>}
       />
 
       <SearchResults searchQuery={searchQuery} searchType={searchType} />
