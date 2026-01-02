@@ -7,7 +7,7 @@ import { getDbConnection } from "./db.config";
 export const dbGetUserAndLastSelfie = async (username: string, selfId: number = 0): Promise<ISelfie | null> => {
   "use server";
 
-  const [connection, close] = await getDbConnection();
+  const [connection, release] = await getDbConnection();
   let query = "";
   const params: Record<string, string | number> = { username };
 
@@ -48,7 +48,7 @@ export const dbGetUserAndLastSelfie = async (username: string, selfId: number = 
   }
 
   const [results] = await connection.query(query, params);
-  close();
+  release();
 
   if ((results as any[]).length === 0) {
     return null;

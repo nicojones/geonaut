@@ -4,13 +4,13 @@ import { getDbConnection } from "./db.config";
 export const dbGetUserIdFromUsername = async (username: string): Promise<number> => {
   "use server";
 
-  const [connection, close] = await getDbConnection();
+  const [connection, release] = await getDbConnection();
   const [userInfo, _] = await connection.query(
     "SELECT u.id FROM users u WHERE LOWER(u.username) = :username LIMIT 1",
     { username },
   );
 
-  close();
+  release();
 
   if (!(userInfo as any[]).length) {
     throw new Error(`no user exists with username ${username}`);

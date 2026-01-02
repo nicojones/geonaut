@@ -1,13 +1,15 @@
 
 import { FormControl, FormHelperText, FormLabel } from "@mui/joy";
+import dynamic from "next/dynamic";
 // Or if you only need the core build
+// const Delta = Quill.import("delta");
 import Quill from "quill";
 import { MutableRefObject, useRef, useState } from "react";
 
 import { AttachmentUploader } from "@/components/edit-selfie/uploader/AttachmentUploader";
-
-import { QuillEditor } from "./editor/QuillEditor";
-// const Delta = Quill.import("delta");
+const QuillEditor = dynamic(() => import("./editor/QuillEditor").then(m => m.QuillEditor), {
+  ssr: false,
+});
 
 interface EditSelfieDescriptionFieldProps {
   value: string;

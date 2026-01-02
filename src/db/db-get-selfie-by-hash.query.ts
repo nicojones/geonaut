@@ -12,7 +12,7 @@ export const dbGetSelfieByHash = async (
 ): Promise<ISelfie | null> => {
   "use server";
 
-  const [connection, close] = await getDbConnection();
+  const [connection, release] = await getDbConnection();
   let query = "";
   const params: Record<string, string | number> = { hash };
 
@@ -49,7 +49,7 @@ export const dbGetSelfieByHash = async (
   }
 
   const [results] = await connection.query(query, params);
-  close();
+  release();
 
   if ((results as any[]).length === 0) {
     return null;
@@ -66,9 +66,9 @@ export const dbGetSelfieByHash = async (
 
 // Placeholder function - replace with your actual implementation
 const getLongDesc = async (id: number): Promise<string | null> => {
-  const [connection, close] = await getDbConnection();
+  const [connection, release] = await getDbConnection();
   const [results] = await connection.query("SELECT long_desc FROM selfies WHERE id = ?", [id]);
-  close();
+  release();
 
   if ((results as any[]).length === 0) {
     return null;

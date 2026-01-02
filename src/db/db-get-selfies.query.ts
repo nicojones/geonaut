@@ -19,7 +19,7 @@ export const dbGetSelfies = async (
 ): Promise<ISelfie[]> => {
   "use server";
 
-  const [connection, close] = await getDbConnection();
+  const [connection, release] = await getDbConnection();
   if (userId) {
     const [results, _fields] = await connection.query(
       `
@@ -50,7 +50,7 @@ export const dbGetSelfies = async (
       },
     );
 
-    close();
+    release();
 
     return results as ISelfie[];
   } else {
@@ -82,7 +82,7 @@ export const dbGetSelfies = async (
       },
     );
 
-    close();
+    release();
 
     return results as ISelfie[];
   }

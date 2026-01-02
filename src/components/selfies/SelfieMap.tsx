@@ -1,11 +1,15 @@
 "use client";
 
 import { MapPinIcon } from "@heroicons/react/16/solid";
+import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 
-import { MapViewer } from "@/components/generic";
 import { selfiePin } from "@/functions";
 import { ComponentChildren, ISelfie } from "@/types";
+
+const MapViewer = dynamic(() => import("@/components/generic/map-viewer/MapViewer").then(m => m.MapViewer), {
+  ssr: false,
+});
 
 interface SelfieMapProps {
   selfie: ISelfie;

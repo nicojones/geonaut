@@ -2,15 +2,18 @@
 
 import { FormControl, Slider } from "@mui/joy";
 import classNames from "classnames";
+import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 
-import { MapViewer } from "@/components/generic";
 import { MS_PER_WEEK, MS_PER_YEAR, PIN_GRADIENT_COLOR_FROM, PIN_GRADIENT_COLOR_TO } from "@/config";
 import { loadingMask } from "@/functions";
 import { IHistoricalMapPin, IMapDateRange } from "@/types";
 
 import { getMarkersFromSelfies } from "./get-markers-from-selfies.function";
 import { getRangeMarks } from "./get-range-marks.function";
+const MapViewer = dynamic(() => import("@/components/generic/map-viewer/MapViewer").then(m => m.MapViewer), {
+  ssr: false,
+});
 
 interface HistoryMapProps {
   readonly range: IMapDateRange;

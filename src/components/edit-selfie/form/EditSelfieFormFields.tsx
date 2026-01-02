@@ -1,9 +1,9 @@
 import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { Button, FormControl, FormHelperText, FormLabel, Input, Typography } from "@mui/joy";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useCallback, useState } from "react";
 
-import { MapViewer } from "@/components/generic";
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
 import { deleteSelfie, getCoords } from "@/functions";
 import { generateCoordinateNoise } from "@/functions/selfies/generate-coordinate-noise.function";
@@ -13,6 +13,10 @@ import { EditSelfieCustomUrl } from "./EditSelfieCustomUrl";
 import { EditSelfieDescriptionField } from "./EditSelfieDescriptionField";
 import { EditSelfieFormAutocomplete } from "./EditSelfieFormAutocomplete";
 import { EditSelfieRandomizeCoords } from "./EditSelfieRandomizeCoords";
+
+const MapViewer = dynamic(() => import("@/components/generic/map-viewer/MapViewer").then(m => m.MapViewer), {
+  ssr: false,
+});
 
 interface EditSelfieFormFieldsProps {
   onPublish: () => any;

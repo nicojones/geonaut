@@ -111,9 +111,9 @@ export const dbGetSearchResults = async (
     }
   }
 
-  const [connection, close] = await getDbConnection();
+  const [connection, release] = await getDbConnection();
   const [results] = await connection.query(query, params);
-  close();
+  release();
 
   return results as ISearchResult[];
 };

@@ -19,7 +19,7 @@ export const dbGetFollowedSelfies = async (
 ): Promise<ISelfie[]> => {
   "use server";
 
-  const [connection, close] = await getDbConnection();
+  const [connection, release] = await getDbConnection();
   const [results, _fields] = await connection.query(
     `
         SELECT
@@ -45,7 +45,7 @@ export const dbGetFollowedSelfies = async (
     },
   );
 
-  close();
+  release();
 
   return results as ISelfie[];
 };

@@ -14,7 +14,7 @@ export const SelfieCardSkeleton = ({ className = "" }: SelfieCardSkeletonProps):
     >
       <div
         role="header"
-        className="flex flex-col md:flex-row md:space-y-0 sm:space-x-0 md:space-x-4 md:fric space-y-2 justify-between p-4"
+        className="flex z-0 flex-col md:flex-row md:space-y-0 sm:space-x-0 md:space-x-4 md:fric space-y-2 justify-between p-4"
       >
         <div className="flex flex-col md:grow">
           <Skeleton
@@ -37,7 +37,7 @@ export const SelfieCardSkeleton = ({ className = "" }: SelfieCardSkeletonProps):
         </div>
       </div>
 
-      <div role="content" className="flex flex-col md:flex-row relative md:justify-between">
+      <div role="content" className="flex flex-col md:flex-row relative md:justify-between z-0">
         <AspectRatio ratio="4/3" sx={{ width: "49%" }}>
           <Skeleton animation="wave" sx={{ width: "100%" }} />
         </AspectRatio>

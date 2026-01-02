@@ -6,7 +6,7 @@ import { getDbConnection } from "./db.config";
 export const dbGetUserInfo = async (selfId: number, userId: number): Promise<IUserData> => {
   "use server";
 
-  const [connection, close] = await getDbConnection();
+  const [connection, release] = await getDbConnection();
 
   const [userFollowersInfoResult] = await connection.query(`
     SELECT SUM(followers) AS followers, SUM(following) AS following, SUM(pictures) AS pictures FROM (
@@ -46,7 +46,7 @@ export const dbGetUserInfo = async (selfId: number, userId: number): Promise<IUs
     iFollowUser = Boolean((iFollowUserResult as any[]).length);
   }
 
-  close();
+  release();
 
   const userData: IUserData = {
     ...userFollowersInfo,

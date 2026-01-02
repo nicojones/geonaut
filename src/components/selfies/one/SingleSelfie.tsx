@@ -2,18 +2,23 @@
 
 import { ArrowUpTrayIcon, CameraIcon, MapPinIcon, ShareIcon, UserIcon } from "@heroicons/react/16/solid";
 import { Typography } from "@mui/joy";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 
 import { renderDynamicSelfie } from "@/app/(selfies)/s/[hash]/render-dynamic-selfie.function";
 import { CommentList, EditSelfieButton, LoveSelfie, SelfieDate } from "@/components";
-import { CopyPath, MapViewer } from "@/components/generic";
+import { CopyPath } from "@/components/generic";
 import { NO_IMAGE } from "@/config";
 import { useSingleSelfieContext } from "@/context/single-selfie.context";
 import { selfieBackgroundStyle, selfieLcImage, selfieMyImage, selfiePin, selfieTextColor } from "@/functions";
 import { IMapPin } from "@/types";
 
 import { SelfiePrevNext } from "./SelfiePrevNext";
+
+const MapViewer = dynamic(() => import("@/components/generic/map-viewer/MapViewer").then(m => m.MapViewer), {
+  ssr: false,
+});
 
 interface SingleSelfieProps {
   /**
