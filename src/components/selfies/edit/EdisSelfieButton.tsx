@@ -19,7 +19,7 @@ interface EditSelfieProps {
   allowDelete?: boolean;
 }
 
-const CLASS_NAME_LINK = "cursor-pointer hover:drop-shadow-sm transition-all relative select-none" as const;
+const CLASS_NAME_LINK = "cursor-pointer hover:drop-shadow-sm transition-all relative select-none text-black" as const;
 const CLASS_NAME_ICON = "size-7 bg-white rounded-full z-10 p-1" as const;
 
 export const EditSelfieButton = ({ allowDelete, selfie }: EditSelfieProps): JSX.Element => {
