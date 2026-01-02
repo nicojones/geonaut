@@ -1,5 +1,5 @@
 
-import { IFetch, IResponse } from "@/types";
+import { IFetch, IResponse, IResponseData } from "@/types";
 
 export const gFetch = <
   T extends Record<string, any> = Record<string, any>,
@@ -39,21 +39,28 @@ export const gFetch = <
     .then((r: Response) => {
       const status = r.status;
       const ok = r.ok;
-      return (
-        r.json()
-          .then((response: IResponse<T>) => {
-            if (ok) {
-              response.status = status;
-              return response;
-            } else if (response) {
-              // eslint-disable-next-line @typescript-eslint/no-throw-literal
-              throw { ...response, status } satisfies IResponse<T>;
-            } else {
-              // eslint-disable-next-line @typescript-eslint/no-throw-literal
-              throw { success: 0, status, responseData: response } satisfies IResponse<T>;
-            }
-          })
-      );
+
+      try {
+        return (
+          r.json()
+            .then((response: IResponse<T>) => {
+              if (ok) {
+                response.status = status;
+                return response;
+              } else if (response) {
+                // eslint-disable-next-line @typescript-eslint/no-throw-literal
+                throw { ...response, status } satisfies IResponse<T>;
+              } else {
+                // eslint-disable-next-line @typescript-eslint/no-throw-literal
+                throw { success: 0, status, responseData: response } satisfies IResponse<T>;
+              }
+            })
+        );
+      } catch (e) {
+        console.log("POTATO DEBUG -- tried to parse json", r);
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw { success: 0, status, responseData: {} as unknown as IResponseData<T> } satisfies IResponse<T>;
+      }
       // return r.text().then(unparsed => {
       //   try {
       //     console.log(unparsed);
