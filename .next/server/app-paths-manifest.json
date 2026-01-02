@@ -1,0 +1,21 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/(selfies)/s/[hash]/page": "app/(selfies)/s/[hash]/page.js",
+  "/(selfies)/u/[username]/page": "app/(selfies)/u/[username]/page.js",
+  "/(uploader)/edit/[hash]/page": "app/(uploader)/edit/[hash]/page.js",
+  "/(uploader)/new/page": "app/(uploader)/new/page.js",
+  "/auth/logout/page": "app/auth/logout/page.js",
+  "/auth/logout/action/route": "app/auth/logout/action/route.js",
+  "/search/[q]/page": "app/search/[q]/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/(selfies)/loves/page": "app/(selfies)/loves/page.js",
+  "/(selfies)/users/page": "app/(selfies)/users/page.js",
+  "/(selfies)/discover/page": "app/(selfies)/discover/page.js",
+  "/auth/sign-in/page": "app/auth/sign-in/page.js",
+  "/auth/sign-up/page": "app/auth/sign-up/page.js",
+  "/auth/reset/page": "app/auth/reset/page.js",
+  "/dashboard/settings/page": "app/dashboard/settings/page.js",
+  "/page": "app/page.js",
+  "/auth/forgot/page": "app/auth/forgot/page.js",
+  "/dashboard/page": "app/dashboard/page.js"
+}
