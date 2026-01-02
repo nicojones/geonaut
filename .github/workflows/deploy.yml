@@ -1,0 +1,67 @@
+name: Deploy Geonaut
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Necessary to compare changes
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # Check if package files changed
+      - name: Check for dependency changes
+        id: changed-deps
+        uses: tj-actions/changed-files@v42
+        with:
+          files: |
+            package.json
+            package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js
+        run: npm run build
+
+      # We only zip and send node_modules if they changed
+      # Otherwise, we rely on the ones already on the server
+      - name: Prepare node_modules zip
+        if: steps.changed-deps.outputs.any_changed == 'true'
+        run: zip -r node_modules.zip node_modules
+
+      - name: Deploy to Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # We send the build output (.next), public assets, and the zip (if it exists)
+          source: ".next/,public/,package.json,next.config.js,node_modules.zip"
+          target: "/var/www/geonaut/nextjs-2" # Change this to your app path
+
+      - name: Post-deployment on VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/geonaut/nextjs-2
+            # If a new zip was uploaded, unzip it and remove zip file
+            if [ -f "node_modules.zip" ]; then
+              rm -rf node_modules
+              unzip -q node_modules.zip
+              rm node_modules.zip
+            fi
+            systemctl restart geonaut.service
