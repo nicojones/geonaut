@@ -6,7 +6,7 @@ import named from "named-placeholders";
 
 const globalForDb = global as unknown as { dbPool: mysql.Pool; };
 
-const dbPool = globalForDb.dbPool || mysql.createPool({
+globalForDb.dbPool = globalForDb.dbPool || mysql.createPool({
   host: process.env.DB_HOST ?? "",
   user: process.env.DB_USER ?? "",
   database: process.env.DB_NAME ?? "",
@@ -22,10 +22,7 @@ const dbPool = globalForDb.dbPool || mysql.createPool({
   namedPlaceholders: true,
 });
 
-if (process.env.NODE_ENV !== "production") {
-  // use fresh connections except in production
-  globalForDb.dbPool = dbPool;
-};
+const dbPool = globalForDb.dbPool;
 
 export const getDbConnection = async (): Promise<[mysql.PoolConnection, () => void]> => {
   // 2. Get a connection from the pool
@@ -34,7 +31,10 @@ export const getDbConnection = async (): Promise<[mysql.PoolConnection, () => vo
   // 3. Return the connection and a proper release function
   return [
     connection,
-    () => connection.release(), // Use the connection's own release method
+    () => {
+      dbPool.releaseConnection(connection);
+      connection.release();
+    }, // Use the connection's own release method
   ];
 };
 
