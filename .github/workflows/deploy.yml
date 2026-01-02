@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Necessary to compare changes
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -19,7 +19,6 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      # Check if package files changed
       - name: Check for dependency changes
         id: changed-deps
         uses: tj-actions/changed-files@v42
@@ -34,21 +33,25 @@ jobs:
       - name: Build Next.js
         run: npm run build
 
-      # We only zip and send node_modules if they changed
-      # Otherwise, we rely on the ones already on the server
-      - name: Prepare node_modules zip
-        if: steps.changed-deps.outputs.any_changed == 'true'
-        run: zip -r node_modules.zip node_modules
+      - name: Prepare Deployment Packages
+        run: |
+          # Zip the build and essential files (always)
+          zip -r build.zip .next public package.json next.config.mjs .env.production
+          
+          # Zip node_modules only if changed
+          if [ "${{ steps.changed-deps.outputs.any_changed }}" == "true" ]; then
+            zip -r modules.zip node_modules
+          fi
 
-      - name: Deploy to Server
+      - name: Upload to Server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          # We send the build output (.next), public assets, and the zip (if it exists)
-          source: ".next/,public/,package.json,next.config.js,node_modules.zip"
-          target: "/var/www/geonaut/nextjs-2" # Change this to your app path
+          # We only send the zip files. This is much faster.
+          source: "build.zip,modules.zip"
+          target: "/var/www/geonaut/nextjs-2"
 
       - name: Post-deployment on VM
         uses: appleboy/ssh-action@v1.0.3
@@ -58,10 +61,19 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/geonaut/nextjs-2
-            # If a new zip was uploaded, unzip it and remove zip file
-            if [ -f "node_modules.zip" ]; then
+            
+            # 1. Handle node_modules if a new zip arrived
+            if [ -f "modules.zip" ]; then
               rm -rf node_modules
-              unzip -q node_modules.zip
-              rm node_modules.zip
+              unzip -q modules.zip
+              rm modules.zip
             fi
+
+            # 2. Handle the build files
+            if [ -f "build.zip" ]; then
+              unzip -o -q build.zip
+              rm build.zip
+            fi
+
+            # 3. Restart Service
             systemctl restart geonaut.service
