@@ -36,7 +36,7 @@ jobs:
       - name: Prepare Deployment Packages
         run: |
           # Zip the build and essential files (always)
-          zip -r build.zip .next public package.json next.config.mjs .env.production
+          zip -r build.zip .next public package.json next.config.mjs .env.production start_geonaut.sh
           
           # Zip node_modules only if changed
           if [ "${{ steps.changed-deps.outputs.any_changed }}" == "true" ]; then
@@ -51,7 +51,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           # We only send the zip files. This is much faster.
           source: "build.zip,modules.zip"
-          target: "/var/www/geonaut/nextjs-2"
+          target: "/var/www/geonaut/nextjs"
 
       - name: Post-deployment on VM
         uses: appleboy/ssh-action@v1.0.3
@@ -60,7 +60,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/geonaut/nextjs-2
+            cd /var/www/geonaut/nextjs
             
             # 1. Handle node_modules if a new zip arrived
             if [ -f "modules.zip" ]; then
