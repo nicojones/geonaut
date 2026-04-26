@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "predev": "npm i",
+    "dev:be": "bash ./scripts/dev-geonaut-be.sh",
+    "dev:db": "bash ./scripts/dev-geonaut-db.sh",
+    "dev:stack": "bash ./scripts/dev-geonaut-stack.sh",
+    "dev:all": "concurrently -k -n stack,fe -c blue,magenta \"npm run dev:stack\" \"next dev\"",
     "dev": "next dev",
     "build": "next build",
     "build:prod": "NODE_ENV=production next build --no-lint",
@@ -39,6 +43,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "concurrently": "^9.0.0",
     "@types/js-cookie": "^3.0.6",
     "@types/mapbox-gl": "^3.1.0",
     "@types/node": "^20",
