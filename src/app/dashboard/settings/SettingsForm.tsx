@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { SelectableCard } from "@/components/generic";
 import { useJwtTokenContext } from "@/context";
 import { createZodErrorObject, raiseOnError } from "@/functions";
-import { ISettings, PDefault, ZodErrorMapping } from "@/types";
+import { ISettings, ISettingsSaveBody, PDefault, ZodErrorMapping } from "@/types";
 import { SettingsValidator } from "@/validators";
 
 import { SettingsFormProfilePic } from "./SettingsFormProfilePic";
@@ -37,7 +37,7 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
     event.preventDefault();
     setLoading(true);
 
-    api<{ token: string; }, ISettings>({
+    api<{ token: string; }, ISettingsSaveBody>({
       method: "POST",
       body: { ...settings, weekly_digest_email: settings.weekly_digest_email ? "1" : "0" },
       url: "/api/settings/save",
