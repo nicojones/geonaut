@@ -12,7 +12,7 @@ export const SettingsValidator = z.object({
   gender: GenderTypeValidator,
   username: z.string().min(4),
   weekly_digest_email: z.preprocess(
-    (v) => v === 1 || v === true || v === "1",
+    (v) => v === true || v === 1 || v === "1" || v === "true",
     z.boolean(),
   ),
   password: z.string().min(8).optional(),
