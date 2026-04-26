@@ -11,6 +11,10 @@ export const SettingsValidator = z.object({
   profile_pic: z.string().min(1),
   gender: GenderTypeValidator,
   username: z.string().min(4),
+  weekly_digest_email: z.preprocess(
+    (v) => v === 1 || v === true || v === "1",
+    z.boolean(),
+  ),
   password: z.string().min(8).optional(),
   confirm: z.string().min(8).optional(),
 })

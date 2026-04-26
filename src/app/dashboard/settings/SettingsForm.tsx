@@ -1,7 +1,7 @@
 "use client";
 
 import { EnvelopeIcon, KeyIcon, UserIcon } from "@heroicons/react/16/solid";
-import { FormControl, FormHelperText, FormLabel, Input, Option, Select } from "@mui/joy";
+import { FormControl, FormHelperText, FormLabel, Input, Option, Select, Switch } from "@mui/joy";
 import Image from "next/image";
 import { ChangeEvent, useCallback, useLayoutEffect, useState } from "react";
 import { toast } from "sonner";
@@ -22,7 +22,10 @@ interface SettingsFormProps {
 export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): JSX.Element => {
   const { api, setJwt } = useJwtTokenContext();
 
-  const [settings, setSettings] = useState<ISettings>(initialSettings);
+  const [settings, setSettings] = useState<ISettings>({
+    ...initialSettings,
+    weekly_digest_email: initialSettings.weekly_digest_email ?? false,
+  });
   const [errors, setErrors] = useState<ZodErrorMapping<ISettings>>({});
   const [loading, setLoading] = useState<boolean>(false);
   const hasErrors = (Object.keys(errors).length > 0);
@@ -36,7 +39,7 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
 
     api<{ token: string; }, ISettings>({
       method: "POST",
-      body: settings,
+      body: { ...settings, weekly_digest_email: settings.weekly_digest_email ? "1" : "0" },
       url: "/api/settings/save",
     })
       .then(raiseOnError)
@@ -99,6 +102,17 @@ export const SettingsForm = ({ settings: initialSettings }: SettingsFormProps): 
 
         {errors.email && <FormHelperText>{errors.email}</FormHelperText>}
         <FormHelperText><i>nobody</i>&nbsp;can see this</FormHelperText>
+      </FormControl>
+
+      <FormControl sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <FormLabel>weekly email digest</FormLabel>
+          <FormHelperText>on Sundays, a short summary of new posts from people you follow (optional)</FormHelperText>
+        </div>
+        <Switch
+          checked={settings.weekly_digest_email}
+          onChange={e => setSettings(s => ({ ...s, weekly_digest_email: e.target.checked }))}
+        />
       </FormControl>
 
       <FormControl
