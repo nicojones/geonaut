@@ -31,6 +31,11 @@ jobs:
         run: npm ci
 
       - name: Build Next.js
+        env:
+          NEXT_PUBLIC_API_URL: https://travel-api.kupfer.es
+          NEXT_PUBLIC_RESOURCES_URL: https://travel-api.kupfer.es
+          NEXT_PUBLIC_FRONTEND_URL: https://travel.kupfer.es
+          NEXT_PUBLIC_MAP_TOKEN: ${{ secrets.NEXT_PUBLIC_MAP_TOKEN }}
         run: npm run build
 
       - name: Prepare Deployment Packages

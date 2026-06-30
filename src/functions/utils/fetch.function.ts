@@ -16,7 +16,13 @@ export const gFetch = <
   }: IFetch<Body>,
   token: string | null = null,
 ): Promise<IResponse<T>> => {
-  return fetch(`${process.env.NEXT_PUBLIC_API_URL as string}${url}`, {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  if (!apiUrl) {
+    throw new Error("NEXT_PUBLIC_API_URL is required to make API requests.");
+  }
+
+  return fetch(`${apiUrl}${url}`, {
 
     signal,
     next: { cache, tags } as any,
