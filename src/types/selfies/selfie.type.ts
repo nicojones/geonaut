@@ -1,4 +1,4 @@
-import { IBool, ISelfieTypeKey } from "@/types";
+import { IBool, ISelfieAuthor, ISelfieTypeKey } from "@/types";
 
 export interface ISelfie {
   active_hash: string;
@@ -40,4 +40,16 @@ export interface ISelfie {
   user_id: number;
   username: string;
   long_desc: string;
+  /**
+   * Approved co-authors (not the creator). Filled by `attachCoauthors`.
+   */
+  coauthors?: ISelfieAuthor[];
+  /**
+   * The current user created this selfie. Only the creator can delete it.
+   */
+  is_creator?: IBool;
+  /**
+   * The current user is an author (creator or approved co-author), as computed by some queries. UI only.
+   */
+  is_owner?: "yes" | "no" | 0;
 }

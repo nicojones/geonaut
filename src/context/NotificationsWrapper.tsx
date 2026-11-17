@@ -76,9 +76,10 @@ export const NotificationsWrapper = ({ children }: NotificationsWrapperProps): J
       markAsRead: handleSetRead,
       unread,
       loadMore: () => setLimit(l => l + 10),
+      refresh: () => fetchNotifications(),
       _insideContext_: true,
     }),
-    [handleSetRead, handleSetUnread, notifications, unread],
+    [fetchNotifications, handleSetRead, handleSetUnread, notifications, unread],
   );
 
   useEffect(() => {

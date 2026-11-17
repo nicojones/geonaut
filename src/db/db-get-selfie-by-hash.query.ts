@@ -4,6 +4,7 @@ import { decode } from "html-entities";
 import { ISelfie } from "@/types";
 
 import { getDbConnection } from "./db.config"; // Adjust the import path as necessary
+import { attachCoauthors, authoredBySql } from "./selfie-authors.sql";
 
 export const dbGetSelfieByHash = async (
   hash: string,
@@ -22,7 +23,9 @@ export const dbGetSelfieByHash = async (
         s.*,
         IF(l.user_id = :selfId, 1, 0) AS love,
         IF(f.follower = :selfId, 1, 0) AS following,
-        IF(s.user_id = :selfId, 'yes', 'no') AS is_owner,
+        -- is_owner = can edit (creator or approved co-author); is_creator = can delete
+        IF(${authoredBySql("s", "selfId")}, 'yes', 'no') AS is_owner,
+        IF(s.user_id = :selfId, 1, 0) AS is_creator,
         'selfie' AS 'type',
         COALESCE(lc.loves, 0) AS loves
       FROM selfies_with_user s
@@ -37,7 +40,7 @@ export const dbGetSelfieByHash = async (
     query = `
       SELECT
         s.*,
-        0 AS love, 0 AS following, 'no' AS is_owner,
+        0 AS love, 0 AS following, 'no' AS is_owner, 0 AS is_creator,
         'selfie' AS 'type',
         COALESCE(lc.loves, 0) AS loves
       FROM selfies_with_user s
@@ -49,6 +52,7 @@ export const dbGetSelfieByHash = async (
   }
 
   const [results] = await connection.query(query, params);
+  await attachCoauthors(connection, results as ISelfie[]);
   release();
 
   if ((results as any[]).length === 0) {

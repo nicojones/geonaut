@@ -10,6 +10,7 @@ export const NotificationsContext = createContext<INotificationsContext>({
   markAsUnead: () => null,
 
   loadMore: () => null,
+  refresh: () => null,
   unread: undefined,
 
   _insideContext_: false,

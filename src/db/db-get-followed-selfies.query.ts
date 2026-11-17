@@ -2,6 +2,7 @@
 import { IGetSelfiesOptions, ISelfie } from "@/types";
 
 import { getDbConnection } from "./db.config";
+import { attachCoauthors, followsAnAuthorSql } from "./selfie-authors.sql";
 
 /**
  * Retrieves all the selfie (up to limit) for user userId (or everyone if userId = 0).
@@ -28,14 +29,11 @@ export const dbGetFollowedSelfies = async (
             IF(l.user_id = :selfId, 1, 0) AS love,
             -- IF(f.follower = :selfId, 1, 0) AS following,
             s.*
-        FROM
-            follow f
-        RIGHT JOIN selfies_with_user s ON s.user_id = f.followed
+        FROM selfies_with_user s
         LEFT JOIN love_count lc ON lc.selfie_id = s.id
         LEFT JOIN love l ON s.id = l.selfie_id AND l.user_id = :selfId
-
-        WHERE
-            f.follower = :selfId
+        -- posts by anyone I follow, creator or approved co-author; once each
+        WHERE ${followsAnAuthorSql("s", "selfId")}
       ORDER BY s.added_on DESC LIMIT :start, :limit
       `,
     {
@@ -45,6 +43,7 @@ export const dbGetFollowedSelfies = async (
     },
   );
 
+  await attachCoauthors(connection, results as ISelfie[]);
   release();
 
   return results as ISelfie[];

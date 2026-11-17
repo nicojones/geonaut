@@ -7,7 +7,7 @@ import { useNotificationsContext } from "@/context";
 import { timeAgo } from "@/functions";
 import { INotification } from "@/types";
 
-import { NotificationComment, NotificationLike, NotificationPost } from "./types";
+import { NotificationComment, NotificationLike, NotificationPost, NotificationTagAccept, NotificationTagRequest } from "./types";
 
 interface NotificationItemProps {
   notification: INotification;
@@ -74,6 +74,14 @@ export const NotificationItem = ({ notification: n }: NotificationItemProps): JS
         {
           n.notif_type === "post" &&
           <NotificationPost notification={n} />
+        }
+        {
+          n.notif_type === "tag_request" &&
+          <NotificationTagRequest notification={n} />
+        }
+        {
+          n.notif_type === "tag_accept" &&
+          <NotificationTagAccept notification={n} />
         }
       </div>
     </div>

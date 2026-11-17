@@ -2,6 +2,7 @@
 import { IUserData } from "@/types";
 
 import { getDbConnection } from "./db.config";
+import { authoredBySql } from "./selfie-authors.sql";
 
 export const dbGetUserInfo = async (selfId: number, userId: number): Promise<IUserData> => {
   "use server";
@@ -14,7 +15,9 @@ export const dbGetUserInfo = async (selfId: number, userId: number): Promise<IUs
         UNION
         SELECT 0 AS followers, CAST(COUNT(f.followed) as UNSIGNED) AS following, 0 AS pictures FROM follow f WHERE f.follower = :userId
         UNION
-        SELECT 0 AS followers, 0 AS following, CAST(COUNT(s.id) as UNSIGNED) AS pictures FROM selfies s WHERE s.user_id = :userId
+        -- the user's own selfies (any state, as before) + visible ones they're an approved co-author of
+        SELECT 0 AS followers, 0 AS following, CAST(COUNT(s.id) as UNSIGNED) AS pictures FROM selfies s
+        WHERE s.user_id = :userId OR (s.visible = 1 AND ${authoredBySql("s", "userId")})
     ) a
   `, { userId });
 
