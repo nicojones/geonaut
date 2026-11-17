@@ -8,6 +8,7 @@ import { CSSProperties } from "react";
 import { selfieTextColor } from "@/functions";
 import { ISelfie } from "@/types";
 
+import { SelfieAuthors } from "./SelfieAuthors";
 import { SelfieDate } from "./SelfieDate";
 import { SelfieMap } from "./SelfieMap";
 
@@ -54,10 +55,10 @@ export const SelfieHeader = ({ selfie }: SelfieHeaderProps): JSX.Element => {
                   isDate
                 />
                 {opener}
-                <Link href={`/u/${selfie.username}`} className="fric space-x-3 as-link">
-                  <UserIcon className="size-4" />
-                  <span>@{selfie.username}</span>
-                </Link>
+                <span className="fric space-x-3">
+                  <UserIcon className="size-4 shrink-0" />
+                  <SelfieAuthors selfie={selfie} />
+                </span>
               </div>
             </div>
             {map}

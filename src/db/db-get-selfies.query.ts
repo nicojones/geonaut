@@ -2,13 +2,14 @@
 import { IGetSelfiesOptions, ISelfie } from "@/types";
 
 import { getDbConnection } from "./db.config";
+import { attachCoauthors, authoredBySql } from "./selfie-authors.sql";
 
 /**
  * Retrieves all the selfie (up to limit) for user userId (or everyone if userId = 0).
  *
  * Set the selfId parameter to include "love" and "edit" buttons.
  * @param int selfId The ID of the user, or 0 if is not authenticated
- * @param int userId The ID of the selfie-owner, or 0 to retrieve from all users
+ * @param int userId The ID of an author (creator or approved co-author), or 0 to retrieve from all users
  * @param int start = 0 The index of the first selfie. LIMIT start, limit
  * @param int limit = 10 The max number of selfies. LIMIT start, limit
  *
@@ -35,7 +36,7 @@ export const dbGetSelfies = async (
       LEFT JOIN love l ON (s.id = l.selfie_id AND :selfId = l.user_id)
       -- LEFT JOIN follow f ON s.user_id = f.followed
       LEFT JOIN love_count lc ON lc.selfie_id = s.id
-      WHERE (s.user_id = :userId)
+      WHERE ${authoredBySql("s", "userId")}
       GROUP BY s.id, s.user_id, s.active_hash, s.hash, s.title, s.short_desc, s.selfie_date,
                 s.selfie_place, s.lat, s.lng, s.selfietype_id, s.added_on, s.edited_on,
                 s.lc_color, s.lc_brightness, s.me_color, s.me_brightness, s.username, s.name, s.possessive,
@@ -50,6 +51,7 @@ export const dbGetSelfies = async (
       },
     );
 
+    await attachCoauthors(connection, results as ISelfie[]);
     release();
 
     return results as ISelfie[];
@@ -82,6 +84,7 @@ export const dbGetSelfies = async (
       },
     );
 
+    await attachCoauthors(connection, results as ISelfie[]);
     release();
 
     return results as ISelfie[];

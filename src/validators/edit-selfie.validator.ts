@@ -16,4 +16,8 @@ export const EditSelfieValidator = z.object({
   hash: z.string(),
   visible: z.boolean(),
   draft: z.boolean(),
+  /**
+   * Usernames of the co-authors (pending + approved). Sent to PHP as a comma-separated string.
+   */
+  coauthors: z.array(z.string()).optional(),
 });

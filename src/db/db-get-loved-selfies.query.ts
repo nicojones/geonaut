@@ -2,6 +2,7 @@
 import { IGetSelfiesOptions, ISelfie } from "@/types";
 
 import { getDbConnection } from "./db.config";
+import { attachCoauthors } from "./selfie-authors.sql";
 
 /**
  * Retrieves all the selfie (up to limit) for user userId (or everyone if userId = 0).
@@ -45,6 +46,7 @@ export const dbGetLovedSelfies = async (
     },
   );
 
+  await attachCoauthors(connection, results as ISelfie[]);
   release();
 
   return results as ISelfie[];

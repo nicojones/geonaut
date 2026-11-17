@@ -1,17 +1,18 @@
-import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/16/solid";
+import { ArrowRightStartOnRectangleIcon, PaperAirplaneIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { Button, FormControl, FormHelperText, FormLabel, Input, Typography } from "@mui/joy";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useCallback, useState } from "react";
 
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { deleteSelfie, getCoords } from "@/functions";
+import { deleteSelfie, getCoords, leaveSelfie } from "@/functions";
 import { generateCoordinateNoise } from "@/functions/selfies/generate-coordinate-noise.function";
 import { IEditSelfieCoords, ISelfieEdit } from "@/types";
 
 import { EditSelfieCustomUrl } from "./EditSelfieCustomUrl";
 import { EditSelfieDescriptionField } from "./EditSelfieDescriptionField";
 import { EditSelfieFormAutocomplete } from "./EditSelfieFormAutocomplete";
+import { EditSelfieCoauthors } from "./EditSelfieFormCoauthors";
 import { EditSelfieRandomizeCoords } from "./EditSelfieRandomizeCoords";
 
 const MapViewer = dynamic(() => import("@/components/generic/map-viewer/MapViewer").then(m => m.MapViewer), {
@@ -57,6 +58,10 @@ export const EditSelfieFormFields = ({ onPublish }: EditSelfieFormFieldsProps): 
 
   const handleDeleteSelfie = (): void => {
     deleteSelfie(api, { name: data.selfie.title, hash: data.selfie.hash }, _r => router.push("/new"));
+  };
+
+  const handleLeaveSelfie = (): void => {
+    leaveSelfie(api, { title: data.selfie.title, hash: data.selfie.hash }, () => router.push("/dashboard"));
   };
 
   const handleSetPictureDate = (): void => {
@@ -165,6 +170,7 @@ export const EditSelfieFormFields = ({ onPublish }: EditSelfieFormFieldsProps): 
         style="streets"
         changeStyleOnDragTo="streets"
       />
+      <EditSelfieCoauthors />
       <EditSelfieDescriptionField
         value={data.selfie.description}
         onChange={v => setSelfieData({ description: v })}
@@ -178,15 +184,31 @@ export const EditSelfieFormFields = ({ onPublish }: EditSelfieFormFieldsProps): 
       >
         publish
       </Button>
-      <Button
-        startDecorator={<TrashIcon className="size-4" />}
-        onClick={handleDeleteSelfie}
-        variant="soft"
-        color="danger"
-        size="sm"
-      >
-        delete
-      </Button>
+      {
+        (data.is_creator ?? true)
+          ? (
+            <Button
+              startDecorator={<TrashIcon className="size-4" />}
+              onClick={handleDeleteSelfie}
+              variant="soft"
+              color="danger"
+              size="sm"
+            >
+              delete
+            </Button>
+          )
+          : (
+            <Button
+              startDecorator={<ArrowRightStartOnRectangleIcon className="size-4" />}
+              onClick={handleLeaveSelfie}
+              variant="soft"
+              color="danger"
+              size="sm"
+            >
+              remove me from this post
+            </Button>
+          )
+      }
 
     </form>
   );

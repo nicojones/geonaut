@@ -4,10 +4,9 @@ import { ArrowUpTrayIcon, CameraIcon, MapPinIcon, ShareIcon, UserIcon } from "@h
 import { Typography } from "@mui/joy";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 
 import { renderDynamicSelfie } from "@/app/(selfies)/s/[hash]/render-dynamic-selfie.function";
-import { CommentList, EditSelfieButton, LoveSelfie, SelfieDate } from "@/components";
+import { CommentList, EditSelfieButton, LoveSelfie, SelfieAuthors, SelfieDate } from "@/components";
 import { CopyPath } from "@/components/generic";
 import { NO_IMAGE } from "@/config";
 import { useSingleSelfieContext } from "@/context/single-selfie.context";
@@ -54,13 +53,11 @@ export const SingleSelfie = ({ exists = true }: SingleSelfieProps): JSX.Element 
             exists &&
             <div className={`flex flex-col min-w-max text-base text-[${lcColor}]`}>
               <span className="flex justify-between">
-                <Link href={`/u/${selfie.username}`} className="fric space-x-2 as-link">
-                  <UserIcon className="size-4" />
+                <span className="fric space-x-2">
+                  <UserIcon className="size-4 shrink-0" />
                   <small>by</small>
-                  <span>
-                    @{selfie.username}
-                  </span>
-                </Link>
+                  <SelfieAuthors selfie={selfie} />
+                </span>
                 <CopyPath
                   className="bg-white p-1 text-black rounded-full"
                   icon={<ShareIcon className="size-4 hover:text-blue-500" />}

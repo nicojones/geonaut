@@ -10,7 +10,7 @@ export interface INotification {
   hash: string;
   id: number;
   name: string;
-  notif_type: "comment" | "like" | "post";
+  notif_type: "comment" | "like" | "post" | "tag_request" | "tag_accept";
   // profile_pic: string;
   // profile_pic_default: string;
   seen: null | string;

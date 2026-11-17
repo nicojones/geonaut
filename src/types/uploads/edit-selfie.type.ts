@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { ISelfieAuthor } from "@/types";
 import { EditSelfieValidator } from "@/validators";
 
 export interface IEditSelfieData {
@@ -8,6 +9,14 @@ export interface IEditSelfieData {
   constraints: IConstraints;
   attachmentPrefix: string;
   attachments: string[];
+  /**
+   * Everyone tagged on the selfie, with their status (from PHP `s=edit`)
+   */
+  coauthors?: ISelfieAuthor[];
+  /**
+   * The current user created the selfie (can remove approved co-authors and delete it)
+   */
+  is_creator?: boolean;
 }
 
 export type ISelfieEdit = z.infer<typeof EditSelfieValidator>;

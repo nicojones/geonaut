@@ -1,4 +1,7 @@
 export * from "./delete-selfie.function";
+export * from "./leave-selfie.function";
+export * from "./respond-to-tag.function";
+export * from "./selfie-edit-body.function";
 export * from "./selfie-image.function";
 export * from "./selfie-text-color.function";
 export * from "./selfie-metadata.function";

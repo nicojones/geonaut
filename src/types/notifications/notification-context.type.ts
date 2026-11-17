@@ -7,6 +7,10 @@ export interface INotificationsContext extends IContext {
   markAsUnead: (id: number) => any;
 
   loadMore: () => any;
+  /**
+   * Fetch the notifications again (e.g. after answering a tag request)
+   */
+  refresh: () => any;
 
   unread: number | undefined;
 }

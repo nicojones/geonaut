@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
 import { useEditSelfieContext, useJwtTokenContext } from "@/context";
-import { raiseOnError } from "@/functions";
+import { raiseOnError, selfieEditBody } from "@/functions";
 import { EditSelfieValidator } from "@/validators";
 
 import { EditSelfieFormFields } from "./form";
@@ -56,7 +56,7 @@ export const EditSelfieForm = (): JSX.Element => {
       autosaveTimeoutRef.current = setTimeout(() => {
         const autosavePromise = api<any, any>({
           url: "/api/selfie/save-changes",
-          body: data.selfie,
+          body: selfieEditBody(data.selfie),
         })
           .then(raiseOnError);
         toast.promise(autosavePromise, {

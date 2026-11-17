@@ -53,6 +53,18 @@ export default async function DashboardPage (): Promise<JSX.Element> {
         </IconButton>
       </Link>
 
+      {
+        !!dashboardData.pendingTags &&
+        <Link href="/dashboard/tags">
+          <Card variant="soft" color="primary" sx={{ textAlign: "center" }}>
+            <Typography level="title-lg">
+              {dashboardData.pendingTags === 1 ? "someone says you were in a post" : `${dashboardData.pendingTags} posts say you were there`}
+              {" "}— review
+            </Typography>
+          </Card>
+        </Link>
+      }
+
       <Card sx={{ minHeight: 150 }}>
         {
           lastSelfie
